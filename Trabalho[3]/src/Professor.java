@@ -66,12 +66,6 @@ public class Professor extends User{
         this.livros = new ArrayList();
     }
     
-    public Livro emprestimos(){
-        // Retorna todos os livros emprestados.
-    }
-    
-    public void devolver();
-    
     public String getMatricula(){
         return this.matricula;
     }
@@ -96,5 +90,30 @@ public class Professor extends User{
         if(livros.size() <= 3){
             livros.add(l);
         }
+    }
+
+    @Override
+    public Livro getLivros() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setMatricula() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setNome() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void devolver() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Livro emprestimos() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
