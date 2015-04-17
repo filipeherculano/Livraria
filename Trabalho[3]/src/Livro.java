@@ -9,6 +9,7 @@ public class Livro {
     private String autor;
     private String editora;
     private int quantidade;
+    private int disponivel;
 
     public Livro(String titulo, String autor, String editora, int quantidade) {
         this.titulo = titulo;
@@ -48,5 +49,12 @@ public class Livro {
     public void setEditora(String editora) {
         this.editora = editora;
     }
-    
+
+    public int getDisponivel() {
+        return disponivel;
+    }
+
+    public void setDisponivel(int disponivel) {
+        this.disponivel = disponivel;
+    }
 }
