@@ -270,16 +270,27 @@ public class Acervo {
             if(e.getAttributeValue("nome").equals(l.getEditora())){
                 List<Element> listLivros = e.getChildren();
                 for(Element b : listLivros){
-                    if(b.getAttributeValue("autor").equals(l.getAutor()) && b.getText().equals(l.getTitulo()) && Integer.parseInt(b.getAttributeValue("disponível")) > quantidade){
-                        int disp = Integer.parseInt(b.getAttributeValue("disponível")) - quantidade;
-                        int total = Integer.parseInt(b.getAttributeValue("quantidade")) - quantidade;
-                        
-                        b.setAttribute("quantidade",String.valueOf(total));
-                        b.setAttribute("disponível", String.valueOf(total));
-                    }else{
-                        if(b.getAttributeValue("autor").equals(l.getAutor()) && b.getText().equals(l.getTitulo()) && Integer.parseInt(b.getAttributeValue("disponível")) == quantidade 
-                                && b.getAttributeValue("disponível").equals(b.getAttributeValue("quantidade"))){
-                            e.removeContent(b);
+                    if(b.getAttributeValue("autor").equals(l.getAutor()) && b.getText().equals(l.getTitulo())){
+                        if(b.getAttributeValue("disponível").equals(b.getAttributeValue("quantidade"))){
+                            if(Integer.parseInt(b.getAttributeValue("disponível")) == quantidade){
+                                e.removeContent(b);
+                            }else{
+                                if(Integer.parseInt(b.getAttributeValue("disponível")) > quantidade){
+                                    int total = Integer.parseInt(b.getAttributeValue("quantidade")) - quantidade;
+                                    int disp = Integer.parseInt(b.getAttributeValue("disponível")) - quantidade;
+
+                                    b.setAttribute("quantidade",String.valueOf(total));
+                                    b.setAttribute("disponível", String.valueOf(disp));
+                                }
+                            }
+                        }else{
+                            if(Integer.parseInt(b.getAttributeValue("disponível")) >= quantidade){
+                                int total = Integer.parseInt(b.getAttributeValue("quantidade")) - quantidade;
+                                int disp = Integer.parseInt(b.getAttributeValue("disponível")) - quantidade;
+
+                                b.setAttribute("quantidade",String.valueOf(total));
+                                b.setAttribute("disponível", String.valueOf(disp));
+                            }
                         }
                     }
                 }
@@ -288,16 +299,95 @@ public class Acervo {
                
     }
     
-    public Livro pesquisarLivro(String titulo){
-        for(Livro a : livros){
-            if(a.getTitulo().equals(titulo)){
-                return a;
-            }else{
-                if(a.getAutor().equals(titulo)){
-                    return a;
+    public ArrayList<Livro> pesquisarLivro(String titulo){
+        Livro l = new Livro(null, null, null, 0);
+        File file = new File("Acervo.xml");
+        Document newDocument = null;
+        Element root = null;
+        livros = null;
+//        boolean notFound = true;
+//        String []tituloSplit = titulo.split("\\s+");
+        
+        if(file.exists()){
+                SAXBuilder builder = new SAXBuilder();
+            try {
+                newDocument = builder.build(file);
+            } catch (JDOMException ex) {
+                Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            root = newDocument.getRootElement();
+            
+            List<Element> listEditora = root.getChildren();
+            for(Element a : listEditora){
+                List<Element> listLivro = a.getChildren();
+                for(Element b : listLivro){
+                    if(b.getText().equals(titulo)){
+                        l.setAutor(b.getAttributeValue("autor"));
+                        l.setEditora(a.getAttributeValue("nome"));
+                        l.setQuantidade(Integer.parseInt(b.getAttributeValue("quantidade")));
+                        l.setDisponivel(Integer.parseInt(b.getAttributeValue("disponível")));
+                        l.setTitulo(b.getText());
+                        livros.add(l);
+                    }
+//                    if(notFound){
+//                        String []livroSplit = b.getText().split("\\s+");
+//                        for(int i = 0; i < tituloSplit.length; i++){
+//                            while(notFound){
+//                                for(int j = 0; j < livroSplit.length; i++){
+//                                    if(tituloSplit[i].equals(livroSplit[j])){
+//                                        l.setAutor(b.getAttributeValue("autor"));
+//                                        l.setEditora(a.getAttributeValue("nome"));
+//                                        l.setQuantidade(Integer.parseInt(b.getAttributeValue("quantidade")));
+//                                        l.setDisponivel(Integer.parseInt(b.getAttributeValue("disponível")));
+//                                        l.setTitulo(b.getText());
+//                                        livros.add(l);
+//
+//                                        notFound = false;
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
                 }
             }
         }
-        return null;
+        return livros;
+    }
+    
+    public ArrayList<Livro> listarLivros(){
+        livros = null;
+        Livro l = new Livro(null, null, null, 0);
+        File file = new File("Acervo.xml");
+        Document newDocument = null;
+        Element root = null;
+        
+        if(file.exists()){
+                SAXBuilder builder = new SAXBuilder();
+            try {
+                newDocument = builder.build(file);
+            } catch (JDOMException ex) {
+                Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            root = newDocument.getRootElement();
+        
+            List<Element> listEditora = root.getChildren();
+            for(Element a : listEditora){
+                List<Element> listLivro = a.getChildren();
+                for(Element b : listLivro){
+                    l.setAutor(b.getAttributeValue("autor"));
+                    l.setEditora(a.getAttributeValue("nome"));
+                    l.setQuantidade(Integer.parseInt(b.getAttributeValue("quantidade")));
+                    l.setDisponivel(Integer.parseInt(b.getAttributeValue("disponível")));
+                    l.setTitulo(b.getText());
+                    livros.add(l);
+                }
+            }
+        }
+        
+        return livros;
     }
 }
