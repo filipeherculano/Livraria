@@ -90,22 +90,6 @@ public class User {
         this.tipo = tipo;
     }
 
-//    public ArrayList<Livro> getLivros() {
-//        return livros;
-//    }
-
-    public void setLivros(ArrayList<Livro> livros) {
-        this.livros = livros;
-    }
-
-    public double getDivida() {
-        return divida;
-    }
-    
-    public void setDivida(double divida) {
-        this.divida = divida;
-    }
-
     public String getMatricula() {
         return matricula;
     }
@@ -121,21 +105,22 @@ public class User {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
-    public String getMatricula(){
-        return matricula;
+
+    public ArrayList<Livro> getLivros() {
+        return livros;
     }
-    
-    public void setMatricula(String matricula)
-    {
-        this.matricula = matricula;
+
+    public void setLivros(ArrayList<Livro> livros) {
+        this.livros = livros;
     }
-    
-    public String getNome(){
-        return nome;
+
+    public double getDivida() {
+        return divida;
     }
-    public void setNome(String nome){
-        this.nome = nome;
+
+    public void setDivida(double divida) {
+        this.divida = divida;
     }
+
     
 }

@@ -17,37 +17,37 @@ public class Livro {
         this.editora = editora;
         this.quantidade = quantidade;
     }  
-    
-    public int getQuantidade() {
-        return quantidade;
-    }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-    
     public String getTitulo() {
         return titulo;
-    }
-
-    public String getAutor() {
-        return autor;
-    }
-
-    public String getEditora() {
-        return editora;
     }
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
 
+    public String getAutor() {
+        return autor;
+    }
+
     public void setAutor(String autor) {
         this.autor = autor;
     }
 
+    public String getEditora() {
+        return editora;
+    }
+
     public void setEditora(String editora) {
         this.editora = editora;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 
     public int getDisponivel() {
@@ -57,4 +57,5 @@ public class Livro {
     public void setDisponivel(int disponivel) {
         this.disponivel = disponivel;
     }
+    
 }
