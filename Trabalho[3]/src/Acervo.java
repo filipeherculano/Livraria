@@ -72,7 +72,7 @@ public class Acervo {
         }
         
         if(success){
-            if(!u.alugarLivro(u.getMatricula(), l)){
+            if(!u.alugarLivro(l)){
                 if(file.exists()){
                     SAXBuilder builder = new SAXBuilder();
                     
@@ -228,7 +228,7 @@ public class Acervo {
             if(e.getAttributeValue("nome").equals(l.getEditora())){
                 List<Element> listLivro = e.getChildren();
                 for(Element c : listLivro){
-                    if(c.getText() == l.getTitulo() && c.getAttributeValue("autor").equals(l.getAutor())){
+                    if(c.getText().equals(l.getTitulo()) && c.getAttributeValue("autor").equals(l.getAutor())){
                         e.removeContent(c);
                     }
                 }
@@ -246,8 +246,46 @@ public class Acervo {
             
     }
     
-    public void removeLivro(Livro l, int quantidade){
+    public void removeLivro(Livro l, int quantidade) throws JDOMException{
+        File file = new File("Acervo.xml");
+        Document newDocument = null;
+        Element root = null;
         
+        if(file.exists()){
+                SAXBuilder builder = new SAXBuilder();
+            try{
+                newDocument = builder.build(file);
+            } catch (IOException ex) {
+                Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            root = newDocument.getRootElement();
+        }else{
+            root = new Element("acervo");
+            
+            newDocument = new Document(root);
+        }
+        
+        List<Element> listEditora = root.getChildren();
+        for(Element e : listEditora){
+            if(e.getAttributeValue("nome").equals(l.getEditora())){
+                List<Element> listLivros = e.getChildren();
+                for(Element b : listLivros){
+                    if(b.getAttributeValue("autor").equals(l.getAutor()) && b.getText().equals(l.getTitulo()) && Integer.parseInt(b.getAttributeValue("disponível")) > quantidade){
+                        int disp = Integer.parseInt(b.getAttributeValue("disponível")) - quantidade;
+                        int total = Integer.parseInt(b.getAttributeValue("quantidade")) - quantidade;
+                        
+                        b.setAttribute("quantidade",String.valueOf(total));
+                        b.setAttribute("disponível", String.valueOf(total));
+                    }else{
+                        if(b.getAttributeValue("autor").equals(l.getAutor()) && b.getText().equals(l.getTitulo()) && Integer.parseInt(b.getAttributeValue("disponível")) == quantidade 
+                                && b.getAttributeValue("disponível").equals(b.getAttributeValue("quantidade"))){
+                            e.removeContent(b);
+                        }
+                    }
+                }
+            }
+        }
+               
     }
     
     public Livro pesquisarLivro(String titulo){
