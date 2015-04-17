@@ -35,9 +35,9 @@ public class Sistema {
             try {
                 newDocument = builder.build(file);
             } catch (JDOMException ex) {
-                Logger.getLogger(Aluno.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(Aluno.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
             }
             root = newDocument.getRootElement();
         }else{
@@ -50,7 +50,7 @@ public class Sistema {
             List<Element> listprofessores = root.getChildren("professor");
             
             for(Element e : listprofessores){
-                if(!e.getAttributeValue("matricula").equals(u.matricula)){
+                if(!e.getAttributeValue("matricula").equals(u.getMatricula()    )){
                     return success;
                 }
                     }
@@ -67,7 +67,7 @@ public class Sistema {
             List<Element> listalunos = root.getChildren("aluno");
             
             for(Element e : listalunos){
-                if(!e.getAttributeValue("matricula").equals(u.matricula)){
+                if(!e.getAttributeValue("matricula").equals(u.getMatricula())){
                     return success;
                 }
             }
@@ -84,7 +84,7 @@ public class Sistema {
     }
     
     public void editarUser(User u,boolean professor){
-        Attribute
+    
     }
             
             
