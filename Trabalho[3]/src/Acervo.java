@@ -4,11 +4,16 @@
  * @author Filipe Herculano Rocha & Gabriel Angelo Freire Gonçalves
  */
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jdom2.Attribute;
@@ -119,8 +124,8 @@ public class Acervo {
         return success;
     }
     
-    public void addLivro(Livro l) throws JDOMException{
-        boolean noEditora = true, noBook = true;
+    public boolean addLivro(Livro l) throws JDOMException{
+        boolean noEditora = true, noBook = true, success = false;
         File file = new File("Acervo.xml");
         Document newDocument = null;
         Element root = null;
@@ -140,7 +145,7 @@ public class Acervo {
         }
         
         Element livro = new Element("Livro");
-        Attribute autor = null, quantidade = null, avaible = null;
+        Attribute autor = null, quantidade = null, avaible = null, id = null;
         
         List<Element> listEditora = root.getChildren();
         for(Element e : listEditora){
@@ -160,17 +165,28 @@ public class Acervo {
                         livro.setAttribute(avaible);
                         
                         noBook = false;
+                        success = true;
                     }
                 }
                 if(noBook){
                     autor = new Attribute("autor", l.getAutor());
                     quantidade = new Attribute("quantidade",String.valueOf(l.getQuantidade()));
                     avaible = new Attribute("disponível", String.valueOf(l.getQuantidade()));
+                    
+                    try {
+                        id = new Attribute("id", this.newId());
+                    } catch (IOException ex) {
+                        Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    livro.setAttribute(id);
                     livro.setAttribute(autor);
                     livro.setAttribute(quantidade);
                     livro.setAttribute(avaible);
                     livro.setText(l.getTitulo());
+                    
                     e.addContent(livro);
+                    success = true;
                 }   
             }
         }
@@ -183,6 +199,14 @@ public class Acervo {
             autor = new Attribute("autor", l.getAutor());
             quantidade = new Attribute("quantidade",String.valueOf(l.getQuantidade()));
             avaible = new Attribute("disponível", String.valueOf(l.getQuantidade()));
+            
+            try {
+                id = new Attribute("id", this.newId());
+            } catch (IOException ex) {
+                Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            livro.setAttribute(id);
             livro.setAttribute(autor);
             livro.setAttribute(quantidade);
             livro.setAttribute(avaible);
@@ -191,6 +215,8 @@ public class Acervo {
             editora.addContent(livro);
             
             root.addContent(editora);
+            
+            success = true;
         }
         
         XMLOutputter xout = new XMLOutputter();
@@ -201,13 +227,16 @@ public class Acervo {
         } catch (IOException ex) {
             Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return success;
     }
         
-    public void removeLivro(Livro l) throws JDOMException{
+    public boolean removeLivro(Livro l) throws JDOMException{
         boolean noEditora = true;
         File file = new File("Acervo.xml");
         Document newDocument = null;
         Element root = null;
+        boolean removed = false;
         
         if(file.exists()){
                 SAXBuilder builder = new SAXBuilder();
@@ -230,6 +259,7 @@ public class Acervo {
                 for(Element c : listLivro){
                     if(c.getText().equals(l.getTitulo()) && c.getAttributeValue("autor").equals(l.getAutor())){
                         e.removeContent(c);
+                        removed = true;
                     }
                 }
             }
@@ -243,13 +273,15 @@ public class Acervo {
         } catch (IOException ex) {
             Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
+           
+        return removed;
     }
     
-    public void removeLivro(Livro l, int quantidade) throws JDOMException{
+    public boolean removeLivro(Livro l, int quantidade) throws JDOMException{
         File file = new File("Acervo.xml");
         Document newDocument = null;
         Element root = null;
+        boolean removed = false;
         
         if(file.exists()){
                 SAXBuilder builder = new SAXBuilder();
@@ -274,6 +306,8 @@ public class Acervo {
                         if(b.getAttributeValue("disponível").equals(b.getAttributeValue("quantidade"))){
                             if(Integer.parseInt(b.getAttributeValue("disponível")) == quantidade){
                                 e.removeContent(b);
+                                
+                                removed = true;
                             }else{
                                 if(Integer.parseInt(b.getAttributeValue("disponível")) > quantidade){
                                     int total = Integer.parseInt(b.getAttributeValue("quantidade")) - quantidade;
@@ -281,6 +315,8 @@ public class Acervo {
 
                                     b.setAttribute("quantidade",String.valueOf(total));
                                     b.setAttribute("disponível", String.valueOf(disp));
+                                    
+                                    removed = true;
                                 }
                             }
                         }else{
@@ -290,15 +326,19 @@ public class Acervo {
 
                                 b.setAttribute("quantidade",String.valueOf(total));
                                 b.setAttribute("disponível", String.valueOf(disp));
+                                
+                                removed = true;
                             }
                         }
                     }
                 }
             }
         }
-               
+          
+        return removed;
     }
     
+    //Precisa ser ainda atualizado a pesquisa dinâmica
     public ArrayList<Livro> pesquisarLivro(String titulo){
         Livro l = new Livro(null, null, null, 0);
         File file = new File("Acervo.xml");
@@ -389,5 +429,83 @@ public class Acervo {
         }
         
         return livros;
+    }
+
+    public boolean alterarLivro(Livro l) throws JDOMException{
+        boolean noEditora = true;
+        File file = new File("Acervo.xml");
+        Document newDocument = null;
+        Element root = null;
+        boolean edited = false;
+        
+        if(file.exists()){
+                SAXBuilder builder = new SAXBuilder();
+            try{
+                newDocument = builder.build(file);
+            } catch (IOException ex) {
+                Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            root = newDocument.getRootElement();
+        }else{
+            root = new Element("acervo");
+            
+            newDocument = new Document(root);
+        }
+        
+        List<Element> listEditora = root.getChildren();
+        for(Element a : listEditora){
+            if(a.getAttribute("nome").equals(l.getEditora())){
+                noEditora = false;
+                List<Element> listLivro = a.getChildren();
+                for(Element b : listLivro){
+                    
+                }
+            }
+        }
+    }
+    
+    @SuppressWarnings("empty-statement")
+    public String newId() throws IOException{
+        File file = new File("idHandler.txt");
+        Random random = new Random();
+        BufferedReader in = null;
+        BufferedWriter out = null;
+        String hex = null;
+        
+        if(file.exists()){
+            String read = null;
+            try {
+                in = new BufferedReader(new FileReader(file));
+                while ((read = in.readLine()) != null);
+            } catch (IOException e) {
+                System.out.println("Ocorreu um problema em: " + e);
+                e.printStackTrace();
+            } finally{
+                if(in != null){
+                    in.close();
+                }
+            }
+            
+            int n = Integer.parseInt(read, 16) + 1;
+            hex = Integer.toHexString(n);
+        }else{
+            hex = "1";
+        }
+        
+        
+        try{
+            out = new BufferedWriter(new FileWriter(file, true));
+            out.write(hex);
+            out.newLine();
+        } catch(IOException e){
+            System.out.println("Ocorreu um problema em: " + e);
+            e.printStackTrace();
+        } finally {
+            if(out != null){
+                out.close();
+            }
+        }
+        
+        return hex;
     }
 }
