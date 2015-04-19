@@ -8,6 +8,7 @@ public class Livro {
     private String titulo;
     private String autor;
     private String editora;
+    private String id;
     private int quantidade;
     private int disponivel;
 
@@ -57,5 +58,12 @@ public class Livro {
     public void setDisponivel(int disponivel) {
         this.disponivel = disponivel;
     }
-    
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
