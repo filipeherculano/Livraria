@@ -366,6 +366,7 @@ public class Acervo {
                     if(b.getText().equals(titulo)){
                         l.setAutor(b.getAttributeValue("autor"));
                         l.setEditora(a.getAttributeValue("nome"));
+                        l.setId(b.getAttributeValue("id"));
                         l.setQuantidade(Integer.parseInt(b.getAttributeValue("quantidade")));
                         l.setDisponivel(Integer.parseInt(b.getAttributeValue("disponível")));
                         l.setTitulo(b.getText());
@@ -420,6 +421,7 @@ public class Acervo {
                 for(Element b : listLivro){
                     l.setAutor(b.getAttributeValue("autor"));
                     l.setEditora(a.getAttributeValue("nome"));
+                    l.setId(b.getAttributeValue("id"));
                     l.setQuantidade(Integer.parseInt(b.getAttributeValue("quantidade")));
                     l.setDisponivel(Integer.parseInt(b.getAttributeValue("disponível")));
                     l.setTitulo(b.getText());
@@ -431,8 +433,9 @@ public class Acervo {
         return livros;
     }
 
+    //Solucionar problema de recriação de nova id.
     public boolean alterarLivro(Livro l) throws JDOMException{
-        boolean noEditora = true;
+        boolean noEditora = true, success = false;
         File file = new File("Acervo.xml");
         Document newDocument = null;
         Element root = null;
@@ -452,16 +455,23 @@ public class Acervo {
             newDocument = new Document(root);
         }
         
+        
+        
         List<Element> listEditora = root.getChildren();
         for(Element a : listEditora){
-            if(a.getAttribute("nome").equals(l.getEditora())){
-                noEditora = false;
+            if(a.getAttributeValue("nome").equals(l.getEditora())){
                 List<Element> listLivro = a.getChildren();
                 for(Element b : listLivro){
-                    
+                    if(b.getAttributeValue("autor").equals(l.getAutor()) && b.getText().equals(l.getTitulo())){
+                        a.removeContent(b);
+                    }
                 }
             }
         }
+        
+        this.addLivro(l);
+        
+        return success;
     }
     
     @SuppressWarnings("empty-statement")
