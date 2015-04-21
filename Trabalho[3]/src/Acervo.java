@@ -27,7 +27,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
 
 public class Acervo {
-    private ArrayList<Livro> livros;
+    private ArrayList<Livro> livros = new ArrayList();
 
     public Acervo() {
         this.livros = new ArrayList();
@@ -200,11 +200,7 @@ public class Acervo {
                     quantidade = new Attribute("quantidade",String.valueOf(l.getQuantidade()));
                     avaible = new Attribute("disponível", String.valueOf(l.getQuantidade()));
                     
-                    try {
-                        id = new Attribute("id", this.newId());
-                    } catch (IOException ex) {
-                        Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    id = new Attribute("id", this.newId());
                     
                     livro.setAttribute(id);
                     livro.setAttribute(autor);
@@ -227,11 +223,7 @@ public class Acervo {
             quantidade = new Attribute("quantidade",String.valueOf(l.getQuantidade()));
             avaible = new Attribute("disponível", String.valueOf(l.getQuantidade()));
             
-            try {
-                id = new Attribute("id", this.newId());
-            } catch (IOException ex) {
-                Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            id = new Attribute("id", this.newId());
             
             livro.setAttribute(id);
             livro.setAttribute(autor);
