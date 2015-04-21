@@ -9,6 +9,8 @@ public class Livro {
     private String autor;
     private String editora;
     private String id;
+    private String aluguel;
+    private String entrega;
     private int quantidade;
     private int disponivel;
 
@@ -66,4 +68,22 @@ public class Livro {
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getAluguel() {
+        return aluguel;
+    }
+
+    public void setAluguel(String aluguel) {
+        this.aluguel = aluguel;
+    }
+
+    public String getEntrega() {
+        return entrega;
+    }
+
+    public void setEntrega(String entrega) {
+        this.entrega = entrega;
+    }
+    
+    
 }
