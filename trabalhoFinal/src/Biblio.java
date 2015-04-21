@@ -117,6 +117,11 @@ public class Biblio extends javax.swing.JFrame {
                 txtAuthorName.setText("");
                 txtEditoraName.setText("");
                 txtQuantity.setText("");
+            }else{
+                txtTitleName.setText("ERRO");
+                txtAuthorName.setText("ERRO");
+                txtEditoraName.setText("ERRO");
+                txtQuantity.setText("ERRO");
             }
         } catch (JDOMException ex) {
             Logger.getLogger(Biblio.class.getName()).log(Level.SEVERE, null, ex);
