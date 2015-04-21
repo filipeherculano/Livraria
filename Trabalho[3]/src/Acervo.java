@@ -11,7 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -34,7 +37,11 @@ public class Acervo {
         boolean success = false;
         File file = new File("Acervo.xml");
         Document newDocument = null;
-        Element root = null;
+        Element root = null, user;
+        Attribute userEntrega = null, userAluguel = null;
+        
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Calendar calendar = null;
         
         if(file.exists()){
                 SAXBuilder builder = new SAXBuilder();
@@ -60,6 +67,19 @@ public class Acervo {
                         
                         Attribute d = new Attribute("disponível", String.valueOf(aux));
                         b.setAttribute(d);
+                        
+                        userAluguel = new Attribute("aluguel", dateFormat.format(calendar.getTime()));
+                        calendar.add(Calendar.DATE, 15);
+                        userEntrega = new Attribute("entrega", dateFormat.format(calendar.getTime()));
+                        
+                        user = new Element("user");
+                        user.setAttribute("tipo", u.getTipo());
+                        user.setAttribute("matrícula", u.getMatricula());
+                        user.setAttribute("nome", u.getNome());
+                        user.setAttribute(userAluguel);
+                        user.setAttribute(userEntrega);
+                        
+                        b.addContent(user);
                         
                         success = true;
                     }
@@ -103,6 +123,13 @@ public class Acervo {
                                 
                                 Attribute d = new Attribute("disponível", String.valueOf(aux));
                                 b.setAttribute(d);
+                                
+                                List<Element> listUser = b.getChildren();
+                                for(Element c : listUser){
+                                    if(c.getAttributeValue("matrícula").equals(u.getMatricula())){
+                                        
+                                    }
+                                }
                             }
                         }
                     }
