@@ -337,9 +337,9 @@ public class Acervo{
                                 if(Integer.parseInt(b.getAttributeValue("disponível")) > quantidade){
                                     int total = Integer.parseInt(b.getAttributeValue("quantidade")) - quantidade;
                                     int disp = Integer.parseInt(b.getAttributeValue("disponível")) - quantidade;
-
-                                    b.setAttribute("quantidade",String.valueOf(total));
-                                    b.setAttribute("disponível", String.valueOf(disp));
+                                    
+                                    b.getAttribute("quantidade").setValue(String.valueOf(total));
+                                    b.getAttribute("disponível").setValue(String.valueOf(disp));
                                     
                                     removed = true;
                                 }
@@ -349,8 +349,8 @@ public class Acervo{
                                 int total = Integer.parseInt(b.getAttributeValue("quantidade")) - quantidade;
                                 int disp = Integer.parseInt(b.getAttributeValue("disponível")) - quantidade;
 
-                                b.setAttribute("quantidade",String.valueOf(total));
-                                b.setAttribute("disponível", String.valueOf(disp));
+                                b.getAttribute("quantidade").setValue(String.valueOf(total));
+                                b.getAttribute("disponível").setValue(String.valueOf(disp));
                                 
                                 removed = true;
                             }
@@ -360,6 +360,15 @@ public class Acervo{
             }
         }
           
+        XMLOutputter xout = new XMLOutputter();
+        
+        try {
+            FileWriter arquivo = new FileWriter(file);
+            xout.output(newDocument, arquivo);
+        } catch (IOException ex) {
+            Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return removed;
     }
     
@@ -369,7 +378,6 @@ public class Acervo{
         File file = new File("Acervo.xml");
         Document newDocument = null;
         Element root = null;
-        livros = null;
 //        boolean notFound = true;
 //        String []tituloSplit = titulo.split("\\s+");
         
@@ -460,11 +468,10 @@ public class Acervo{
 
     //Solucionar problema de recriação de nova id.
     public boolean alterarLivro(Livro l) throws JDOMException{
-        boolean noEditora = true, success = false;
+        boolean noEditora = true, success = false, newEditora = true;
         File file = new File("Acervo.xml");
         Document newDocument = null;
-        Element root = null;
-        boolean edited = false;
+        Element root = null, aux = null;
         
         if(file.exists()){
                 SAXBuilder builder = new SAXBuilder();
@@ -480,21 +487,69 @@ public class Acervo{
             newDocument = new Document(root);
         }
         
-        
-        
+        //Alterando atributos que não mechem com a editora.
         List<Element> listEditora = root.getChildren();
         for(Element a : listEditora){
             if(a.getAttributeValue("nome").equals(l.getEditora())){
                 List<Element> listLivro = a.getChildren();
                 for(Element b : listLivro){
-                    if(b.getAttributeValue("autor").equals(l.getAutor()) && b.getText().equals(l.getTitulo())){
-                        a.removeContent(b);
+                    if(b.getAttributeValue("id").equals(l.getId())){
+                        b.getAttribute("autor").setValue(l.getAutor());
+                        a.getChild("livro").setText(l.getTitulo());
+                        success = true;
+                        noEditora = false;
                     }
                 }
             }
         }
         
-        this.addLivro(l);
+        //se a editora foi alterada, então ele entra aqui
+        if(noEditora){
+            //aqui ele usa um Element auxiliar para pegar tudo que tem no antigo elemento não alterado e deleta.
+            for(Element a : listEditora){
+                List<Element> listLivro = a.getChildren();
+                for(Element b : listLivro){
+                    if(b.getAttributeValue("id").equals(l.getId())){
+                        b.getAttribute("autor").setValue(l.getAutor());
+                        a.getChild("livro").setText(l.getTitulo());
+                        aux = b;
+                        a.removeContent(b);
+                    }
+                }
+            }
+            
+            //se existir a editora que nomeei.
+            for(Element a : listEditora){
+                if(a.getAttributeValue("nome").equals(l.getEditora())){
+                    newEditora = false;
+                    success = true;
+                    a.addContent(aux);
+                }
+            }
+            
+            //se não existir a editora na qual eu coloquei o novo nome
+            if(newEditora){
+                Element editora = new Element("editora");
+                
+                Attribute name = new Attribute("nome", l.getEditora());
+                
+                editora.setAttribute(name);
+                
+                editora.addContent(aux);
+                root.addContent(editora);
+                
+                success = true;
+            }
+        }
+        
+        XMLOutputter out = new XMLOutputter();
+        
+        try {
+            FileWriter arquivo = new FileWriter(file);
+            out.output(newDocument, arquivo);
+        } catch (IOException ex) {
+            Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         return success;
     }
