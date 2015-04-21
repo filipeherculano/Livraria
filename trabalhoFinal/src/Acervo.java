@@ -26,7 +26,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
 
-public class Acervo {
+public class Acervo{
     private ArrayList<Livro> livros = new ArrayList();
 
     public Acervo() {
@@ -200,7 +200,11 @@ public class Acervo {
                     quantidade = new Attribute("quantidade",String.valueOf(l.getQuantidade()));
                     avaible = new Attribute("disponível", String.valueOf(l.getQuantidade()));
                     
-                    id = new Attribute("id", this.newId());
+                    try {
+                        id = new Attribute("id", this.newId());
+                    } catch (IOException ex) {
+                        Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     
                     livro.setAttribute(id);
                     livro.setAttribute(autor);
@@ -223,7 +227,11 @@ public class Acervo {
             quantidade = new Attribute("quantidade",String.valueOf(l.getQuantidade()));
             avaible = new Attribute("disponível", String.valueOf(l.getQuantidade()));
             
-            id = new Attribute("id", this.newId());
+            try {
+                id = new Attribute("id", this.newId());
+            } catch (IOException ex) {
+                Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             livro.setAttribute(id);
             livro.setAttribute(autor);
@@ -505,7 +513,14 @@ public class Acervo {
             String read = null;
             try {
                 in = new BufferedReader(new FileReader(file));
-                while ((read = in.readLine()) != null);
+                do{
+                    read = in.readLine();
+                    if(read != null){
+                        int n = Integer.parseInt(read, 16) + 1;
+                        hex = Integer.toHexString(n);
+                    }
+                }while(read != null);
+                
             } catch (IOException e) {
                 System.out.println("Ocorreu um problema em: " + e);
                 e.printStackTrace();
@@ -514,9 +529,6 @@ public class Acervo {
                     in.close();
                 }
             }
-            
-            int n = Integer.parseInt(read, 16) + 1;
-            hex = Integer.toHexString(n);
         }else{
             hex = "1";
         }
