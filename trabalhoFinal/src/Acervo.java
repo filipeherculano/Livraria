@@ -171,12 +171,12 @@ public class Acervo{
             newDocument = new Document(root);
         }
         
-        Element livro = new Element("Livro");
+        Element livro = new Element("livro");
         Attribute autor = null, quantidade = null, avaible = null, id = null;
         
         List<Element> listEditora = root.getChildren();
         for(Element e : listEditora){
-            if(e.getAttribute("nome").equals(l.getEditora())){
+            if(e.getAttributeValue("nome").equals(l.getEditora()) && !success){
                 noEditora = false;
                 List<Element> listLivro = e.getChildren();
                 for(Element b : listLivro){
@@ -185,11 +185,9 @@ public class Acervo{
                         int disp = Integer.parseInt(b.getAttributeValue("disponível"));
                         total += l.getQuantidade();
                         disp += l.getQuantidade();
-                        
-                        quantidade = new Attribute("quantidade", String.valueOf(total));
-                        avaible = new Attribute("disponível", String.valueOf(disp));
-                        livro.setAttribute(quantidade);
-                        livro.setAttribute(avaible);
+                       
+                        b.getAttribute("quantidade").setValue(String.valueOf(total));
+                        b.getAttribute("disponível").setValue(String.valueOf(disp));
                         
                         noBook = false;
                         success = true;
