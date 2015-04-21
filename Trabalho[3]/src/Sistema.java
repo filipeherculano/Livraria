@@ -100,8 +100,8 @@ public class Sistema {
          
          List<User> listusers = root.getChildren();
          for(Element e : listusers){
-             User user = new User();
-             user.setDivida(e.getAttribute("divida"));
+             User user = new User(null, null,null,null,0.00);
+             user.setDivida(Double.parseDouble(e.getAttribute("divida")));
              user.setMatricula(e.getAttribute("matricula"));
              user.getNome(e.getAttribute("nome"));
              user.setTipo(e.getAttribute("tipo"));
@@ -112,7 +112,7 @@ public class Sistema {
                  livro.setAutor(l.getAttribute("autor"));
                  livro.setEditora(l.getAttribute("editora"));
                  livro.setId(l.getAttribute("id")); 
-                livros.add(livro);
+                 livros.add(livro);
              }
              user.setLivros(livros);
              users.add(user);
@@ -149,8 +149,10 @@ public class Sistema {
         for(Element e : listusers){
             if (e.getAttribute("matricula").equals(matricula)){
                 List<Element> listlivros = e.getChildren();
-                user = new User();
+                user = new User(null, null, null, null, 0.00);
+                Element divida = Double.parseDouble(e.getAttribute("divida"));
                 user.setLivros(listlivros);
+                user.setDivida(divida);
                 user.setMatricula(matricula);
                 user.setTipo(e.getAttribute("tipo"));
                 user.setNome(e.getAttribute("nome"));
@@ -177,7 +179,7 @@ public class Sistema {
                 SAXBuilder builder = new SAXBuilder();
             try{
                 newDocument = builder.build(file);
-            }catch (IOException ex) {
+            }catch(IOException ex) {
                 Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
             }
             root = newDocument.getRootElement();
