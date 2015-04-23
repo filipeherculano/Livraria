@@ -35,12 +35,11 @@ public class Sistema {
     
     public boolean addUser(User u){
        // users.add(u);
-        boolean success = false;
+        boolean success = false, matriculaExists = false;
         File file = new File("Sistema.xml");
         Document newDocument = null;
         Element root = null;
-        Attribute matricula = null;Attribute nome = null;Attribute tipo = null;
-        Attribute divida = null;
+        Attribute matricula = null, nome = null, tipo = null, divida = null;
         Element user = null;
         
         if(file.exists()){
@@ -59,27 +58,59 @@ public class Sistema {
             newDocument = new Document(root);
         }
         
-        
-        List<Element> listusers = root.getChildren("user");
-
-        for(Element e : listusers){
-            if(!e.getAttributeValue("matricula").equals( u.getMatricula())){
-                user = new Element("user");
-                matricula = new Attribute("matricula", u.getMatricula());
-                nome = new Attribute("nome", u.getNome());
-                divida = new Attribute("divida", Double.toString(u.getDivida()));
-                tipo = new Attribute("tipo", u.getTipo());
-                user.setAttribute(matricula);
-                user.setAttribute(nome);
-                user.setAttribute(divida);
-                user.setAttribute(tipo);
-                //falta mais algum método pra adicionar ?
-                //lista = root.getChildren();
-                e.addContent(user);
-                success = true;
-                return success;
+        if(root.getChildren().size() > 0){
+            List<Element> listUsers = root.getChildren();
+            for(Element a : listUsers){
+                if(a.getAttributeValue("matrícula").equals(u.getMatricula())){
+                    matriculaExists = true;
+                }
             }
         }
+        
+        if(!matriculaExists){
+            user = new Element("user");
+        
+            matricula = new Attribute("matrícula", u.getMatricula());
+            tipo = new Attribute("tipo", u.getTipo());
+
+            user.setAttribute(matricula);
+            user.setText(u.getNome());
+            user.setAttribute(tipo);
+
+            root.addContent(user);
+            
+            success = true;
+        }
+//        List<Element> listusers = root.getChildren("user");
+//
+//        for(Element e : listusers){
+//            //if(!e.getAttributeValue("matricula").equals( u.getMatricula())){
+//                user = new Element("user");
+//                matricula = new Attribute("matricula", u.getMatricula());
+//                nome = new Attribute("nome", u.getNome());
+//                divida = new Attribute("divida", Double.toString(u.getDivida()));
+//                tipo = new Attribute("tipo", u.getTipo());
+//                user.setAttribute(matricula);
+//                user.setAttribute(nome);
+//                user.setAttribute(divida);
+//                user.setAttribute(tipo);
+//                //falta mais algum método pra adicionar ?
+//                //lista = root.getChildren();
+//                e.addContent(user);
+//                success = true;
+//                return success;
+//            //}
+//        }
+        
+        XMLOutputter out = new XMLOutputter();
+    
+        try {
+            FileWriter arquivo = new FileWriter(file);
+            out.output(newDocument, arquivo);
+        } catch (IOException ex) {
+            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return success;
     }
     
@@ -277,7 +308,7 @@ public boolean removeUser(User u){
          User user = new User();
          String nome = "Gabriel Angelo";
          String tipo = "Aluno";
-         String matricula = "1275115";
+         String matricula = "1275215";
          //double divida = 3.00;
          user.setNome(nome);
          user.setTipo(tipo);
