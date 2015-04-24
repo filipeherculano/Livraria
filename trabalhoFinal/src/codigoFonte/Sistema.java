@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/** This code is open-source. Every item inside it is free to use wherever you want as long as you don't sell it.
+ * Keep this code open-source and share it! 
+ * This code was built as a conclusion program for a OOP(Objects-Oriented Programming) class. 
+ * @author Filipe Herculano Rocha & Gabriel Angelo Freire Gonçalves
  */
 
 package codigoFonte;
@@ -53,7 +53,12 @@ public class Sistema {
             }
             root = newDocument.getRootElement();
         }else{
+            Attribute username = new Attribute("username", "peoo2015");
+            Attribute password = new Attribute("password", "11316652");
+            
             root = new Element("sistema");
+            root.setAttribute(username);
+            root.setAttribute(password);
             
             newDocument = new Document(root);
         }
@@ -71,10 +76,11 @@ public class Sistema {
             user = new Element("user");
         
             matricula = new Attribute("matrícula", u.getMatricula());
+            nome = new Attribute("nome", u.getNome());
             tipo = new Attribute("tipo", u.getTipo());
 
             user.setAttribute(matricula);
-            user.setText(u.getNome());
+            user.setAttribute(nome);
             user.setAttribute(tipo);
 
             root.addContent(user);
