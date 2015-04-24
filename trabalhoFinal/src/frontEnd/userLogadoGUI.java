@@ -14,6 +14,9 @@ import codigoFonte.Livro;
 //import codigoFonte.Sistema;
 import codigoFonte.User;
 import java.util.ArrayList;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
         
 
 /**
@@ -311,10 +314,7 @@ public class userLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        Acervo acervo = new Acervo();
-        ArrayList<Livro> livros = acervo.pesquisarLivro("A Guerra dos Tronos - As Crônicas de Gelo e Fogo - Vol. 1");
         
-        jtxtfNome.setText(livros.get(0).getEditora());
     }//GEN-LAST:event_formWindowOpened
 
     private void jtxtfSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfSaldoActionPerformed
