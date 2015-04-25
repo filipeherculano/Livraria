@@ -1,13 +1,16 @@
-/** This code is open-source. Every item inside it is free to use wherever you want as long as you don't sell it.
- * Keep this code open-source and share it! 
- * This code was built as a conclusion program for a OOP(Objects-Oriented Programming) class. 
- * @author Filipe Herculano Rocha & Gabriel Angelo Freire Gonçalves
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 
 package codigoFonte;
 
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,6 +24,8 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import java.util.ArrayList; 
 import org.jdom2.output.XMLOutputter;
+import java.util.Random;
+import org.joda.time.LocalDate;
 //import codigoFonte.User;
 //import codigoFonte.Livro;
 
@@ -33,13 +38,13 @@ public class Sistema {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
     
-    public boolean addUser(User u){
+    public boolean addUser(User u) throws IOException{
        // users.add(u);
         boolean success = false, matriculaExists = false;
         File file = new File("Sistema.xml");
         Document newDocument = null;
         Element root = null;
-        Attribute matricula = null, nome = null, tipo = null, divida = null;
+        Attribute matricula = null, nome = null, tipo = null, senha = null;
         Element user = null;
         
         if(file.exists()){
@@ -53,12 +58,7 @@ public class Sistema {
             }
             root = newDocument.getRootElement();
         }else{
-            Attribute username = new Attribute("username", "peoo2015");
-            Attribute password = new Attribute("password", "11316652");
-            
             root = new Element("sistema");
-            root.setAttribute(username);
-            root.setAttribute(password);
             
             newDocument = new Document(root);
         }
@@ -74,14 +74,19 @@ public class Sistema {
         
         if(!matriculaExists){
             user = new Element("user");
-        
-            matricula = new Attribute("matrícula", u.getMatricula());
-            nome = new Attribute("nome", u.getNome());
+         
+            matricula = new Attribute("matrícula",this.newId());
             tipo = new Attribute("tipo", u.getTipo());
-
+            nome = new Attribute("nome",u.getNome());
+            senha = new Attribute("senha",u.getPassword());
+            //divida = new Attribute("saldo",Double.toString(u.getDivida()));
+            
+            
             user.setAttribute(matricula);
             user.setAttribute(nome);
             user.setAttribute(tipo);
+            user.setAttribute(senha);
+            //user.setAttribute(divida);
 
             root.addContent(user);
             
@@ -144,11 +149,20 @@ public class Sistema {
         
         List<Element> listusers = root.getChildren();
         for(Element e : listusers){
-            if(e.getAttribute("matricula").equals(u.getMatricula())){
+            if(e.getAttributeValue("matrícula").equals(u.getMatricula())){
                 e.getAttribute("nome").setValue(u.getNome());
                 e.getAttribute("tipo").setValue(u.getTipo());
                 success = true;
+                XMLOutputter out = new XMLOutputter();
+        
+                try {
+                    FileWriter arquivo = new FileWriter(file);
+                    out.output(newDocument, arquivo);
+                } catch (IOException ex) {
+                    Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 return success;
+                
             }
         }
         return success;
@@ -158,8 +172,9 @@ public class Sistema {
         File file = new File("Sistema.xml");
         Document newDocument = null;
         Element root = null;
-        ArrayList<User> users = null;
-        ArrayList<Livro> livros = null;
+        ArrayList<User> users =  new ArrayList<User>();;
+        ArrayList<Livro> livros = new ArrayList<Livro>();
+        //ArrayList<Livro> historico = new ArrayList<Livro>();
         
         if(file.exists()){
             SAXBuilder builder = new SAXBuilder();
@@ -179,22 +194,39 @@ public class Sistema {
          
          List<Element> listusers = root.getChildren();
          for(Element e : listusers){
-             User user = new User();
-             //user.setDivida(Double.parseDouble(e.getAttribute("divida")));
-             user.setMatricula(e.getAttributeValue("matricula"));
-             user.setNome(e.getAttributeValue("nome"));
-             user.setTipo(e.getAttributeValue("tipo"));
-             List<Element> listlivro = e.getChildren();
-             Livro livro = new Livro(null,null,null,0);
-             for(Element l : listlivro){
-                 
-                 livro.setAutor(l.getAttributeValue("autor"));
-                 livro.setEditora(l.getAttributeValue("editora"));
-                 livro.setTitulo(l.getAttributeValue("titulo")); 
-                 livros.add(livro);
-             }
-             user.setLivros(livros);
-             users.add(user);
+            User user = new User();
+            List<Element> listlivro = e.getChildren("livro");
+            List<Element> histórico = e.getChildren("histórico");
+             
+            if(!listlivro.isEmpty()) 
+                
+                for(Element l : listlivro){
+                    Livro livro = new Livro(null,null,null,0);
+                    livro.setAutor(l.getAttributeValue("autor"));
+                    livro.setEditora(l.getAttributeValue("editora"));
+                    livro.setTitulo(l.getAttributeValue("título")); 
+                    livros.add(livro);
+            }
+            
+            List<Element> historico = e.getChildren("histórico");
+            ArrayList<Livro> historicoObjeto = new ArrayList<Livro>();
+            if(!historico.isEmpty()){
+                for(Element h : historico){
+                    Livro livroHistorico = new Livro(null,null,null,0);
+                    livroHistorico.setAutor(h.getAttributeValue("autor"));
+                    livroHistorico.setEditora(h.getAttributeValue("editora"));
+                    livroHistorico.setTitulo(h.getAttributeValue("título"));
+                    historicoObjeto.add(livroHistorico);
+                }
+            }
+            
+             
+            user.setMatricula(e.getAttributeValue("matrícula"));
+            user.setNome(e.getAttributeValue("nome"));
+            user.setTipo(e.getAttributeValue("tipo"));
+            user.setLivros(livros);
+            user.setHistórico(historicoObjeto);
+            users.add(user);
          }
          return users;
     }
@@ -226,27 +258,42 @@ public User pesquisarUser(String matricula){
     }
     List<Element> listusers = root.getChildren();
     for(Element e : listusers){
-        if (e.getAttribute("matricula").equals(matricula)){
-            List<Element> listlivros = e.getChildren();
-            ArrayList<Livro> livros = null;
-            for(Element l : listlivros){
-                Livro livro = new Livro(null,null,null,0);
-                livro.setAutor(l.getAttributeValue("autor"));
-                livro.setEditora(l.getAttributeValue("editora"));
-                livro.setTitulo(l.getAttributeValue("titulo"));
-                livros.add(livro);
-                user = new User();
-                double divida = Double.parseDouble(e.getAttributeValue("divida"));
-                user.setLivros(livros);
-                user.setDivida(divida);
-                user.setMatricula(matricula);
-                user.setTipo(e.getAttributeValue("tipo"));
-                user.setNome(e.getAttributeValue("nome"));
-                return user;
+        if (e.getAttributeValue("matrícula").equals(matricula)){
+            List<Element> listlivros = e.getChildren("livro");
+            ArrayList<Livro> livros = new ArrayList<Livro>();
+            user = new User();
+            if(!listlivros.isEmpty()){
+                for(Element l : listlivros){
+                    Livro livro = new Livro(null,null,null,0);
+                    livro.setAutor(l.getAttributeValue("autor"));
+                    livro.setEditora(l.getAttributeValue("editora"));
+                    livro.setTitulo(l.getAttributeValue("título"));
+                    livros.add(livro);
+                }
+            }
+            List<Element> historico = e.getChildren("histórico");
+            ArrayList<Livro> historicoObjeto = new ArrayList<Livro>();
+            if(!historico.isEmpty()){
+                for(Element h : historico){
+                    Livro livroHistorico = new Livro(null,null,null,0);
+                    livroHistorico.setAutor(h.getAttributeValue("autor"));
+                    livroHistorico.setEditora(h.getAttributeValue("editora"));
+                    livroHistorico.setTitulo(h.getAttributeValue("título"));
+                    historicoObjeto.add(livroHistorico);
+                }
+            }
+            
+               // double divida = Double.parseDouble(e.getAttributeValue("divida"));
+            user.setLivros(livros);
+            user.setHistórico(historicoObjeto);
+            user.setMatricula(matricula);
+            user.setTipo(e.getAttributeValue("tipo"));
+            user.setNome(e.getAttributeValue("nome"));
+                //return user;
+//            }
+            return user;
             }
         }
-        return user;
-    }
     return user;
 }
 
@@ -274,61 +321,205 @@ public boolean removeUser(User u){
             newDocument = new Document(root);
         }
         
-    List<Element> listusers = root.getChildren();
+    List<Element> listusers = root.getChildren("user");
     for(Element e : listusers){
-        List<Element> listlivros = e.getChildren();
-        double divida = Double.parseDouble(e.getAttributeValue("divida"));
+        if(e.getAttributeValue("matrícula").equals(u.getMatricula())){
+            root.removeContent(e);
             
-        if(e.getAttribute("matricula").equals(u.getMatricula())){
-            if(listlivros.isEmpty()){
-                if(divida == 0){
-                    root.removeContent(e);
-                    success = true;
-                    return success;
-                }
-            }else{
-                if (divida == 0){
-                    return success;
-                }
-                else if (divida > 0){
-                    return success;
-                }
+            XMLOutputter out = new XMLOutputter();
+    
+            try {
+                FileWriter arquivo = new FileWriter(file);
+                out.output(newDocument, arquivo);
+            } catch (IOException ex) {
+                Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-    }
-    
-        XMLOutputter out = new XMLOutputter();
-    
-        try {
-            FileWriter arquivo = new FileWriter(file);
-            out.output(newDocument, arquivo);
-        } catch (IOException ex) {
-            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
+            success = true;
+            return success;
+        }
+        //List<Element> listlivros = e.getChildren();
+        //double divida = Double.parseDouble(e.getAttributeValue("divida"));
+            
+//        if(e.getAttributeValue("matrícula").equals(u.getMatricula())){
+//            if(listlivros.isEmpty()){
+//                if(divida == 0){
+//                    root.removeContent(e);
+//                    success = true;
+//                    return success;
+                //}
+//            }else{
+//                if (divida == 0){
+//                    return success;
+//                }
+//                else if (divida > 0){
+//                    return success;
+//                }
+//            }
+        }
+        //return success;
+    
+    
+       
     return success;
 }
+ @SuppressWarnings("empty-statement")
+    public String newId() throws IOException{
+        File file = new File("idHandlerMatricula.txt");
+        Random random = new Random();
+        BufferedReader in = null;
+        BufferedWriter out = null;
+        String hex = null;
+        
+        if(file.exists()){
+            String read = null;
+            try {
+                in = new BufferedReader(new FileReader(file));
+                do{
+                    read = in.readLine();
+                    if(read != null){
+                        int n = Integer.parseInt(read,16) + 1;
+                        hex = Integer.toHexString(n);
+                    } 
+                }while(read != null);
+                
+            } catch (IOException e) {
+                System.out.println("Ocorreu um problema em: " + e);
+                e.printStackTrace();
+            } finally{
+                if(in != null){
+                    in.close();
+                }
+            }
+        }else{
+            hex = "1";
+        }
+        
+        
+        try{
+            out = new BufferedWriter(new FileWriter(file, true));
+            out.write(hex);
+            out.newLine();
+        } catch(IOException e){
+            System.out.println("Ocorreu um problema em: " + e);
+            e.printStackTrace();
+        } finally {
+            if(out != null){
+                out.close();
+            }
+        }
+        
+        return hex;
+    }
    
+    public boolean autentica(User u){
+        File file = new File("Sistema.xml");
+        Document newDocument = null;
+        Element root = null;
+        //Element user = null;
+        boolean autenticado = false;
+        //String autor = null,titulo = null,id = null;
+        //ArrayList<Livro> livros = new ArrayList<Livro>();
+        
+        if(file.exists()){
+            SAXBuilder builder = new SAXBuilder();
+            try {
+                newDocument = builder.build(file);
+            } catch (JDOMException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }catch (IOException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            root = newDocument.getRootElement();
+        }else{
+            root = new Element("sistema");
             
-     public static void main(String[] args) {  
+            newDocument = new Document(root);
+        }
+        
+        User user = null;
+        List<Element> listusers = root.getChildren();
+        for(Element e : listusers){
+            if (e.getAttributeValue("matrícula").equals(u.getMatricula()) && e.getAttributeValue("senha").equals(u.getPassword())){
+                autenticado = true;
+                return autenticado;
+            }
+        }
+        return autenticado;
+    }
+    
+    public User login(String matricula){
+        User user = this.pesquisarUser(matricula);
+        return user;
+    }
+    
+
+        
+        
+    
+            
+     public static void main(String[] args) throws IOException{  
          User user = new User();
-         String nome = "Gabriel Angelo";
-         String tipo = "Aluno";
-         String matricula = "1275215";
-         //double divida = 3.00;
-         user.setNome(nome);
-         user.setTipo(tipo);
-         user.setMatricula(matricula);
-         Sistema sistema = new Sistema();
+          String nome = "Gabriel Angelo";
+          String tipo = "aluno";
+          String senha = "1aaa23";
+          
+          user.setNome(nome);
+          user.setPassword(senha);
+          user.setTipo(tipo);
+         
+         Sistema sistema  = new Sistema();
          boolean value = sistema.addUser(user);
-         System.out.printf("%s",value);
+         System.out.println(value);
+     }  
+//         
+//         
+//         String nome = "Gabriel Angelo";
+//         String tipo = "aluno";
+//         String senha = "123";
+//         
+//         String titulo = "apanhador do campo de centeio";
+//         String autor = "irami";
+//         String editora = "companhia";
+//         String id = "123";
+//         String 
+////         String matricula = "1f";
+//         user.setNome(nome);
+//         user.setPassword(senha);
+//         user.setTipo(tipo);
+//         Sistema sistema  = new Sistema();
+//         boolean value = sistema.addUser(user);
+//         System.out.println(value);
+//         user.setNome(nome);
+//         user.setTipo(tipo);
+//         user.setPassword(senha);
+//         user.setMatricula(matricula);
+//
+//         Sistema sistema  = new Sistema();
+//         boolean autenticado = sistema.(user);
+////         if (autenticado){
+////             User userAutenticado = sistema.login(user.getMatricula());
+////             System.out.println(userAutenticado.getNome() + " foi logado com sucesso !");
+////             ArrayList<Livro> listLivros = userAutenticado.getLivros();
+////             for(Livro l : listLivros){
+////                 System.out.println(l.getTitulo());
+////             }
+////         }
+////         else{
+////             System.out.println("erro");
+//         }
+//         //System.out.println(autenticado);
+//         //ArrayList<Livro> lista = user.getHistórico();
+         
+         
+         
+      
      }
+
+
       
-     
-    
-    
-      
-}
+         
+
 
      
 

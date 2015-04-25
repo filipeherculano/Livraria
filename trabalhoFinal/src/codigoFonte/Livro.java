@@ -56,7 +56,7 @@ public class Livro {
         for(Element a : listUser){
             if(u.getMatricula().equals(a.getAttributeValue("matrícula"))){
                 if(a.getAttributeValue("tipo").equals("professor")){
-                    List<Element> listLivro = a.getChildren();
+                    List<Element> listLivro = a.getChildren("livro");
                     for(Element b : listLivro){
                         if(b.getAttributeValue("id").equals(this.id)){
                             LocalDate now = LocalDate.now();
@@ -69,7 +69,7 @@ public class Livro {
                         }
                     }
                 }else{
-                    List<Element> listLivro = a.getChildren();
+                    List<Element> listLivro = a.getChildren("livro");
                     for(Element b : listLivro){
                         if(b.getAttributeValue("id").equals(this.id)){
                             LocalDate now = LocalDate.now();
@@ -113,7 +113,7 @@ public class Livro {
         for(Element a : listUser){
             if(u.getMatricula().equals(a.getAttributeValue("matrícula"))){
                 if(a.getAttributeValue("tipo").equals("professor")){
-                    List<Element> listLivro = a.getChildren();
+                    List<Element> listLivro = a.getChildren("livro");
                     for(Element b : listLivro){
                         if(b.getAttributeValue("id").equals(l.getId())){
                             LocalDate now = LocalDate.now();
@@ -126,7 +126,7 @@ public class Livro {
                         }
                     }
                 }else{
-                    List<Element> listLivro = a.getChildren();
+                    List<Element> listLivro = a.getChildren("livro");
                     for(Element b : listLivro){
                         if(b.getAttributeValue("id").equals(l.getId())){
                             LocalDate now = LocalDate.now();
