@@ -655,5 +655,4 @@ public class Acervo{
         }
         
         return hex;
-    }
-}
+    }}

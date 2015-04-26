@@ -98,6 +98,7 @@ public class Sistema {
 //            //if(!e.getAttributeValue("matricula").equals( u.getMatricula())){
 //                user = new Element("user");
 //                matricula = new Attribute("matricula", u.getMatricula());
+//                user.setAttribute(tipo);
 //                nome = new Attribute("nome", u.getNome());
 //                divida = new Attribute("divida", Double.toString(u.getDivida()));
 //                tipo = new Attribute("tipo", u.getTipo());
@@ -194,7 +195,7 @@ public class Sistema {
          
          List<Element> listusers = root.getChildren();
          for(Element e : listusers){
-            User user = new User();
+            User user = new User(null, null, null, null);
             List<Element> listlivro = e.getChildren("livro");
             List<Element> histórico = e.getChildren("histórico");
              
@@ -225,7 +226,7 @@ public class Sistema {
             user.setNome(e.getAttributeValue("nome"));
             user.setTipo(e.getAttributeValue("tipo"));
             user.setLivros(livros);
-            user.setHistórico(historicoObjeto);
+            //user.setHistórico(historicoObjeto);
             users.add(user);
          }
          return users;
@@ -261,7 +262,7 @@ public User pesquisarUser(String matricula){
         if (e.getAttributeValue("matrícula").equals(matricula)){
             List<Element> listlivros = e.getChildren("livro");
             ArrayList<Livro> livros = new ArrayList<Livro>();
-            user = new User();
+            user = new User(null , null, null, null);
             if(!listlivros.isEmpty()){
                 for(Element l : listlivros){
                     Livro livro = new Livro(null,null,null,0);
@@ -285,7 +286,7 @@ public User pesquisarUser(String matricula){
             
                // double divida = Double.parseDouble(e.getAttributeValue("divida"));
             user.setLivros(livros);
-            user.setHistórico(historicoObjeto);
+            //user.setHistórico(historicoObjeto);
             user.setMatricula(matricula);
             user.setTipo(e.getAttributeValue("tipo"));
             user.setNome(e.getAttributeValue("nome"));
@@ -458,60 +459,60 @@ public boolean removeUser(User u){
         
     
             
-     public static void main(String[] args) throws IOException{  
-         User user = new User();
-          String nome = "Gabriel Angelo";
-          String tipo = "aluno";
-          String senha = "1aaa23";
-          
-          user.setNome(nome);
-          user.setPassword(senha);
-          user.setTipo(tipo);
-         
-         Sistema sistema  = new Sistema();
-         boolean value = sistema.addUser(user);
-         System.out.println(value);
-     }  
+//     public static void main(String[] args) throws IOException{  
+//         User user = new User(null, null, null, null);
+//          String nome = "Gabriel Angelo";
+//          String tipo = "aluno";
+//          String senha = "1aaa23";
+//          
+//          user.setNome(nome);
+//          user.setPassword(senha);
+//          user.setTipo(tipo);
 //         
-//         
-//         String nome = "Gabriel Angelo";
-//         String tipo = "aluno";
-//         String senha = "123";
-//         
-//         String titulo = "apanhador do campo de centeio";
-//         String autor = "irami";
-//         String editora = "companhia";
-//         String id = "123";
-//         String 
-////         String matricula = "1f";
-//         user.setNome(nome);
-//         user.setPassword(senha);
-//         user.setTipo(tipo);
 //         Sistema sistema  = new Sistema();
 //         boolean value = sistema.addUser(user);
 //         System.out.println(value);
-//         user.setNome(nome);
-//         user.setTipo(tipo);
-//         user.setPassword(senha);
-//         user.setMatricula(matricula);
-//
-//         Sistema sistema  = new Sistema();
-//         boolean autenticado = sistema.(user);
-////         if (autenticado){
-////             User userAutenticado = sistema.login(user.getMatricula());
-////             System.out.println(userAutenticado.getNome() + " foi logado com sucesso !");
-////             ArrayList<Livro> listLivros = userAutenticado.getLivros();
-////             for(Livro l : listLivros){
-////                 System.out.println(l.getTitulo());
-////             }
+//     }  
+////         
+////         
+////         String nome = "Gabriel Angelo";
+////         String tipo = "aluno";
+////         String senha = "123";
+////         
+////         String titulo = "apanhador do campo de centeio";
+////         String autor = "irami";
+////         String editora = "companhia";
+////         String id = "123";
+////         String 
+//////         String matricula = "1f";
+////         user.setNome(nome);
+////         user.setPassword(senha);
+////         user.setTipo(tipo);
+////         Sistema sistema  = new Sistema();
+////         boolean value = sistema.addUser(user);
+////         System.out.println(value);
+////         user.setNome(nome);
+////         user.setTipo(tipo);
+////         user.setPassword(senha);
+////         user.setMatricula(matricula);
+////
+////         Sistema sistema  = new Sistema();
+////         boolean autenticado = sistema.(user);
+//////         if (autenticado){
+//////             User userAutenticado = sistema.login(user.getMatricula());
+//////             System.out.println(userAutenticado.getNome() + " foi logado com sucesso !");
+//////             ArrayList<Livro> listLivros = userAutenticado.getLivros();
+//////             for(Livro l : listLivros){
+//////                 System.out.println(l.getTitulo());
+//////             }
+//////         }
+//////         else{
+//////             System.out.println("erro");
 ////         }
-////         else{
-////             System.out.println("erro");
-//         }
-//         //System.out.println(autenticado);
-//         //ArrayList<Livro> lista = user.getHistórico();
-         
-         
+////         //System.out.println(autenticado);
+////         //ArrayList<Livro> lista = user.getHistórico();
+//         
+//         
          
       
      }

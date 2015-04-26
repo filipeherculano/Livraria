@@ -27,18 +27,24 @@ public class User {
     private String matricula;
     private String nome;
     private ArrayList<Livro> livros;
-    private ArrayList<Livro> histórico;
+    private ArrayList<Livro> historico;
+    private double divida;
+    private String password;
+    
+    public User(String tipo, String matricula, String nome, String password) {
+        this.tipo = tipo;
+        this.matricula = matricula;
+        this.nome = nome;
+        this.password = password;
+    }
 
-    public ArrayList<Livro> getHistórico() {
-        return histórico;
+    public ArrayList<Livro> getHistorico() {
+        return historico;
     }
 
     public void setHistórico(ArrayList<Livro> histórico) {
-        this.histórico = histórico;
+        this.historico = histórico;
     }
-    private double divida = 0.00;
-    private String password;
-    
 
     public String getPassword() {
         return password;
@@ -240,37 +246,5 @@ public class User {
 
     public void setLivros(ArrayList<Livro> livros) {
         this.livros = livros;
-    }
-
-//    public double getDivida() {
-//        return divida;
-//    }
-//
-//    public void setDivida(double divida) {
-//        this.divida = divida;
-//    }
-
-    public static void main(String[] args) throws IOException{
-        Livro livro = new Livro();
-        String título = "vendedor de sonhos";
-        String editora = "sextante";
-        String autor = "Augusto Cury";
-        String id = "123";
-        LocalDate now = LocalDate.now() ,next = now.plusDays(7);
-        String current =  now.toString(), nextDate = next.toString();
-       
-        
-        livro.setAutor(autor);
-        livro.setEditora(editora);
-        livro.setTitulo(título);
-        livro.setId(id);
-        livro.setAluguel(current);
-        livro.setEntrega(nextDate);
-        User user = new User();
-        user.setMatricula("1d");
-        user.setTipo("professor");
-        boolean value = user.alugarLivro(livro);
-        System.out.println(value);
-        
     }
 }
