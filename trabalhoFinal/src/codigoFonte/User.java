@@ -19,6 +19,7 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
+import org.joda.time.LocalDate;
 
 
 public class User {
@@ -26,7 +27,26 @@ public class User {
     private String matricula;
     private String nome;
     private ArrayList<Livro> livros;
-    private double divida;
+    private ArrayList<Livro> histórico;
+
+    public ArrayList<Livro> getHistórico() {
+        return histórico;
+    }
+
+    public void setHistórico(ArrayList<Livro> histórico) {
+        this.histórico = histórico;
+    }
+    private double divida = 0.00;
+    private String password;
+    
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
     
     public boolean alugarLivro(Livro l){
         boolean success = false;
@@ -54,8 +74,10 @@ public class User {
         List<Element> listUser = root.getChildren();
         for(Element a : listUser){
             if(a.getAttributeValue("matrícula").equals(this.matricula)){
-                if(this.tipo.equals("professor") && a.getChildren().size() >= 0 && a.getChildren().size() < 3){
-
+                if(this.tipo.equals("professor") && a.getChildren("livro").size() >= 0 && a.getChildren("livro").size() < 3){
+                    List<Element> list = a.getChildren("livro");
+                    System.out.println(list.size());
+                    
                     livro = new Element("livro");
                     autor = new Attribute("autor", l.getAutor());
                     editora = new Attribute("editora", l.getEditora());
@@ -69,9 +91,28 @@ public class User {
                     livro.setAttribute(aluguel);
                     livro.setAttribute(entrega);
                     livro.setAttribute("título", l.getTitulo());
+                    
+                    
 
                     a.addContent(livro);
-
+                    Element histórico = new Element("histórico");
+                    
+                    //Element livroHistórico = new Element("livro");
+                    Attribute autorHistórico = new Attribute("autor",l.getAutor());
+                    Attribute editoraHistórico = new Attribute("editora", l.getEditora());
+                    Attribute aluguelHistórico = new Attribute("diaAluguel", l.getAluguel());
+                    Attribute entregaHistórico = new Attribute("diaEntrega", l.getEntrega());
+                    Attribute idHistórico = new Attribute("id", l.getId());
+                    
+                    histórico.setAttribute(idHistórico);
+                    histórico.setAttribute(autorHistórico);
+                    histórico.setAttribute(editoraHistórico);
+                    histórico.setAttribute(aluguelHistórico);
+                    histórico.setAttribute(entregaHistórico);
+                    histórico.setAttribute("título", l.getTitulo());
+                    a.addContent(histórico);
+                   
+                   
                     success = true;
 
                 }else{
@@ -89,10 +130,35 @@ public class User {
                         livro.setAttribute(aluguel);
                         livro.setAttribute(entrega);
                         livro.setAttribute("título", l.getTitulo());
+                        
+                        Element histórico = new Element("histórico");
+                    
+                        //Element livroHistórico = new Element("livro");
+                        Attribute autorHistórico = new Attribute("autor",l.getAutor());
+                        Attribute editoraHistórico = new Attribute("editora", l.getEditora());
+                        Attribute aluguelHistórico = new Attribute("diaAluguel", l.getAluguel());
+                        Attribute entregaHistórico = new Attribute("diaEntrega", l.getEntrega());
+                        Attribute idHistórico = new Attribute("id", l.getId());
+
+                        histórico.setAttribute(idHistórico);
+                        histórico.setAttribute(autorHistórico);
+                        histórico.setAttribute(editoraHistórico);
+                        histórico.setAttribute(aluguelHistórico);
+                        histórico.setAttribute(entregaHistórico);
+                        histórico.setAttribute("título", l.getTitulo());
+                        a.addContent(histórico);
+                        
 
                         a.addContent(livro);
-
+                        
+//                        histórico = new Element("histórico");
+//                        histórico.setAttribute(aluguel);
+//                        histórico.setAttribute(autor);
+//                        a.addContent(histórico);
+                        
+//                        histórico.addContent(livro);
                         success = true;
+                        return success;
                     }
                 }
             }
@@ -109,7 +175,8 @@ public class User {
         
         return success;
     }
-
+    
+   
     //para calcular saldo total do usuário use sempre este método.
     public double calcularSaldo() throws JDOMException{
         File file = new File("Sistema.xml");
@@ -128,7 +195,7 @@ public class User {
             
             root = newDocument.getRootElement();
         }
-        List<Element> listUser = root.getChildren();
+        List<Element> listUser = root.getChildren("livro");
         for(Element a : listUser){
             if(this.matricula.equals(a.getAttributeValue("matrícula"))){
                 List<Element> listLivro = a.getChildren();
@@ -175,13 +242,35 @@ public class User {
         this.livros = livros;
     }
 
-    public double getDivida() {
-        return divida;
-    }
+//    public double getDivida() {
+//        return divida;
+//    }
+//
+//    public void setDivida(double divida) {
+//        this.divida = divida;
+//    }
 
-    public void setDivida(double divida) {
-        this.divida = divida;
+    public static void main(String[] args) throws IOException{
+        Livro livro = new Livro();
+        String título = "vendedor de sonhos";
+        String editora = "sextante";
+        String autor = "Augusto Cury";
+        String id = "123";
+        LocalDate now = LocalDate.now() ,next = now.plusDays(7);
+        String current =  now.toString(), nextDate = next.toString();
+       
+        
+        livro.setAutor(autor);
+        livro.setEditora(editora);
+        livro.setTitulo(título);
+        livro.setId(id);
+        livro.setAluguel(current);
+        livro.setEntrega(nextDate);
+        User user = new User();
+        user.setMatricula("1d");
+        user.setTipo("professor");
+        boolean value = user.alugarLivro(livro);
+        System.out.println(value);
+        
     }
-
-    
 }
