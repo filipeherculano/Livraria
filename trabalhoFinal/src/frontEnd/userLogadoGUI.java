@@ -5,18 +5,11 @@
  */
 package frontEnd;
 
-import codigoFonte.Acervo;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import codigoFonte.Acervo;
-import codigoFonte.Livro;
 //import codigoFonte.Sistema;
 import codigoFonte.User;
-import java.util.ArrayList;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.jdom2.JDOMException;
         
 
 /**
@@ -24,6 +17,7 @@ import org.joda.time.format.DateTimeFormatter;
  * @author filipe
  */
 public class userLogadoGUI extends javax.swing.JFrame {
+    private User user = new User(null, null, null, null);
 
     /**
      * Creates new form userLogadoGUI
@@ -32,6 +26,15 @@ public class userLogadoGUI extends javax.swing.JFrame {
         initComponents();
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+ 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -295,10 +298,7 @@ public class userLogadoGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtxtfNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfNomeActionPerformed
-        Acervo acervo = new Acervo();
-        ArrayList<Livro> livros = acervo.pesquisarLivro("A Fúria Dos Reis - As Crônicas de Gelo e Fogo - Vol. 2");
         
-        jtxtfNome.setText(livros.get(0).getEditora());
     }//GEN-LAST:event_jtxtfNomeActionPerformed
 
     private void jtxtfMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfMatriculaActionPerformed
@@ -314,7 +314,15 @@ public class userLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
+        jtxtfNome.setText(user.getNome());
+        jtxtfMatricula.setText(user.getMatricula());
+        jtxtfTipo.setText(user.getTipo());
+        try {
+            jtxtfSaldo.setText(String.valueOf(user.calcularSaldo()));
+        } catch (JDOMException ex) {
+            //descrever erro.
+            Logger.getLogger(userLogadoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void jtxtfSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfSaldoActionPerformed

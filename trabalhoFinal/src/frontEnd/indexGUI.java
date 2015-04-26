@@ -5,6 +5,9 @@
  */
 package frontEnd;
 
+import codigoFonte.Sistema;
+import codigoFonte.User;
+
 /**
  *
  * @author filipe
@@ -70,6 +73,11 @@ public class indexGUI extends javax.swing.JFrame {
         });
 
         jbtnLimpar.setText("Limpar");
+        jbtnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnLimparActionPerformed(evt);
+            }
+        });
 
         jtxtfSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,8 +156,17 @@ public class indexGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEntrarActionPerformed
-        dispose();
-        new userLogadoGUI().setVisible(true);
+        Sistema sistema = new Sistema();
+        User user = new User(null, jtxtfMatricula.getText(), null, new String(jtxtfSenha.getPassword()));
+        if(sistema.autentica(user)){
+            User usr = sistema.pesquisarUser(jtxtfMatricula.getText());
+            userLogadoGUI logado = new userLogadoGUI();
+            logado.setUser(usr);
+            dispose();
+            logado.setVisible(true);
+        }else{
+            //Mostrar erro.
+        }
     }//GEN-LAST:event_jbtnEntrarActionPerformed
 
     private void jtxtfMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfMatriculaActionPerformed
@@ -164,6 +181,11 @@ public class indexGUI extends javax.swing.JFrame {
         dispose();
         new loginAdminGUI().setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jbtnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLimparActionPerformed
+        jtxtfMatricula.setText("");
+        jtxtfSenha.setText("");
+    }//GEN-LAST:event_jbtnLimparActionPerformed
 
     /**
      * @param args the command line arguments
