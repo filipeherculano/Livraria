@@ -16,6 +16,7 @@ public class removeLivro extends javax.swing.JFrame {
      */
     public removeLivro() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -67,6 +68,11 @@ public class removeLivro extends javax.swing.JFrame {
         jButton1Remover.setText("Remover");
 
         jButton2Cancelar.setText("Cancelar");
+        jButton2Cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2CancelarActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel6.setText("Remover Livro ?");
@@ -141,6 +147,10 @@ public class removeLivro extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2CancelarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2CancelarActionPerformed
 
     /**
      * @param args the command line arguments
