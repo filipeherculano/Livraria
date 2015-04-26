@@ -89,9 +89,9 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              <Component id="jButton2Cancelar" min="-2" max="-2" attributes="0"/>
+              <Component id="jbtnCancelar" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jButton1Cadastrar" min="-2" max="-2" attributes="0"/>
+              <Component id="jbtnCadastrar" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
@@ -106,10 +106,10 @@
                       </Group>
                       <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="jTextField1Titulo" alignment="0" pref="451" max="32767" attributes="0"/>
-                          <Component id="jTextField2Editora" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jTextField3Autor" max="32767" attributes="0"/>
-                          <Component id="jTextField1Quantidade" max="32767" attributes="0"/>
+                          <Component id="jtxfTitulo" alignment="0" pref="451" max="32767" attributes="0"/>
+                          <Component id="jtxfEditora" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jtxfAutor" max="32767" attributes="0"/>
+                          <Component id="jtxfQuantidade" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -127,28 +127,28 @@
               <Component id="jLabel10" min="-2" pref="41" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jTextField1Titulo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jtxfTitulo" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField2Editora" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jtxfEditora" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jTextField3Autor" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jtxfAutor" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField1Quantidade" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jtxfQuantidade" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="18" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton1Cadastrar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton2Cancelar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jbtnCadastrar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jbtnCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
           </Group>
@@ -179,23 +179,23 @@
         <Property name="text" type="java.lang.String" value="Adicionar Livro"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1Titulo">
+    <Component class="javax.swing.JTextField" name="jtxfTitulo">
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField2Editora">
+    <Component class="javax.swing.JTextField" name="jtxfEditora">
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField3Autor">
+    <Component class="javax.swing.JTextField" name="jtxfAutor">
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1Cadastrar">
+    <Component class="javax.swing.JButton" name="jbtnCadastrar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cadastrar"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2Cancelar">
+    <Component class="javax.swing.JButton" name="jbtnCancelar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2CancelarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnCancelarActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel11">
@@ -203,7 +203,7 @@
         <Property name="text" type="java.lang.String" value="Quantidade"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1Quantidade">
+    <Component class="javax.swing.JTextField" name="jtxfQuantidade">
     </Component>
   </SubComponents>
 </Form>

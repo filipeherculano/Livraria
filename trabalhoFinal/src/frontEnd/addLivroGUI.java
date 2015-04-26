@@ -45,13 +45,13 @@ public class addLivroGUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField1Titulo = new javax.swing.JTextField();
-        jTextField2Editora = new javax.swing.JTextField();
-        jTextField3Autor = new javax.swing.JTextField();
-        jButton1Cadastrar = new javax.swing.JButton();
-        jButton2Cancelar = new javax.swing.JButton();
+        jtxfTitulo = new javax.swing.JTextField();
+        jtxfEditora = new javax.swing.JTextField();
+        jtxfAutor = new javax.swing.JTextField();
+        jbtnCadastrar = new javax.swing.JButton();
+        jbtnCancelar = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        jTextField1Quantidade = new javax.swing.JTextField();
+        jtxfQuantidade = new javax.swing.JTextField();
 
         jTextField9.setText("jTextField9");
 
@@ -88,12 +88,12 @@ public class addLivroGUI extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Nimbus Roman No9 L", 1, 18)); // NOI18N
         jLabel10.setText("Adicionar Livro");
 
-        jButton1Cadastrar.setText("Cadastrar");
+        jbtnCadastrar.setText("Cadastrar");
 
-        jButton2Cancelar.setText("Cancelar");
-        jButton2Cancelar.addActionListener(new java.awt.event.ActionListener() {
+        jbtnCancelar.setText("Cancelar");
+        jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2CancelarActionPerformed(evt);
+                jbtnCancelarActionPerformed(evt);
             }
         });
 
@@ -105,9 +105,9 @@ public class addLivroGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton2Cancelar)
+                .addComponent(jbtnCancelar)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1Cadastrar)
+                .addComponent(jbtnCadastrar)
                 .addGap(20, 20, 20))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,10 +120,10 @@ public class addLivroGUI extends javax.swing.JFrame {
                             .addComponent(jLabel11))
                         .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextField1Titulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
-                            .addComponent(jTextField2Editora, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3Autor)
-                            .addComponent(jTextField1Quantidade)))
+                            .addComponent(jtxfTitulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
+                            .addComponent(jtxfEditora, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxfAutor)
+                            .addComponent(jtxfQuantidade)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(254, 254, 254)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -135,33 +135,33 @@ public class addLivroGUI extends javax.swing.JFrame {
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1Titulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2Editora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtxfEditora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3Autor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxfAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField1Quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtxfQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1Cadastrar)
-                    .addComponent(jButton2Cancelar))
+                    .addComponent(jbtnCadastrar)
+                    .addComponent(jbtnCancelar))
                 .addGap(21, 21, 21))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2CancelarActionPerformed
+    private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2CancelarActionPerformed
+    }//GEN-LAST:event_jbtnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,8 +199,6 @@ public class addLivroGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1Cadastrar;
-    private javax.swing.JButton jButton2Cancelar;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -213,15 +211,17 @@ public class addLivroGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField1Quantidade;
-    private javax.swing.JTextField jTextField1Titulo;
-    private javax.swing.JTextField jTextField2Editora;
-    private javax.swing.JTextField jTextField3Autor;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JButton jbtnCadastrar;
+    private javax.swing.JButton jbtnCancelar;
+    private javax.swing.JTextField jtxfAutor;
+    private javax.swing.JTextField jtxfEditora;
+    private javax.swing.JTextField jtxfQuantidade;
+    private javax.swing.JTextField jtxfTitulo;
     // End of variables declaration//GEN-END:variables
 }
