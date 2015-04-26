@@ -16,6 +16,7 @@ public class addLivroGUI extends javax.swing.JFrame {
      */
     public addLivroGUI() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -90,6 +91,11 @@ public class addLivroGUI extends javax.swing.JFrame {
         jButton1Cadastrar.setText("Cadastrar");
 
         jButton2Cancelar.setText("Cancelar");
+        jButton2Cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2CancelarActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("Quantidade");
 
@@ -152,6 +158,10 @@ public class addLivroGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2CancelarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2CancelarActionPerformed
 
     /**
      * @param args the command line arguments
