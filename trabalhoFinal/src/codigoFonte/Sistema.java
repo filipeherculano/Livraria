@@ -335,7 +335,7 @@
                     do{
                         read = in.readLine();
                         if(read != null){
-                            int n = Integer.parseInt(read,10) + 1;
+                            int n = Integer.parseInt(read) + 1;
                             hex = Integer.toString(n);
                         } 
                     }while(read != null);
@@ -380,7 +380,7 @@
                     do{
                         read = in.readLine();
                         if(read != null){
-                            int n = Integer.parseInt(read,10) + 1;
+                            int n = Integer.parseInt(read) + 1;
                             hex = Integer.toString(n) + "\n";
                         } 
                     }while(read != null);
@@ -473,14 +473,14 @@
 
          public static void main(String[] args) throws IOException{ 
     //         
-//              User user = new User(null, null, null, null);
-//              String nome = "Gabriel Angelo";
-//              String tipo = "aluno";
-//              String senha = "1aaa23";
-//
-//              user.setNome(nome);
-//              user.setPassword(senha);
-//              user.setTipo(tipo);
+              User user = new User(null, null, null, null);
+              String nome = "Gabriel Angelo";
+              String tipo = "aluno";
+              String senha = "1aaa23";
+
+              user.setNome(nome);
+              user.setPassword(senha);
+              user.setTipo(tipo);
 
               Sistema sistema  = new Sistema();
               String value = sistema.emularId();
