@@ -56,6 +56,7 @@ public class removeUserGUI extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jtxtfSearchUser = new javax.swing.JTextField();
         jbtnBuscar = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
 
         jLabel1.setText("jLabel1");
 
@@ -109,7 +110,7 @@ public class removeUserGUI extends javax.swing.JFrame {
 
         jbtnCancelar.setText("Cancelar");
 
-        jLabel7.setFont(new java.awt.Font("Nimbus Roman No9 L", 1, 24)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Nimbus Roman No9 L", 1, 18)); // NOI18N
         jLabel7.setText("Remover Usuário ");
 
         jLabel9.setText("Matrícula");
@@ -130,7 +131,7 @@ public class removeUserGUI extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addGap(3, 3, 3)
-                                .addComponent(jtxtfSearchUser))
+                                .addComponent(jtxtfSearchUser, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jbtnCancelar)))
@@ -153,10 +154,11 @@ public class removeUserGUI extends javax.swing.JFrame {
                             .addComponent(jtxtfTipo))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(215, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(119, 119, 119))
+                .addGap(131, 131, 131))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +169,9 @@ public class removeUserGUI extends javax.swing.JFrame {
                     .addComponent(jLabel10)
                     .addComponent(jtxtfSearchUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtnBuscar))
-                .addGap(81, 81, 81)
+                .addGap(26, 26, 26)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jtxtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -252,6 +256,7 @@ public class removeUserGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9Id;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField1Matrícula;
     private javax.swing.JButton jbtnBuscar;

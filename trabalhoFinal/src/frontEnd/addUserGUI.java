@@ -90,6 +90,7 @@ public class addUserGUI extends javax.swing.JFrame {
 
         jLabel5.setText("Matrícula");
 
+        jtxfMatricula.setEditable(false);
         jtxfMatricula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxfMatriculaActionPerformed(evt);

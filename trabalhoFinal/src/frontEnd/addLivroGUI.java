@@ -48,7 +48,7 @@ public class addLivroGUI extends javax.swing.JFrame {
         jtxfTitulo = new javax.swing.JTextField();
         jtxfEditora = new javax.swing.JTextField();
         jtxfAutor = new javax.swing.JTextField();
-        jbtnCadastrar = new javax.swing.JButton();
+        jbtnAdicionar = new javax.swing.JButton();
         jbtnCancelar = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jtxfQuantidade = new javax.swing.JTextField();
@@ -88,7 +88,7 @@ public class addLivroGUI extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Nimbus Roman No9 L", 1, 18)); // NOI18N
         jLabel10.setText("Adicionar Livro");
 
-        jbtnCadastrar.setText("Cadastrar");
+        jbtnAdicionar.setText("Adicionar");
 
         jbtnCancelar.setText("Cancelar");
         jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -107,7 +107,7 @@ public class addLivroGUI extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jbtnCancelar)
                 .addGap(18, 18, 18)
-                .addComponent(jbtnCadastrar)
+                .addComponent(jbtnAdicionar)
                 .addGap(20, 20, 20))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,7 +151,7 @@ public class addLivroGUI extends javax.swing.JFrame {
                     .addComponent(jtxfQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtnCadastrar)
+                    .addComponent(jbtnAdicionar)
                     .addComponent(jbtnCancelar))
                 .addGap(21, 21, 21))
         );
@@ -217,7 +217,7 @@ public class addLivroGUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
-    private javax.swing.JButton jbtnCadastrar;
+    private javax.swing.JButton jbtnAdicionar;
     private javax.swing.JButton jbtnCancelar;
     private javax.swing.JTextField jtxfAutor;
     private javax.swing.JTextField jtxfEditora;

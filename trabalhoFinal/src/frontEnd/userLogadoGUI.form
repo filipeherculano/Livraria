@@ -45,18 +45,18 @@
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                               <Component id="jlblNome" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="34" pref="34" max="-2" attributes="0"/>
                               <Component id="jtxtfNome" min="-2" pref="237" max="-2" attributes="0"/>
                               <EmptySpace min="113" pref="113" max="-2" attributes="0"/>
                               <Component id="jlblTipo" min="-2" pref="40" max="-2" attributes="0"/>
-                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="jtxtfTipo" min="-2" pref="241" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Component id="jlblMatricula" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="31" pref="31" max="-2" attributes="0"/>
                               <Component id="jtxtfMatricula" min="-2" pref="237" max="-2" attributes="0"/>
@@ -103,9 +103,9 @@
               <Component id="jSeparator2" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="0" groupAlignment="2" attributes="0">
-                      <Component id="jlblTipo" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jtxtfTipo" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Component id="jlblTipo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jtxtfTipo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="2" attributes="0">
@@ -276,7 +276,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jlblSaldo">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Saldo &#xe0; pagar:"/>
+        <Property name="text" type="java.lang.String" value="Saldo &#xe0; pagar (R$):"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
