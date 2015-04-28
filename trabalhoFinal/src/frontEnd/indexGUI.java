@@ -7,6 +7,7 @@ package frontEnd;
 
 import codigoFonte.Sistema;
 import codigoFonte.User;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -71,6 +72,14 @@ public class indexGUI extends javax.swing.JFrame {
                 jbtnEntrarActionPerformed(evt);
             }
         });
+        jbtnEntrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jbtnEntrarKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jbtnEntrarKeyReleased(evt);
+            }
+        });
 
         jbtnLimpar.setText("Limpar");
         jbtnLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -115,7 +124,7 @@ public class indexGUI extends javax.swing.JFrame {
                                 .addComponent(jbtnEntrar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jbtnLimpar))
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jlblSenha)
                                 .addGap(53, 53, 53)
                                 .addComponent(jtxtfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -136,15 +145,15 @@ public class indexGUI extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlblMatricula)
                     .addComponent(jtxtfMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlblSenha)
                     .addComponent(jtxtfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtnEntrar)
                     .addComponent(jbtnLimpar))
@@ -186,6 +195,14 @@ public class indexGUI extends javax.swing.JFrame {
         jtxtfMatricula.setText("");
         jtxtfSenha.setText("");
     }//GEN-LAST:event_jbtnLimparActionPerformed
+
+    private void jbtnEntrarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnEntrarKeyReleased
+        
+    }//GEN-LAST:event_jbtnEntrarKeyReleased
+
+    private void jbtnEntrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnEntrarKeyPressed
+        
+    }//GEN-LAST:event_jbtnEntrarKeyPressed
 
     /**
      * @param args the command line arguments

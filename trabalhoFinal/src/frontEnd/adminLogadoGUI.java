@@ -5,6 +5,11 @@
  */
 package frontEnd;
 
+import codigoFonte.Acervo;
+import codigoFonte.Livro;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author filipe
@@ -37,7 +42,7 @@ public class adminLogadoGUI extends javax.swing.JFrame {
         jbtnPesquisar = new javax.swing.JButton();
         jbtnListarTudo = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtbLivro = new javax.swing.JTable();
         jbtnAddLivro = new javax.swing.JButton();
         jbtnRemoverLivro = new javax.swing.JButton();
         jbtnAlterarLivro = new javax.swing.JButton();
@@ -51,6 +56,9 @@ public class adminLogadoGUI extends javax.swing.JFrame {
         jbtnRemoverUser = new javax.swing.JButton();
         jbtnAlterarUser = new javax.swing.JButton();
         jbtnListarTodos = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jmbLogout = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -77,12 +85,6 @@ public class adminLogadoGUI extends javax.swing.JFrame {
             }
         });
 
-        jtxtfTitulo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxtfTituloActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Título:");
 
         jbtnPesquisar.setText("Pesquisar Livro");
@@ -99,12 +101,9 @@ public class adminLogadoGUI extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtbLivro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Livro", "Editora", "Autor", "Quantidade Total", "Disponível", "ID"
@@ -118,9 +117,14 @@ public class adminLogadoGUI extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jtbLivro);
 
         jbtnAddLivro.setText("Adicionar Livro");
+        jbtnAddLivro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAddLivroActionPerformed(evt);
+            }
+        });
 
         jbtnRemoverLivro.setText("Remover livro");
         jbtnRemoverLivro.addActionListener(new java.awt.event.ActionListener() {
@@ -292,6 +296,35 @@ public class adminLogadoGUI extends javax.swing.JFrame {
         jlpSistema.setLayer(jbtnAlterarUser, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpSistema.setLayer(jbtnListarTodos, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
+        jmbLogout.setText("Logout");
+        jmbLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmbLogoutActionPerformed(evt);
+            }
+        });
+        jmbLogout.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
+            public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
+                jmbLogoutMenuKeyPressed(evt);
+            }
+            public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt) {
+            }
+            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
+            }
+        });
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Logout key");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jmbLogout.add(jMenuItem1);
+
+        jMenuBar1.add(jmbLogout);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -339,20 +372,36 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnAcervoActionPerformed
 
     private void jbtnRemoverLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRemoverLivroActionPerformed
-        // TODO add your handling code here:
+        new removeLivro().setVisible(true);
     }//GEN-LAST:event_jbtnRemoverLivroActionPerformed
 
     private void jbtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPesquisarActionPerformed
-        // TODO add your handling code here:
+        Acervo acervo = new Acervo();
+        Livro livro = acervo.pesquisarLivro(jtxtfTitulo.getText());
+        DefaultTableModel model = (DefaultTableModel) jtbLivro.getModel();
+        
+        for(int i = model.getRowCount() - 1; i > -1; i--){
+            model.removeRow(i);
+        }
+        
+        Object[] row = {livro.getTitulo(), livro.getEditora(), livro.getAutor(), livro.getQuantidade(), livro.getDisponivel(), livro.getId()}; 
+        model.addRow(row);
     }//GEN-LAST:event_jbtnPesquisarActionPerformed
 
     private void jbtnListarTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnListarTudoActionPerformed
-        // TODO add your handling code here:
+        Acervo acervo = new Acervo();
+        ArrayList<Livro> livros = acervo.listarLivros();
+        DefaultTableModel model = (DefaultTableModel) jtbLivro.getModel();
+        
+        for(int i = model.getRowCount() - 1; i > -1; i--){
+            model.removeRow(i);
+        }
+        
+        for(Livro b : livros){
+            Object[] row = {b.getTitulo(), b.getEditora(), b.getAutor(), b.getQuantidade(), b.getDisponivel(), b.getId()}; 
+            model.addRow(row);
+        }
     }//GEN-LAST:event_jbtnListarTudoActionPerformed
-
-    private void jtxtfTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfTituloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtxtfTituloActionPerformed
 
     private void jbtnSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSistemaActionPerformed
         jlpAcervo.setVisible(false);
@@ -381,8 +430,27 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jbtnAlterarLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAlterarLivroActionPerformed
-        // TODO add your handling code here:
+        new alterarLivroGUI().setVisible(true);
     }//GEN-LAST:event_jbtnAlterarLivroActionPerformed
+
+    private void jmbLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbLogoutActionPerformed
+        dispose();
+        new indexGUI().setVisible(true);
+    }//GEN-LAST:event_jmbLogoutActionPerformed
+
+    private void jmbLogoutMenuKeyPressed(javax.swing.event.MenuKeyEvent evt) {//GEN-FIRST:event_jmbLogoutMenuKeyPressed
+        dispose();
+        new indexGUI().setVisible(true);
+    }//GEN-LAST:event_jmbLogoutMenuKeyPressed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        dispose();
+        new indexGUI().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jbtnAddLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAddLivroActionPerformed
+        new addLivroGUI().setVisible(true);
+    }//GEN-LAST:event_jbtnAddLivroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -424,9 +492,10 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbtnAcervo;
@@ -443,6 +512,8 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     private javax.swing.JButton jbtnSistema;
     private javax.swing.JLayeredPane jlpAcervo;
     private javax.swing.JLayeredPane jlpSistema;
+    private javax.swing.JMenu jmbLogout;
+    private javax.swing.JTable jtbLivro;
     private javax.swing.JTextField jtxtfTitulo;
     // End of variables declaration//GEN-END:variables
 }

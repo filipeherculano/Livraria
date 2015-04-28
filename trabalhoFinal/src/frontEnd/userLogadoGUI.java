@@ -7,6 +7,7 @@ package frontEnd;
 
 //import codigoFonte.Sistema;
 import codigoFonte.User;
+import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jdom2.JDOMException;
@@ -319,6 +320,9 @@ public class userLogadoGUI extends javax.swing.JFrame {
         jtxtfTipo.setText(user.getTipo());
         try {
             jtxtfSaldo.setText(String.valueOf(user.calcularSaldo()));
+            if(user.calcularSaldo() > 0.0){
+                jtxtfSaldo.setBackground(Color.red);
+            }
         } catch (JDOMException ex) {
             //descrever erro.
             Logger.getLogger(userLogadoGUI.class.getName()).log(Level.SEVERE, null, ex);

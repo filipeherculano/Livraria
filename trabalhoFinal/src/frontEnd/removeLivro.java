@@ -5,6 +5,17 @@
  */
 package frontEnd;
 
+import codigoFonte.Acervo;
+import codigoFonte.Livro;
+import static java.awt.image.ImageObserver.WIDTH;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import org.jdom2.JDOMException;
+
 /**
  *
  * @author gabriel
@@ -42,16 +53,19 @@ public class removeLivro extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jbtnRemover = new javax.swing.JButton();
-        jbtnCancelar = new javax.swing.JButton();
+        jbtnLimpar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jtxtfSearchLivro = new javax.swing.JTextField();
         jtxtfTitulo = new javax.swing.JTextField();
         jtxtfAutor = new javax.swing.JTextField();
         jtxtfEditora = new javax.swing.JTextField();
-        jtxtfQuantidade = new javax.swing.JTextField();
+        jtxtfDisponivel = new javax.swing.JTextField();
         jbtnBuscar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel8 = new javax.swing.JLabel();
+        jtxtfQuantidade = new javax.swing.JTextField();
 
         jLabel5.setText("jLabel5");
 
@@ -71,7 +85,12 @@ public class removeLivro extends javax.swing.JFrame {
 
         jLabel10Quantidade.setText("jLabel10");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Título");
 
@@ -79,14 +98,20 @@ public class removeLivro extends javax.swing.JFrame {
 
         jLabel3.setText("Editora");
 
-        jLabel4.setText("Quantidade");
+        jLabel4.setText("Disponível");
 
         jbtnRemover.setText("Remover");
-
-        jbtnCancelar.setText("Cancelar");
-        jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+        jbtnRemover.setToolTipText("Campo vazio = remover todo.");
+        jbtnRemover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnCancelarActionPerformed(evt);
+                jbtnRemoverActionPerformed(evt);
+            }
+        });
+
+        jbtnLimpar.setText("Limpar");
+        jbtnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnLimparActionPerformed(evt);
             }
         });
 
@@ -95,7 +120,27 @@ public class removeLivro extends javax.swing.JFrame {
 
         jLabel7.setText("Título");
 
+        jtxtfTitulo.setEditable(false);
+        jtxtfTitulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxtfTituloActionPerformed(evt);
+            }
+        });
+
+        jtxtfAutor.setEditable(false);
+
+        jtxtfEditora.setEditable(false);
+
+        jtxtfDisponivel.setEditable(false);
+
         jbtnBuscar.setText("Buscar");
+        jbtnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnBuscarActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Quantidade");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,7 +153,7 @@ public class removeLivro extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jtxtfQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtxtfDisponivel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel3)
                             .addGap(18, 18, 18)
@@ -130,18 +175,26 @@ public class removeLivro extends javax.swing.JFrame {
                 .addContainerGap(97, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSeparator1))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jbtnCancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbtnRemover)
-                        .addGap(36, 36, 36))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(190, 190, 190))))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(190, 190, 190))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtxtfQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbtnRemover)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbtnLimpar)
+                                .addGap(38, 38, 38))))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSeparator2))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,7 +207,7 @@ public class removeLivro extends javax.swing.JFrame {
                     .addComponent(jbtnBuscar))
                 .addGap(31, 31, 31)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jtxtfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -169,20 +222,72 @@ public class removeLivro extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jtxtfQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                    .addComponent(jtxtfDisponivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtnRemover)
-                    .addComponent(jbtnCancelar))
+                    .addComponent(jbtnLimpar)
+                    .addComponent(jLabel8)
+                    .addComponent(jtxtfQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
+    private void jbtnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLimparActionPerformed
+        jtxtfTitulo.setText("");
+        jtxtfAutor.setText("");
+        jtxtfEditora.setText("");
+        jtxtfDisponivel.setText("");
+        jtxtfQuantidade.setText("");
+    }//GEN-LAST:event_jbtnLimparActionPerformed
+
+    private void jtxtfTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfTituloActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnCancelarActionPerformed
+    }//GEN-LAST:event_jtxtfTituloActionPerformed
+
+    private void jbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBuscarActionPerformed
+        Acervo acervo = new Acervo();
+        Livro livro = acervo.pesquisarLivro(jtxtfSearchLivro.getText());
+        jtxtfTitulo.setText(livro.getTitulo());
+        jtxtfAutor.setText(livro.getAutor());
+        jtxtfEditora.setText(livro.getEditora());
+        jtxtfDisponivel.setText(String.valueOf(livro.getDisponivel()));
+    }//GEN-LAST:event_jbtnBuscarActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jbtnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRemoverActionPerformed
+        Acervo acervo = new Acervo();
+        Livro livro = acervo.pesquisarLivro(jtxtfTitulo.getText());
+        
+        if(jtxtfQuantidade.getText().isEmpty()){
+            try {
+                if(acervo.removeLivro(livro)){
+                    dispose();
+                    JOptionPane.showMessageDialog(rootPane, "A remoção total do livro foi feita com sucesso!", "Sucesso!", WIDTH);
+                } else{
+                    JOptionPane.showMessageDialog(rootPane, "Quantidade de livros no acervo não é compativel com as disponíveis, existe alguém com ele alugado.", "Erro", JOptionPane.ERROR_MESSAGE); 
+                }
+            } catch (JDOMException ex) {
+                Logger.getLogger(removeLivro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else try {
+            if(acervo.removeLivro(livro, Integer.parseInt(jtxtfQuantidade.getText()))){
+                dispose();
+                JOptionPane.showMessageDialog(rootPane, "A remoção de uma certa quantidade de livros foi feita.", "Sucesso!", WIDTH);
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Essa quantidade de livros não corresponde ao número disponível.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (JDOMException ex) {
+            Logger.getLogger(removeLivro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jbtnRemoverActionPerformed
 
     /**
      * @param args the command line arguments
@@ -229,17 +334,20 @@ public class removeLivro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel7Variavel;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel8Autor;
     private javax.swing.JLabel jLabel9Editora;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JButton jbtnBuscar;
-    private javax.swing.JButton jbtnCancelar;
+    private javax.swing.JButton jbtnLimpar;
     private javax.swing.JButton jbtnRemover;
     private javax.swing.JTextField jtxtfAutor;
+    private javax.swing.JTextField jtxtfDisponivel;
     private javax.swing.JTextField jtxtfEditora;
     private javax.swing.JTextField jtxtfQuantidade;
     private javax.swing.JTextField jtxtfSearchLivro;

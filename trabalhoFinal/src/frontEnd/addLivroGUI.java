@@ -5,12 +5,28 @@
  */
 package frontEnd;
 
+import codigoFonte.Acervo;
+import codigoFonte.Livro;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.jdom2.JDOMException;
+
 /**
  *
  * @author gabriel
  */
 public class addLivroGUI extends javax.swing.JFrame {
+    private Livro livro = new Livro();
 
+    public Livro getLivro() {
+        return livro;
+    }
+
+    public void setLivro(Livro livro) {
+        this.livro = livro;
+    }
+    
     /**
      * Creates new form addLivroGUI
      */
@@ -41,17 +57,20 @@ public class addLivroGUI extends javax.swing.JFrame {
         jTextField8 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
+        jComboBox1 = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jtxfTitulo = new javax.swing.JTextField();
-        jtxfEditora = new javax.swing.JTextField();
-        jtxfAutor = new javax.swing.JTextField();
+        jtxtfTitulo = new javax.swing.JTextField();
+        jtxtfEditora = new javax.swing.JTextField();
+        jtxtfAutor = new javax.swing.JTextField();
         jbtnAdicionar = new javax.swing.JButton();
         jbtnCancelar = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        jtxfQuantidade = new javax.swing.JTextField();
+        jspnQuantidade = new javax.swing.JSpinner();
 
         jTextField9.setText("jTextField9");
 
@@ -77,7 +96,16 @@ public class addLivroGUI extends javax.swing.JFrame {
 
         jLabel8.setText("jLabel8");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jList1.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Título");
 
@@ -89,8 +117,13 @@ public class addLivroGUI extends javax.swing.JFrame {
         jLabel10.setText("Adicionar Livro");
 
         jbtnAdicionar.setText("Adicionar");
+        jbtnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAdicionarActionPerformed(evt);
+            }
+        });
 
-        jbtnCancelar.setText("Cancelar");
+        jbtnCancelar.setText("Limpar");
         jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnCancelarActionPerformed(evt);
@@ -98,6 +131,8 @@ public class addLivroGUI extends javax.swing.JFrame {
         });
 
         jLabel11.setText("Quantidade");
+
+        jspnQuantidade.setModel(new javax.swing.SpinnerNumberModel(1, 1, 50, 1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -120,10 +155,10 @@ public class addLivroGUI extends javax.swing.JFrame {
                             .addComponent(jLabel11))
                         .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jtxfTitulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
-                            .addComponent(jtxfEditora, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtxfAutor)
-                            .addComponent(jtxfQuantidade)))
+                            .addComponent(jtxtfTitulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
+                            .addComponent(jtxtfEditora, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxtfAutor)
+                            .addComponent(jspnQuantidade, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(254, 254, 254)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -135,20 +170,20 @@ public class addLivroGUI extends javax.swing.JFrame {
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jtxfEditora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtxtfEditora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxfAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtfAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jtxfQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jspnQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtnAdicionar)
@@ -160,8 +195,31 @@ public class addLivroGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
-        // TODO add your handling code here:
+        jtxtfAutor.setText("");
+        jtxtfTitulo.setText("");
+        jtxtfEditora.setText("");
     }//GEN-LAST:event_jbtnCancelarActionPerformed
+
+    private void jbtnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAdicionarActionPerformed
+        Acervo acervo = new Acervo();
+        
+        Livro livro = new Livro();
+        livro.setAutor(jtxtfAutor.getText());
+        livro.setTitulo(jtxtfTitulo.getText());
+        livro.setQuantidade((Integer) jspnQuantidade.getValue());
+        livro.setEditora(jtxtfEditora.getText());
+        
+        try {
+            if(acervo.addLivro(livro)){
+                dispose();
+                JOptionPane.showMessageDialog(rootPane, "O cadastro do livro foi feito com sucesso!", "Sucesso!", WIDTH);
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Não foi possível cadastrar este livro! Alguns fields podem estar vazios.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (JDOMException ex) {
+            Logger.getLogger(addLivroGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jbtnAdicionarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,6 +257,7 @@ public class addLivroGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -211,6 +270,8 @@ public class addLivroGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JList jList1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
@@ -219,9 +280,9 @@ public class addLivroGUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField9;
     private javax.swing.JButton jbtnAdicionar;
     private javax.swing.JButton jbtnCancelar;
-    private javax.swing.JTextField jtxfAutor;
-    private javax.swing.JTextField jtxfEditora;
-    private javax.swing.JTextField jtxfQuantidade;
-    private javax.swing.JTextField jtxfTitulo;
+    private javax.swing.JSpinner jspnQuantidade;
+    private javax.swing.JTextField jtxtfAutor;
+    private javax.swing.JTextField jtxtfEditora;
+    private javax.swing.JTextField jtxtfTitulo;
     // End of variables declaration//GEN-END:variables
 }

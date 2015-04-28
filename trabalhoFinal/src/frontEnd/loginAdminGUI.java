@@ -108,7 +108,11 @@ public class loginAdminGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEntrarActionPerformed
-        
+        Sistema sistema = new Sistema();
+        if(sistema.autenticaAdmin(jtxtfUsername.getText(), new String(jpfSenha.getPassword()))){
+            dispose();
+            new adminLogadoGUI().setVisible(true);
+        }
     }//GEN-LAST:event_jbtnEntrarActionPerformed
 
     /**
