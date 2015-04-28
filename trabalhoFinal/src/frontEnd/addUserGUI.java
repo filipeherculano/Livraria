@@ -5,6 +5,14 @@
  */
 package frontEnd;
 
+import codigoFonte.Sistema;
+import codigoFonte.User;
+import static java.awt.image.ImageObserver.WIDTH;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author gabriel
@@ -35,16 +43,17 @@ public class addUserGUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
-        jtxfNome = new javax.swing.JTextField();
+        jtxtfNome = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1Tipo = new javax.swing.JComboBox();
+        jcbTipo = new javax.swing.JComboBox();
         jbtnCadastrar = new javax.swing.JButton();
-        jbtnCancelar = new javax.swing.JButton();
+        jbtnLimpar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jtxfSenha = new javax.swing.JTextField();
+        jtxtfSenha = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jtxfMatricula = new javax.swing.JTextField();
+        jtxtfMatricula = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
 
         jTextField1.setText("jTextField1");
 
@@ -61,16 +70,22 @@ public class addUserGUI extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Nome");
 
         jLabel2.setText("Tipo");
 
-        jComboBox1Tipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Aluno", "Professor" }));
-        jComboBox1Tipo.addActionListener(new java.awt.event.ActionListener() {
+        jcbTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "aluno", "professor" }));
+        jcbTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1TipoActionPerformed(evt);
+                jcbTipoActionPerformed(evt);
             }
         });
 
@@ -81,7 +96,12 @@ public class addUserGUI extends javax.swing.JFrame {
             }
         });
 
-        jbtnCancelar.setText("Cancelar");
+        jbtnLimpar.setText("Limpar");
+        jbtnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnLimparActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Nimbus Roman No9 L", 1, 18)); // NOI18N
         jLabel3.setText("Cadastrar Usuário");
@@ -90,10 +110,10 @@ public class addUserGUI extends javax.swing.JFrame {
 
         jLabel5.setText("Matrícula");
 
-        jtxfMatricula.setEditable(false);
-        jtxfMatricula.addActionListener(new java.awt.event.ActionListener() {
+        jtxtfMatricula.setEditable(false);
+        jtxtfMatricula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxfMatriculaActionPerformed(evt);
+                jtxtfMatriculaActionPerformed(evt);
             }
         });
 
@@ -103,63 +123,64 @@ public class addUserGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jbtnCancelar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jbtnCadastrar)
-                        .addGap(26, 26, 26))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel4))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel5)))
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtxfNome)
-                            .addComponent(jComboBox1Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtxfSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                            .addComponent(jtxfMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(50, 50, 50)))
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5)))
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jcbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtfNome, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+                    .addComponent(jtxtfSenha)
+                    .addComponent(jtxtfMatricula))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jSeparator1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 198, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(189, 189, 189))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(189, 189, 189))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jbtnLimpar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbtnCadastrar)
+                        .addGap(32, 32, 32))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jtxfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtxfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jComboBox1Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4)))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtxtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jcbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtxtfSenha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jtxfMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                    .addComponent(jtxtfMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtnCancelar)
+                    .addComponent(jbtnLimpar)
                     .addComponent(jbtnCadastrar))
                 .addGap(27, 27, 27))
         );
@@ -167,17 +188,44 @@ public class addUserGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1TipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1TipoActionPerformed
+    private void jcbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTipoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1TipoActionPerformed
+    }//GEN-LAST:event_jcbTipoActionPerformed
 
     private void jbtnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCadastrarActionPerformed
-        // TODO add your handling code here:
+        Sistema sistema = new Sistema();
+        User user = new User(jcbTipo.getSelectedItem().toString(), null, jtxtfNome.getText(), jtxtfSenha.getText());
+        
+        try {
+            if(sistema.addUser(user)){
+                dispose();
+                JOptionPane.showMessageDialog(rootPane, "O cadastro foi feito com sucesso!", "Sucesso!", WIDTH);
+            } else{
+                JOptionPane.showMessageDialog(rootPane, "Não foi possível cadastrar este usuário! Alguns fields podem estar vazios.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(addUserGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jbtnCadastrarActionPerformed
 
-    private void jtxfMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxfMatriculaActionPerformed
+    private void jtxtfMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfMatriculaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtxfMatriculaActionPerformed
+    }//GEN-LAST:event_jtxtfMatriculaActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        Sistema sistema = new Sistema();
+        try {
+            jtxtfMatricula.setText(sistema.emularId());
+        } catch (IOException ex) {
+            Logger.getLogger(addUserGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jbtnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLimparActionPerformed
+        jtxtfNome.setText("");
+        jtxtfSenha.setText("");
+    }//GEN-LAST:event_jbtnLimparActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,7 +263,6 @@ public class addUserGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox jComboBox1Tipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -225,12 +272,14 @@ public class addUserGUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbtnCadastrar;
-    private javax.swing.JButton jbtnCancelar;
-    private javax.swing.JTextField jtxfMatricula;
-    private javax.swing.JTextField jtxfNome;
-    private javax.swing.JTextField jtxfSenha;
+    private javax.swing.JButton jbtnLimpar;
+    private javax.swing.JComboBox jcbTipo;
+    private javax.swing.JTextField jtxtfMatricula;
+    private javax.swing.JTextField jtxtfNome;
+    private javax.swing.JTextField jtxtfSenha;
     // End of variables declaration//GEN-END:variables
 }

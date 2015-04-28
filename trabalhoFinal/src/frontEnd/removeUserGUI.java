@@ -5,6 +5,10 @@
  */
 package frontEnd;
 
+import codigoFonte.Sistema;
+import codigoFonte.User;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author gabriel
@@ -47,7 +51,6 @@ public class removeUserGUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jbtnRemover = new javax.swing.JButton();
-        jbtnCancelar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jtxtfNome = new javax.swing.JTextField();
         jtxtfTipo = new javax.swing.JTextField();
@@ -95,7 +98,8 @@ public class removeUserGUI extends javax.swing.JFrame {
 
         jLabel11Id.setText("Id");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel4.setText("Nome");
 
@@ -108,16 +112,25 @@ public class removeUserGUI extends javax.swing.JFrame {
             }
         });
 
-        jbtnCancelar.setText("Cancelar");
-
         jLabel7.setFont(new java.awt.Font("Nimbus Roman No9 L", 1, 18)); // NOI18N
         jLabel7.setText("Remover Usuário ");
+
+        jtxtfNome.setEditable(false);
+
+        jtxtfTipo.setEditable(false);
+
+        jtxtfMatricula.setEditable(false);
 
         jLabel9.setText("Matrícula");
 
         jLabel10.setText("Número de Matrícula");
 
         jbtnBuscar.setText("Buscar");
+        jbtnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -127,14 +140,9 @@ public class removeUserGUI extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(3, 3, 3)
-                                .addComponent(jtxtfSearchUser, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jbtnCancelar)))
+                        .addComponent(jLabel10)
+                        .addGap(3, 3, 3)
+                        .addComponent(jtxtfSearchUser, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
@@ -157,8 +165,8 @@ public class removeUserGUI extends javax.swing.JFrame {
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(131, 131, 131))
+                .addComponent(jLabel7)
+                .addGap(192, 192, 192))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,10 +191,8 @@ public class removeUserGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtxtfMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtnRemover)
-                    .addComponent(jbtnCancelar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(jbtnRemover)
                 .addGap(18, 18, 18))
         );
 
@@ -198,8 +204,31 @@ public class removeUserGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jFormattedTextField1ActionPerformed
 
     private void jbtnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRemoverActionPerformed
-        // TODO add your handling code here:
+        Sistema sistema = new Sistema();
+        User user = new User(jtxtfTipo.getText(), jtxtfMatricula.getText(), jtxtfNome.getText(), null);
+        
+        if(sistema.removeUser(user)){
+            dispose();
+            JOptionPane.showMessageDialog(rootPane, "O usuário foi removido com sucesso.", "Sucesso!", WIDTH);
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Não foi possível remover este usuário. Pode haver livros pendentes a serem entreges.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_jbtnRemoverActionPerformed
+
+    private void jbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBuscarActionPerformed
+        Sistema sistema = new Sistema();
+        User user = null;
+        if(sistema.pesquisarUser(jtxtfSearchUser.getText()) != null){
+            user = sistema.pesquisarUser(jtxtfSearchUser.getText());
+            
+            jtxtfNome.setText(user.getNome());
+            jtxtfTipo.setText(user.getTipo());
+            jtxtfMatricula.setText(user.getMatricula());
+        } else{
+            JOptionPane.showMessageDialog(rootPane, "Não existe essa matrícula.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbtnBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -260,7 +289,6 @@ public class removeUserGUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField1Matrícula;
     private javax.swing.JButton jbtnBuscar;
-    private javax.swing.JButton jbtnCancelar;
     private javax.swing.JButton jbtnRemover;
     private javax.swing.JTextField jtxtfMatricula;
     private javax.swing.JTextField jtxtfNome;

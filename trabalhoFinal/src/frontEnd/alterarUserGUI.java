@@ -5,16 +5,21 @@
  */
 package frontEnd;
 
+import codigoFonte.Sistema;
+import codigoFonte.User;
+import static java.awt.image.ImageObserver.WIDTH;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author gabriel
  */
-public class editarUserGUI extends javax.swing.JFrame {
+public class alterarUserGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form editarUserGUI
      */
-    public editarUserGUI() {
+    public alterarUserGUI() {
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -35,8 +40,8 @@ public class editarUserGUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jbtnEditar = new javax.swing.JButton();
-        jbtnCancelar = new javax.swing.JButton();
-        jtxtfTipo = new javax.swing.JComboBox();
+        jbtnLimpar = new javax.swing.JButton();
+        jcbTipo = new javax.swing.JComboBox();
         jtxtfNome = new javax.swing.JTextField();
         jtxtfSenha = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -51,7 +56,8 @@ public class editarUserGUI extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel1Nome.setText("Nome");
 
@@ -66,7 +72,14 @@ public class editarUserGUI extends javax.swing.JFrame {
             }
         });
 
-        jbtnCancelar.setText("Cancelar");
+        jbtnLimpar.setText("Limpar");
+        jbtnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnLimparActionPerformed(evt);
+            }
+        });
+
+        jcbTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "aluno", "professor" }));
 
         jLabel4.setFont(new java.awt.Font("Nimbus Roman No9 L", 1, 18)); // NOI18N
         jLabel4.setText("Editar Usuário");
@@ -74,80 +87,118 @@ public class editarUserGUI extends javax.swing.JFrame {
         jLabel1.setText("Número de matrícula");
 
         jbtnBuscar.setText("Buscar");
+        jbtnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jbtnCancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbtnEditar)
-                        .addGap(12, 12, 12))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1Nome)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3))
-                            .addGap(55, 55, 55)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jtxtfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jtxtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jtxtfTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(32, 32, 32)
-                            .addComponent(jtxtfSearchUser, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(31, 31, 31)
-                            .addComponent(jbtnBuscar))))
+                        .addGap(199, 199, 199)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1Nome)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(55, 55, 55)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxtfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtxtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(209, 209, 209))
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap(21, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(32, 32, 32)
+                        .addComponent(jtxtfSearchUser, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(jbtnBuscar)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jbtnLimpar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbtnEditar)
+                        .addGap(43, 43, 43))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jtxtfSearchUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtnBuscar))
-                .addGap(33, 33, 33)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1Nome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtxtfNome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jtxtfTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jtxtfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtnCancelar)
+                    .addComponent(jbtnLimpar)
                     .addComponent(jbtnEditar))
-                .addGap(51, 51, 51))
+                .addGap(27, 27, 27))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEditarActionPerformed
-        // TODO add your handling code here:
+        Sistema sistema = new Sistema();
+        User user = new User(jcbTipo.getSelectedItem().toString(), jtxtfSearchUser.getText(), jtxtfNome.getText(), jtxtfSenha.getText());
+        
+        if(sistema.editarUser(user)){
+            dispose();
+            JOptionPane.showMessageDialog(rootPane, "O cadastro foi alterado com sucesso!", "Sucesso!", WIDTH);
+        } else{
+            JOptionPane.showMessageDialog(rootPane, "Não foi possível alterar este usuário!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jbtnEditarActionPerformed
+
+    private void jbtnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLimparActionPerformed
+        jtxtfNome.setText("");
+        jtxtfSenha.setText("");
+    }//GEN-LAST:event_jbtnLimparActionPerformed
+
+    private void jbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBuscarActionPerformed
+        Sistema sistema = new Sistema();
+        User user = null;
+        if(sistema.pesquisarUser(jtxtfSearchUser.getText()) != null){
+            user = sistema.pesquisarUser(jtxtfSearchUser.getText());
+            
+            jtxtfNome.setText(user.getNome());
+            jtxtfSenha.setText(user.getPassword());
+            if(user.getTipo().equals("aluno")){
+                jcbTipo.setSelectedIndex(0);
+            } else{
+                jcbTipo.setSelectedIndex(1);
+            }  
+        } else{
+            JOptionPane.showMessageDialog(rootPane, "Não existe essa matrícula.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }       
+              
+    }//GEN-LAST:event_jbtnBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,20 +217,21 @@ public class editarUserGUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(editarUserGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(alterarUserGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(editarUserGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(alterarUserGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(editarUserGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(alterarUserGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(editarUserGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(alterarUserGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new editarUserGUI().setVisible(true);
+                new alterarUserGUI().setVisible(true);
             }
         });
     }
@@ -195,11 +247,11 @@ public class editarUserGUI extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JButton jbtnBuscar;
-    private javax.swing.JButton jbtnCancelar;
     private javax.swing.JButton jbtnEditar;
+    private javax.swing.JButton jbtnLimpar;
+    private javax.swing.JComboBox jcbTipo;
     private javax.swing.JTextField jtxtfNome;
     private javax.swing.JTextField jtxtfSearchUser;
     private javax.swing.JTextField jtxtfSenha;
-    private javax.swing.JComboBox jtxtfTipo;
     // End of variables declaration//GEN-END:variables
 }

@@ -86,6 +86,7 @@ public class removeLivro extends javax.swing.JFrame {
         jLabel10Quantidade.setText("jLabel10");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -238,10 +239,6 @@ public class removeLivro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLimparActionPerformed
-        jtxtfTitulo.setText("");
-        jtxtfAutor.setText("");
-        jtxtfEditora.setText("");
-        jtxtfDisponivel.setText("");
         jtxtfQuantidade.setText("");
     }//GEN-LAST:event_jbtnLimparActionPerformed
 

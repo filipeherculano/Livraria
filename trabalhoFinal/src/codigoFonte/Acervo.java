@@ -355,7 +355,6 @@ public class Acervo{
                 List<Element> listLivro = e.getChildren();
                 for(Element c : listLivro){
                     if(c.getAttributeValue("título").equals(l.getTitulo()) && c.getAttributeValue("autor").equals(l.getAutor()) && c.getAttributeValue("disponível").equals(c.getAttributeValue("quantidade"))){
-                        
                         e.removeContent(c);
                         removed = true;
                     }
@@ -451,8 +450,6 @@ public class Acervo{
         File file = new File("Acervo.xml");
         Document newDocument = null;
         Element root = null;
-//        boolean notFound = true;
-//        String []tituloSplit = titulo.split("\\s+");
         
         if(file.exists()){
                 SAXBuilder builder = new SAXBuilder();
@@ -518,7 +515,6 @@ public class Acervo{
         return livros;
     }
 
-    //Solucionar problema de não passagem das classes filhas[testar]
     public boolean alterarLivro(Livro l) throws JDOMException{
         boolean noEditora = true, success = false, newEditora = true;
         File file = new File("Acervo.xml");

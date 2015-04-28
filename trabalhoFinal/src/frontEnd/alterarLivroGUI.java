@@ -68,6 +68,7 @@ public class alterarLivroGUI extends javax.swing.JFrame {
         jLabel10.setText("jLabel10");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel4.setText("Título");
 

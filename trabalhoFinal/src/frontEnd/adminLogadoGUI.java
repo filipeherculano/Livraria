@@ -7,7 +7,10 @@ package frontEnd;
 
 import codigoFonte.Acervo;
 import codigoFonte.Livro;
+import codigoFonte.Sistema;
+import codigoFonte.User;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -47,9 +50,9 @@ public class adminLogadoGUI extends javax.swing.JFrame {
         jbtnRemoverLivro = new javax.swing.JButton();
         jbtnAlterarLivro = new javax.swing.JButton();
         jlpSistema = new javax.swing.JLayeredPane();
-        jTextField1 = new javax.swing.JTextField();
+        jtxtfMatricula = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jtbMatricula = new javax.swing.JTable();
         jbtnPesquisarUser = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jbtnAdicionarUser = new javax.swing.JButton();
@@ -58,9 +61,12 @@ public class adminLogadoGUI extends javax.swing.JFrame {
         jbtnListarTodos = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmbLogout = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -195,26 +201,43 @@ public class adminLogadoGUI extends javax.swing.JFrame {
         jlpAcervo.setLayer(jbtnRemoverLivro, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpAcervo.setLayer(jbtnAlterarLivro, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jtxtfMatricula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jtxtfMatriculaActionPerformed(evt);
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jtbMatricula.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nome", "Tipo", "Matrícula"
             }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jtbMatricula);
 
         jbtnPesquisarUser.setText("Pesquisar usuário");
+        jbtnPesquisarUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnPesquisarUserActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Matrícula:");
 
@@ -240,6 +263,11 @@ public class adminLogadoGUI extends javax.swing.JFrame {
         });
 
         jbtnListarTodos.setText("Listar todos os usuários");
+        jbtnListarTodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnListarTodosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jlpSistemaLayout = new javax.swing.GroupLayout(jlpSistema);
         jlpSistema.setLayout(jlpSistemaLayout);
@@ -259,7 +287,7 @@ public class adminLogadoGUI extends javax.swing.JFrame {
                         .addGap(201, 201, 201)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jtxtfMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbtnPesquisarUser)))
                 .addContainerGap(106, Short.MAX_VALUE))
@@ -269,7 +297,7 @@ public class adminLogadoGUI extends javax.swing.JFrame {
             .addGroup(jlpSistemaLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(jlpSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtfMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtnPesquisarUser)
                     .addComponent(jLabel4))
                 .addGroup(jlpSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,7 +315,7 @@ public class adminLogadoGUI extends javax.swing.JFrame {
                         .addComponent(jbtnListarTodos)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
-        jlpSistema.setLayer(jTextField1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpSistema.setLayer(jtxtfMatricula, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpSistema.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpSistema.setLayer(jbtnPesquisarUser, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpSistema.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -296,7 +324,7 @@ public class adminLogadoGUI extends javax.swing.JFrame {
         jlpSistema.setLayer(jbtnAlterarUser, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpSistema.setLayer(jbtnListarTodos, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jmbLogout.setText("Logout");
+        jmbLogout.setText("Opções");
         jmbLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmbLogoutActionPerformed(evt);
@@ -311,6 +339,14 @@ public class adminLogadoGUI extends javax.swing.JFrame {
             public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
             }
         });
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem3.setText("Listar histórico do livro");
+        jmbLogout.add(jMenuItem3);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText("Listar histórico do usuário");
+        jmbLogout.add(jMenuItem2);
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setText("Logout key");
@@ -408,20 +444,20 @@ public class adminLogadoGUI extends javax.swing.JFrame {
         jlpSistema.setVisible(true);
     }//GEN-LAST:event_jbtnSistemaActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jtxtfMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfMatriculaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jtxtfMatriculaActionPerformed
 
     private void jbtnAlterarUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAlterarUserActionPerformed
-        // TODO add your handling code here:
+        new alterarUserGUI().setVisible(true);
     }//GEN-LAST:event_jbtnAlterarUserActionPerformed
 
     private void jbtnRemoverUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRemoverUserActionPerformed
-        // TODO add your handling code here:
+        new removeUserGUI().setVisible(true);
     }//GEN-LAST:event_jbtnRemoverUserActionPerformed
 
     private void jbtnAdicionarUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAdicionarUserActionPerformed
-        // TODO add your handling code here:
+        new addUserGUI().setVisible(true);
     }//GEN-LAST:event_jbtnAdicionarUserActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -451,6 +487,42 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     private void jbtnAddLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAddLivroActionPerformed
         new addLivroGUI().setVisible(true);
     }//GEN-LAST:event_jbtnAddLivroActionPerformed
+
+    private void jbtnListarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnListarTodosActionPerformed
+        Sistema sistema = new Sistema();
+        ArrayList<User> user = sistema.listarUser();
+        DefaultTableModel model = (DefaultTableModel) jtbMatricula.getModel();
+        
+        for(int i = model.getRowCount() - 1; i > -1; i--){
+            model.removeRow(i);
+        }
+
+        for(User b : user){
+            Object[] row = { b.getNome(), b.getTipo(), b.getMatricula()}; 
+            model.addRow(row);
+        }
+    }//GEN-LAST:event_jbtnListarTodosActionPerformed
+
+    private void jbtnPesquisarUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPesquisarUserActionPerformed
+        Sistema sistema = new Sistema();
+        User user = null;
+        
+        if(sistema.pesquisarUser(jtxtfMatricula.getText()) != null){
+            user = sistema.pesquisarUser(jtxtfMatricula.getText());
+            
+            DefaultTableModel model = (DefaultTableModel) jtbMatricula.getModel();
+
+            for(int i = model.getRowCount() - 1; i > -1; i--){
+                model.removeRow(i);
+            }
+
+            Object[] row = {user.getNome(), user.getTipo(), user.getMatricula()}; 
+            model.addRow(row);
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Não existe essa matrícula.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_jbtnPesquisarUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -494,10 +566,10 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbtnAcervo;
     private javax.swing.JButton jbtnAddLivro;
     private javax.swing.JButton jbtnAdicionarUser;
@@ -514,6 +586,8 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     private javax.swing.JLayeredPane jlpSistema;
     private javax.swing.JMenu jmbLogout;
     private javax.swing.JTable jtbLivro;
+    private javax.swing.JTable jtbMatricula;
+    private javax.swing.JTextField jtxtfMatricula;
     private javax.swing.JTextField jtxtfTitulo;
     // End of variables declaration//GEN-END:variables
 }

@@ -44,6 +44,10 @@
             Element root = null;
             Attribute matricula = null, nome = null, tipo = null, senha = null;
             Element user = null;
+            
+            if(u.getTipo().isEmpty() || u.getTipo().isEmpty() || u.getPassword().isEmpty()){
+                return success;
+            }
 
             if(file.exists()){
                 SAXBuilder builder = new SAXBuilder();
@@ -120,10 +124,6 @@
                     Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 root = newDocument.getRootElement();
-            }else{
-                root = new Element("sistema");
-
-                newDocument = new Document(root);
             }
 
             List<Element> listusers = root.getChildren();
@@ -131,7 +131,10 @@
                 if(e.getAttributeValue("matrícula").equals(u.getMatricula())){
                     e.getAttribute("nome").setValue(u.getNome());
                     e.getAttribute("tipo").setValue(u.getTipo());
+                    e.getAttribute("senha").setValue(u.getPassword());
+                    
                     success = true;
+                    
                     XMLOutputter out = new XMLOutputter();
 
                     try {
@@ -141,7 +144,6 @@
                         Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     return success;
-
                 }
             }
             return success;
@@ -220,6 +222,7 @@
         Document newDocument = null;
         Element root = null;
         User user = null;
+        
         if(file.exists()){
             SAXBuilder builder = new SAXBuilder();
             try {
@@ -268,6 +271,7 @@
                 user.setMatricula(matricula);
                 user.setTipo(e.getAttributeValue("tipo"));
                 user.setNome(e.getAttributeValue("nome"));
+                user.setPassword(e.getAttributeValue("senha"));
                     //return user;
     //            }
                 return user;
@@ -323,7 +327,6 @@
      @SuppressWarnings("empty-statement")
         public String newId() throws IOException{
             File file = new File("idHandlerMatricula.txt");
-            Random random = new Random();
             BufferedReader in = null;
             BufferedWriter out = null;
             String hex = null;
@@ -349,7 +352,7 @@
                     }
                 }
             }else{
-                hex = "1";
+                hex = "54205421";
             }
 
 
@@ -394,7 +397,7 @@
                     }
                 }
             }else{
-                hex = "1";
+                hex = "54205421";
             }
             return hex;
 
