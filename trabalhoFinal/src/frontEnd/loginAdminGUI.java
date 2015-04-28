@@ -6,6 +6,7 @@
 package frontEnd;
 
 import codigoFonte.Sistema;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -52,6 +53,11 @@ public class loginAdminGUI extends javax.swing.JFrame {
         });
 
         jbtnLimpar.setText("Limpar");
+        jbtnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnLimparActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Login de admin");
 
@@ -112,8 +118,15 @@ public class loginAdminGUI extends javax.swing.JFrame {
         if(sistema.autenticaAdmin(jtxtfUsername.getText(), new String(jpfSenha.getPassword()))){
             dispose();
             new adminLogadoGUI().setVisible(true);
+        }else {
+            JOptionPane.showMessageDialog(rootPane, "Senha ou Username incorretos.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbtnEntrarActionPerformed
+
+    private void jbtnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLimparActionPerformed
+        jtxtfUsername.setText("");
+        jpfSenha.setText("");
+    }//GEN-LAST:event_jbtnLimparActionPerformed
 
     /**
      * @param args the command line arguments

@@ -8,6 +8,7 @@ package frontEnd;
 import codigoFonte.Sistema;
 import codigoFonte.User;
 import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -174,7 +175,7 @@ public class indexGUI extends javax.swing.JFrame {
             dispose();
             logado.setVisible(true);
         }else{
-            //Mostrar erro.
+            JOptionPane.showMessageDialog(rootPane, "Senha ou Username incorretos.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbtnEntrarActionPerformed
 

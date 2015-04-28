@@ -6,11 +6,20 @@
 package frontEnd;
 
 //import codigoFonte.Sistema;
+import codigoFonte.Acervo;
+import codigoFonte.Livro;
+import codigoFonte.Sistema;
 import codigoFonte.User;
 import java.awt.Color;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.jdom2.JDOMException;
+import org.joda.time.LocalDate;
         
 
 /**
@@ -47,7 +56,7 @@ public class userLogadoGUI extends javax.swing.JFrame {
 
         jlblNome = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jtbAluguel = new javax.swing.JTable();
         jlblMatricula = new javax.swing.JLabel();
         jlblTipo = new javax.swing.JLabel();
         jtxtfNome = new javax.swing.JTextField();
@@ -62,13 +71,27 @@ public class userLogadoGUI extends javax.swing.JFrame {
         jbtnSearchLivro = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtbProcuraLivro = new javax.swing.JTable();
         jbtnDevolver = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jbtnAlugar = new javax.swing.JButton();
+        jbtnBoleto = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Painel principal");
         setBackground(java.awt.Color.white);
+        setResizable(false);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -80,25 +103,30 @@ public class userLogadoGUI extends javax.swing.JFrame {
 
         jlblNome.setText("Nome:");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jtbAluguel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Livro", "Editora", "Autor", "Dia do alguel", "Dia de entrega", "ID"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(jtbAluguel);
 
         jlblMatricula.setText("Matrícula:");
 
@@ -155,26 +183,30 @@ public class userLogadoGUI extends javax.swing.JFrame {
 
         jLabel1.setText("Titulo:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtbProcuraLivro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Livro", "Editora", "Autor", "Quantidade Total", "Disponível", "ID", "Alugar"
+                "Livro", "Editora", "Autor", "Quantidade Total", "Disponível", "ID"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jtbProcuraLivro);
 
         jbtnDevolver.setText("Devolver um livro");
         jbtnDevolver.addActionListener(new java.awt.event.ActionListener() {
@@ -184,13 +216,44 @@ public class userLogadoGUI extends javax.swing.JFrame {
         });
 
         jButton1.setText("Listar todos os livros");
-
-        jButton2.setText("Alugar um livro");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
+
+        jbtnAlugar.setText("Alugar um livro");
+        jbtnAlugar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAlugarActionPerformed(evt);
+            }
+        });
+
+        jbtnBoleto.setText("Gerar Boleto.");
+        jbtnBoleto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnBoletoActionPerformed(evt);
+            }
+        });
+
+        jMenu1.setText("Opções");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Gerar histórico");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText("Logout");
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -199,15 +262,29 @@ public class userLogadoGUI extends javax.swing.JFrame {
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(jSeparator2)
             .addGroup(layout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1069, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addComponent(jbtnDevolver)
-                .addGap(42, 42, 42))
+                .addGap(617, 617, 617)
+                .addComponent(jlblPainelPrincipal)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1065, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addComponent(jbtnAlugar)
+                .addGap(51, 51, 51))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1069, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(49, 49, 49)
+                                .addComponent(jbtnDevolver))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(59, 59, 59)
+                                .addComponent(jbtnBoleto)))
+                        .addGap(44, 44, 44))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(20, 20, 20)
@@ -227,7 +304,7 @@ public class userLogadoGUI extends javax.swing.JFrame {
                                 .addGap(11, 11, 11)
                                 .addComponent(jtxtfSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(325, 325, 325))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(jtxtfSearchLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -236,16 +313,6 @@ public class userLogadoGUI extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addComponent(jButton1)
                         .addGap(230, 230, 230))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(617, 617, 617)
-                .addComponent(jlblPainelPrincipal)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(66, 66, 66)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1065, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(51, 51, 51))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,28 +336,28 @@ public class userLogadoGUI extends javax.swing.JFrame {
                             .addComponent(jtxtfSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jtxtfMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jlblMatricula))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jbtnBoleto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbtnDevolver)))
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jtxtfSearchLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jbtnSearchLivro)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jButton1)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(jbtnDevolver)))
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtxtfSearchLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbtnSearchLivro)
+                            .addComponent(jLabel1)
+                            .addComponent(jButton1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(jbtnAlugar)
                         .addGap(217, 217, 217))))
         );
 
@@ -315,6 +382,7 @@ public class userLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
         jtxtfNome.setText(user.getNome());
         jtxtfMatricula.setText(user.getMatricula());
         jtxtfTipo.setText(user.getTipo());
@@ -327,6 +395,8 @@ public class userLogadoGUI extends javax.swing.JFrame {
             //descrever erro.
             Logger.getLogger(userLogadoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+   
     }//GEN-LAST:event_formWindowOpened
 
     private void jtxtfSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfSaldoActionPerformed
@@ -338,18 +408,145 @@ public class userLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtfSearchLivroActionPerformed
 
     private void jbtnSearchLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSearchLivroActionPerformed
-        // TODO add your handling code here:
+        Acervo acervo = new Acervo();
+        Livro livro = null;
+        if(acervo.pesquisarLivro(jtxtfSearchLivro.getText()) != null){
+            livro = acervo.pesquisarLivro(jtxtfSearchLivro.getText());
+            
+            DefaultTableModel model = (DefaultTableModel) jtbProcuraLivro.getModel();
+
+            for(int i = model.getRowCount() - 1; i > -1; i--){
+                model.removeRow(i);
+            }
+
+            Object[] row = {livro.getTitulo(), livro.getEditora(), livro.getAutor(), livro.getQuantidade(), livro.getDisponivel(), livro.getId()}; 
+            model.addRow(row);
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Não existe este livro.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jbtnSearchLivroActionPerformed
 
     private void jbtnDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDevolverActionPerformed
-        dispose();
-        new devolverLivroGUI().setVisible(true);
+        User user = new User(jtxtfTipo.getText(), jtxtfMatricula.getText(), jtxtfNome.getText(), null);
+        Livro livro = new Livro();
+        devolverLivroGUI devolverLivro = new devolverLivroGUI();
+        
+        int row = jtbAluguel.getSelectedRow();
+        if(row >= 0){
+            String[] code = {jtbAluguel.getValueAt(row, 0).toString(), jtbAluguel.getValueAt(row, 1).toString(), 
+                jtbAluguel.getValueAt(row, 2).toString(), jtbAluguel.getValueAt(row, 3).toString(), jtbAluguel.getValueAt(row, 4).toString(), 
+                jtbAluguel.getValueAt(row, 5).toString()}; 
+
+            devolverLivro.setUser(user);
+            devolverLivro.setLivro(livro);
+
+            livro.setTitulo(code[0]);
+            livro.setEditora(code[1]);
+            livro.setAutor(code[2]);
+            livro.setAluguel(code[3]);
+            livro.setEntrega(code[4]);
+            livro.setId(code[5]);
+
+            devolverLivro.setVisible(true);
+        } else{
+            JOptionPane.showMessageDialog(rootPane, "Nenhum livro selecionado.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jbtnDevolverActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        dispose();
-        new alugarLivroGUI().setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jbtnAlugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAlugarActionPerformed
+        User user = new User(jtxtfTipo.getText(), jtxtfMatricula.getText(), jtxtfNome.getText(), null);
+        Livro livro = new Livro();
+        alugarLivroGUI alugarLivro = new alugarLivroGUI();
+        
+        int row = jtbProcuraLivro.getSelectedRow();
+        if(row >= 0){
+            String[] code = {jtbProcuraLivro.getValueAt(row, 0).toString(), jtbProcuraLivro.getValueAt(row, 1).toString(), 
+                jtbProcuraLivro.getValueAt(row, 2).toString(), jtbProcuraLivro.getValueAt(row, 5).toString()}; 
+
+            alugarLivro.setUser(user);
+            alugarLivro.setLivro(livro);
+
+            LocalDate now = LocalDate.now(), next = now.plusDays(7);
+            String currentDate = now.toString(), nextDate = next.toString();
+
+            livro.setTitulo(code[0]);
+            livro.setEditora(code[1]);
+            livro.setAutor(code[2]);
+            livro.setId(code[3]);
+            livro.setEntrega(nextDate);
+            livro.setAluguel(currentDate);
+
+            alugarLivro.setVisible(true);
+        } else{
+            JOptionPane.showMessageDialog(rootPane, "Nenhum livro selecionado.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbtnAlugarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Acervo acervo = new Acervo();
+        ArrayList<Livro> livros = acervo.listarLivros();
+        DefaultTableModel model = (DefaultTableModel) jtbProcuraLivro.getModel();
+        
+        for(int i = model.getRowCount() - 1; i > -1; i--){
+            model.removeRow(i);
+        }
+        
+        for(Livro b : livros){
+            Object[] row = {b.getTitulo(), b.getEditora(), b.getAutor(), b.getQuantidade(), b.getDisponivel(), b.getId()}; 
+            model.addRow(row);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        Sistema sistema = new Sistema();
+        User usr = sistema.pesquisarUser(user.getMatricula());
+            
+        if(usr != null){
+            DefaultTableModel model = (DefaultTableModel) jtbAluguel.getModel();
+            
+            for(int i = model.getRowCount() - 1; i > -1; i--){
+                model.removeRow(i);
+            }
+            for(Livro a : usr.getLivros()){
+                Object[] row = {a.getTitulo(), a.getEditora(), a.getAutor(), a.getAluguel() , a.getEntrega(), a.getId()};
+                model.addRow(row);
+            }
+        }
+    }//GEN-LAST:event_formWindowGainedFocus
+
+    private void jbtnBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBoletoActionPerformed
+        Sistema sistema = new Sistema();
+        Acervo acervo = new Acervo();
+        Livro livro = new Livro();
+        boletoGUI boleto = new boletoGUI();
+        
+        int row = jtbAluguel.getSelectedRow();
+        if(row >= 0){
+            String[] code = {jtbAluguel.getValueAt(row, 0).toString(), jtbAluguel.getValueAt(row, 1).toString(), 
+                jtbAluguel.getValueAt(row, 2).toString(), jtbAluguel.getValueAt(row, 3).toString(), jtbAluguel.getValueAt(row, 4).toString(), 
+                jtbAluguel.getValueAt(row, 5).toString()}; 
+
+            livro.setTitulo(code[0]);
+            livro.setEditora(code[1]);
+            livro.setAutor(code[2]);
+            livro.setAluguel(code[3]);
+            livro.setEntrega(code[4]);
+            livro.setId(code[5]);
+
+            try {
+                boleto.setBoleto(acervo.gerarBoleto(livro, jtxtfMatricula.getText(), jtxtfNome.getText()));
+                boleto.setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(userLogadoGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else{
+            JOptionPane.showMessageDialog(rootPane, "Nenhum livro selecionado.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbtnBoletoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -388,14 +585,17 @@ public class userLogadoGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JButton jbtnAlugar;
+    private javax.swing.JButton jbtnBoleto;
     private javax.swing.JButton jbtnDevolver;
     private javax.swing.JButton jbtnSearchLivro;
     private javax.swing.JLabel jlblMatricula;
@@ -403,6 +603,8 @@ public class userLogadoGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jlblPainelPrincipal;
     private javax.swing.JLabel jlblSaldo;
     private javax.swing.JLabel jlblTipo;
+    private javax.swing.JTable jtbAluguel;
+    private javax.swing.JTable jtbProcuraLivro;
     private javax.swing.JTextField jtxtfMatricula;
     private javax.swing.JTextField jtxtfNome;
     private javax.swing.JTextField jtxtfSaldo;

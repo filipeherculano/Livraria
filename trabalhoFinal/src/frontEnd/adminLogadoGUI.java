@@ -413,15 +413,21 @@ public class adminLogadoGUI extends javax.swing.JFrame {
 
     private void jbtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPesquisarActionPerformed
         Acervo acervo = new Acervo();
-        Livro livro = acervo.pesquisarLivro(jtxtfTitulo.getText());
-        DefaultTableModel model = (DefaultTableModel) jtbLivro.getModel();
-        
-        for(int i = model.getRowCount() - 1; i > -1; i--){
-            model.removeRow(i);
+        Livro livro = null;
+        if(acervo.pesquisarLivro(jtxtfTitulo.getText()) != null){
+            livro = acervo.pesquisarLivro(jtxtfTitulo.getText());
+            
+            DefaultTableModel model = (DefaultTableModel) jtbLivro.getModel();
+
+            for(int i = model.getRowCount() - 1; i > -1; i--){
+                model.removeRow(i);
+            }
+
+            Object[] row = {livro.getTitulo(), livro.getEditora(), livro.getAutor(), livro.getQuantidade(), livro.getDisponivel(), livro.getId()}; 
+            model.addRow(row);
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Não existe este livro.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-        
-        Object[] row = {livro.getTitulo(), livro.getEditora(), livro.getAutor(), livro.getQuantidade(), livro.getDisponivel(), livro.getId()}; 
-        model.addRow(row);
     }//GEN-LAST:event_jbtnPesquisarActionPerformed
 
     private void jbtnListarTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnListarTudoActionPerformed

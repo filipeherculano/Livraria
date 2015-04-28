@@ -5,12 +5,38 @@
  */
 package frontEnd;
 
+import codigoFonte.Acervo;
+import codigoFonte.Livro;
+import codigoFonte.User;
+import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.jdom2.JDOMException;
+
 /**
  *
  * @author filipe
  */
 public class devolverLivroGUI extends javax.swing.JFrame {
+    private User user = new User(null, null, null, null);
+    private Livro livro = new Livro();
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Livro getLivro() {
+        return livro;
+    }
+
+    public void setLivro(Livro livro) {
+        this.livro = livro;
+    }
     /**
      * Creates new form devolverLivroGUI
      */
@@ -50,10 +76,15 @@ public class devolverLivroGUI extends javax.swing.JFrame {
         jlblEntrega = new javax.swing.JLabel();
         jlblID = new javax.swing.JLabel();
         jbtnDevolver = new javax.swing.JButton();
-        jbtnVoltar = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -158,11 +189,9 @@ public class devolverLivroGUI extends javax.swing.JFrame {
         jlblID.setText("ID:");
 
         jbtnDevolver.setText("Devolver Livro");
-
-        jbtnVoltar.setText("Voltar");
-        jbtnVoltar.addActionListener(new java.awt.event.ActionListener() {
+        jbtnDevolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnVoltarActionPerformed(evt);
+                jbtnDevolverActionPerformed(evt);
             }
         });
 
@@ -177,10 +206,8 @@ public class devolverLivroGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(124, 124, 124)
-                        .addComponent(jbtnDevolver)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbtnVoltar)))
+                        .addGap(171, 171, 171)
+                        .addComponent(jbtnDevolver)))
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jlblAutor, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -206,7 +233,7 @@ public class devolverLivroGUI extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addGap(35, 35, 35)
@@ -233,12 +260,10 @@ public class devolverLivroGUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jtxtfID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jlblID)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbtnVoltar)
-                            .addComponent(jbtnDevolver))))
+                        .addGap(18, 18, 18)
+                        .addComponent(jbtnDevolver)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -254,9 +279,42 @@ public class devolverLivroGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtfAutorActionPerformed
 
-    private void jbtnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnVoltarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnVoltarActionPerformed
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        jtxtfName.setText(user.getNome());
+        jtxtfMatricula.setText(user.getMatricula());
+        jtxtfTipo.setText(user.getTipo());
+        
+        jtxtfTitulo.setText(livro.getTitulo());
+        jtxtfAutor.setText(livro.getAutor());
+        jtxtfEditora.setText(livro.getEditora());
+        jtxtfEntrega.setText(livro.getEntrega());
+        jtxtfAluguel.setText(livro.getAluguel());
+        jtxtfID.setText(livro.getId());
+        
+        Livro l = new Livro();
+        try {
+            jtxtfSaldo.setText(String.valueOf(l.calcularSaldo(user, livro)));
+            if(l.calcularSaldo(user, livro) > 0.0){
+                jtxtfSaldo.setBackground(Color.red);
+            }
+        } catch (JDOMException ex) {
+            Logger.getLogger(devolverLivroGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jbtnDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDevolverActionPerformed
+        Acervo acervo = new Acervo();
+        try {
+            if(acervo.devolverLivro(user, livro) >= 0.0){
+                dispose();
+                JOptionPane.showMessageDialog(rootPane, "Devolução feita com sucesso!", "Sucesso!", WIDTH);
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Não foi possível devolver o livro.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (JDOMException ex) {
+            Logger.getLogger(devolverLivroGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jbtnDevolverActionPerformed
 
     /**
      * @param args the command line arguments
@@ -298,7 +356,6 @@ public class devolverLivroGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbtnDevolver;
-    private javax.swing.JButton jbtnVoltar;
     private javax.swing.JLabel jlblAluguel;
     private javax.swing.JLabel jlblAutor;
     private javax.swing.JLabel jlblEditora;

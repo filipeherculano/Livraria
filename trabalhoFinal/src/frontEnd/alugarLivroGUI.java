@@ -5,12 +5,39 @@
  */
 package frontEnd;
 
+import codigoFonte.Acervo;
+import codigoFonte.Livro;
+import codigoFonte.Sistema;
+import codigoFonte.User;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.jdom2.JDOMException;
+
 /**
  *
  * @author filipe
  */
 public class alugarLivroGUI extends javax.swing.JFrame {
+    private User user = new User(null, null, null, null);
+    private Livro livro = new Livro();
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Livro getLivro() {
+        return livro;
+    }
+
+    public void setLivro(Livro livro) {
+        this.livro = livro;
+    }
+    
     /**
      * Creates new form alugarLivroGUI
      */
@@ -28,7 +55,6 @@ public class alugarLivroGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel13 = new javax.swing.JLabel();
-        jbtnVoltar = new javax.swing.JButton();
         jbtnAlugar = new javax.swing.JButton();
         jlblID = new javax.swing.JLabel();
         jlblEntrega = new javax.swing.JLabel();
@@ -51,23 +77,25 @@ public class alugarLivroGUI extends javax.swing.JFrame {
         jtxtfTitulo = new javax.swing.JTextField();
         jtxtfEntrega = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel13.setFont(new java.awt.Font("Nimbus Roman No9 L", 1, 18)); // NOI18N
         jLabel13.setText("Informações do livro");
         getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, 205, -1));
 
-        jbtnVoltar.setText("Voltar");
-        jbtnVoltar.addActionListener(new java.awt.event.ActionListener() {
+        jbtnAlugar.setText("Alugar Livro");
+        jbtnAlugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnVoltarActionPerformed(evt);
+                jbtnAlugarActionPerformed(evt);
             }
         });
-        getContentPane().add(jbtnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 250, -1, -1));
-
-        jbtnAlugar.setText("Alugar Livro");
-        getContentPane().add(jbtnAlugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, -1, -1));
+        getContentPane().add(jbtnAlugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 250, -1, -1));
 
         jlblID.setText("ID:");
         getContentPane().add(jlblID, new org.netbeans.lib.awtextra.AbsoluteConstraints(509, 271, -1, -1));
@@ -179,10 +207,6 @@ public class alugarLivroGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbtnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnVoltarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnVoltarActionPerformed
-
     private void jtxtfNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtfNameActionPerformed
@@ -190,6 +214,33 @@ public class alugarLivroGUI extends javax.swing.JFrame {
     private void jtxtfAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfAutorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtfAutorActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        jtxtfName.setText(user.getNome());
+        jtxtfMatricula.setText(user.getMatricula());
+        jtxtfTipo.setText(user.getTipo());
+        
+        jtxtfTitulo.setText(livro.getTitulo());
+        jtxtfAutor.setText(livro.getAutor());
+        jtxtfEditora.setText(livro.getEditora());
+        jtxtfEntrega.setText(livro.getEntrega());
+        jtxtfAluguel.setText(livro.getAluguel());
+        jtxtfID.setText(livro.getId());
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jbtnAlugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAlugarActionPerformed
+        Acervo acervo = new Acervo();
+        try {
+            if(acervo.alugarLivro(user, livro)){
+                dispose();
+                JOptionPane.showMessageDialog(rootPane, "Alugamento feito com sucesso.", "Sucesso!", WIDTH);
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Não foi possível alugar o livro, usuário talvez tenha atingido seu limite", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (JDOMException ex) {
+            Logger.getLogger(alugarLivroGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jbtnAlugarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -231,7 +282,6 @@ public class alugarLivroGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbtnAlugar;
-    private javax.swing.JButton jbtnVoltar;
     private javax.swing.JLabel jlblAluguel;
     private javax.swing.JLabel jlblAutor;
     private javax.swing.JLabel jlblEditora;
