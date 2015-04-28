@@ -26,7 +26,6 @@ import org.joda.time.LocalDate;
 
 public class Acervo{
     
-    
     public boolean alugarLivro(User u, Livro l) throws JDOMException{
         boolean success = false;
         File file = new File("Acervo.xml");
@@ -144,7 +143,6 @@ public class Acervo{
         return success;
     }
     
-    //incompleto
     public Double devolverLivro(User u , Livro l) throws JDOMException{
         boolean success = false;
         File file = new File("Sistema.xml");
@@ -165,7 +163,7 @@ public class Acervo{
         List<Element> listUser = root.getChildren();
         for(Element a : listUser){
             if(a.getAttributeValue("matrícula").equals(u.getMatricula())){
-                List<Element> listLivro = a.getChildren();
+                List<Element> listLivro = a.getChildren("livro");
                 for(Element b : listLivro){
                     if(b.getAttributeValue("editora").equals(l.getEditora()) && b.getAttributeValue("autor").equals(l.getAutor()) && b.getAttributeValue("título").equals(l.getTitulo())){
                         aux = b;
@@ -209,11 +207,16 @@ public class Acervo{
                 }
             }
             
+            out = new XMLOutputter();
+            
+            try {
+                FileWriter arquivo = new FileWriter(file);
+                out.output(newDocument, arquivo);
+            } catch (IOException ex) {
+                Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
-        
-        
-        
-        
         
         return 0.0;
     }
@@ -446,7 +449,7 @@ public class Acervo{
     
     //Precisa ser ainda atualizado a pesquisa dinâmica
     public Livro pesquisarLivro(String titulo){
-        Livro l = new Livro(null, null, null, 0);
+        Livro l = null;
         File file = new File("Acervo.xml");
         Document newDocument = null;
         Element root = null;
@@ -467,6 +470,7 @@ public class Acervo{
                 List<Element> listLivro = a.getChildren();
                 for(Element b : listLivro){
                     if(b.getAttributeValue("título").equals(titulo)){
+                        l = new Livro(null, null, null, 0);
                         l.setAutor(b.getAttributeValue("autor"));
                         l.setEditora(a.getAttributeValue("nome"));
                         l.setId(b.getAttributeValue("id"));
@@ -604,6 +608,77 @@ public class Acervo{
         return success;
     }
     
+    public String gerarBoleto(Livro l, String matricula, String nome) throws IOException{
+        String boleto = null;
+        File file = new File("Sistema.xml");
+        Document newDocument = null;
+        Element root = null;
+        BufferedReader in = null;
+        BufferedWriter out = null;
+        
+        if(file.exists()){
+            SAXBuilder builder = new SAXBuilder();
+            try {
+                newDocument = builder.build(file);
+            } catch (JDOMException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }catch (IOException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            root = newDocument.getRootElement();
+        }else{
+            root = new Element("sistema");
+
+            newDocument = new Document(root);
+        }
+        
+        List<Element> listUser = root.getChildren();
+        for(Element a : listUser){
+            List<Element> listLivro = a.getChildren("livro");
+            if(!listLivro.isEmpty()){
+                for(Element b : listLivro){
+                    if(b.getAttributeValue("id").equals(l.getId()) && b.getAttributeValue("dataAluguel").equals(l.getAluguel())){
+                        boleto = "UECE - UNIVERSIDADE ESTADUAL DO CEARA\n" +
+                                    "    BIBLIOTECA CENTRAL - ITAPERI\n" +
+                                    "     COMPROVANTE DE EMPRESTIMO\n" +
+                                    "\n" +
+                                    "----------------------------------------\n" +
+                                    "Data do emprestimo : "+l.getAluguel()+"\n" +
+                                    "EMPRESTIMO ATUAL - DEVOLVER EM: "+l.getEntrega()+"\n" +
+                                    "REG.\t\tTITULO\n" +
+                                    "\n" +
+                                    "----------------------------------------\n" +
+                                    l.getId()+"\t\t"+l.getTitulo()+"\n" +
+                                    "\n" +
+                                    "\n" +
+                                    "\n" +
+                                    "________________________________________\n" +
+                                    "\n" +
+                                    matricula+" - "+nome;
+                    }
+                }
+            }
+        }
+        String aux = matricula+l.getId()+l.getEntrega()+".txt";
+        file = new File(aux);
+        
+        try{
+            out = new BufferedWriter(new FileWriter(file, true));
+            out.write(boleto);
+            out.newLine();
+        } catch(IOException e){
+            System.out.println("Ocorreu um problema em: " + e);
+            e.printStackTrace();
+        } finally {
+            if(out != null){
+                out.close();
+            }
+        }
+        
+        
+        return boleto;
+    }
+            
     @SuppressWarnings("empty-statement")
     public String newId() throws IOException{
         File file = new File("idHandler.txt");

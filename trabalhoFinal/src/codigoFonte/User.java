@@ -19,7 +19,6 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
-import org.joda.time.LocalDate;
 
 
 public class User {
@@ -36,14 +35,16 @@ public class User {
         this.matricula = matricula;
         this.nome = nome;
         this.password = password;
+        this.historico = new ArrayList();
+        this.livros = new ArrayList();
     }
 
     public ArrayList<Livro> getHistorico() {
         return historico;
     }
 
-    public void setHistórico(ArrayList<Livro> histórico) {
-        this.historico = histórico;
+    public void setHistorico(ArrayList<Livro> historico) {
+        this.historico = historico;
     }
 
     public String getPassword() {
@@ -76,7 +77,6 @@ public class User {
             
             newDocument = new Document(root);
         }
-        
         List<Element> listUser = root.getChildren();
         for(Element a : listUser){
             if(a.getAttributeValue("matrícula").equals(this.matricula)){
@@ -87,8 +87,8 @@ public class User {
                     livro = new Element("livro");
                     autor = new Attribute("autor", l.getAutor());
                     editora = new Attribute("editora", l.getEditora());
-                    aluguel = new Attribute("diaAluguel", l.getAluguel());
-                    entrega = new Attribute("diaEntrega", l.getEntrega());
+                    aluguel = new Attribute("dataAluguel", l.getAluguel());
+                    entrega = new Attribute("dataEntrega", l.getEntrega());
                     id = new Attribute("id", l.getId());
 
                     livro.setAttribute(id);
@@ -101,28 +101,28 @@ public class User {
                     
 
                     a.addContent(livro);
-                    Element histórico = new Element("histórico");
+                    Element historico = new Element("historico");
                     
                     //Element livroHistórico = new Element("livro");
                     Attribute autorHistórico = new Attribute("autor",l.getAutor());
                     Attribute editoraHistórico = new Attribute("editora", l.getEditora());
-                    Attribute aluguelHistórico = new Attribute("diaAluguel", l.getAluguel());
-                    Attribute entregaHistórico = new Attribute("diaEntrega", l.getEntrega());
+                    Attribute aluguelHistórico = new Attribute("dataAluguel", l.getAluguel());
+                    Attribute entregaHistórico = new Attribute("dataEntrega", l.getEntrega());
                     Attribute idHistórico = new Attribute("id", l.getId());
                     
-                    histórico.setAttribute(idHistórico);
-                    histórico.setAttribute(autorHistórico);
-                    histórico.setAttribute(editoraHistórico);
-                    histórico.setAttribute(aluguelHistórico);
-                    histórico.setAttribute(entregaHistórico);
-                    histórico.setAttribute("título", l.getTitulo());
-                    a.addContent(histórico);
+                    historico.setAttribute(idHistórico);
+                    historico.setAttribute(autorHistórico);
+                    historico.setAttribute(editoraHistórico);
+                    historico.setAttribute(aluguelHistórico);
+                    historico.setAttribute(entregaHistórico);
+                    historico.setAttribute("título", l.getTitulo());
+                    a.addContent(historico);
                    
                    
                     success = true;
 
                 }else{
-                    if(this.tipo.equals("aluno") && a.getChildren().size() >= 0 && a.getChildren().size() < 2){
+                    if(this.tipo.equals("aluno") && a.getChildren("livro").size() >= 0 && a.getChildren("livro").size() < 2){
                         livro = new Element("livro");
                         autor = new Attribute("autor", l.getAutor());
                         editora = new Attribute("editora", l.getEditora());
@@ -137,7 +137,7 @@ public class User {
                         livro.setAttribute(entrega);
                         livro.setAttribute("título", l.getTitulo());
                         
-                        Element histórico = new Element("histórico");
+                        Element historico = new Element("historico");
                     
                         //Element livroHistórico = new Element("livro");
                         Attribute autorHistórico = new Attribute("autor",l.getAutor());
@@ -146,13 +146,13 @@ public class User {
                         Attribute entregaHistórico = new Attribute("diaEntrega", l.getEntrega());
                         Attribute idHistórico = new Attribute("id", l.getId());
 
-                        histórico.setAttribute(idHistórico);
-                        histórico.setAttribute(autorHistórico);
-                        histórico.setAttribute(editoraHistórico);
-                        histórico.setAttribute(aluguelHistórico);
-                        histórico.setAttribute(entregaHistórico);
-                        histórico.setAttribute("título", l.getTitulo());
-                        a.addContent(histórico);
+                        historico.setAttribute(idHistórico);
+                        historico.setAttribute(autorHistórico);
+                        historico.setAttribute(editoraHistórico);
+                        historico.setAttribute(aluguelHistórico);
+                        historico.setAttribute(entregaHistórico);
+                        historico.setAttribute("título", l.getTitulo());
+                        a.addContent(historico);
                         
 
                         a.addContent(livro);
@@ -164,7 +164,6 @@ public class User {
                         
 //                        histórico.addContent(livro);
                         success = true;
-                        return success;
                     }
                 }
             }
@@ -182,7 +181,6 @@ public class User {
         return success;
     }
     
-   
     //para calcular saldo total do usuário use sempre este método.
     public double calcularSaldo() throws JDOMException{
         File file = new File("Sistema.xml");
@@ -241,7 +239,7 @@ public class User {
     }
 
     public ArrayList<Livro> getLivros() {
-        return livros;
+        return this.livros;
     }
 
     public void setLivros(ArrayList<Livro> livros) {

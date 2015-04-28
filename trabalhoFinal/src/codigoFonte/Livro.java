@@ -118,6 +118,7 @@ public class Livro {
                     List<Element> listLivro = a.getChildren("livro");
                     for(Element b : listLivro){
                         if(b.getAttributeValue("id").equals(l.getId())){
+                            System.out.println("aqui");
                             LocalDate now = LocalDate.now();
                             LocalDate entrega = new LocalDate(b.getAttributeValue("dataEntrega"));
                             Days daysBetween = Days.daysBetween(entrega, now);

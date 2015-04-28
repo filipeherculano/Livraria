@@ -12,8 +12,7 @@
     import java.io.File;
     import java.io.FileReader;
     import java.io.FileWriter;
-    import java.io.IOException;
-    import java.util.ArrayList;
+    import java.io.IOException; 
     import java.util.List;
     import java.util.logging.Level;
     import java.util.logging.Logger;
@@ -24,10 +23,6 @@
     import org.jdom2.input.SAXBuilder;
     import java.util.ArrayList; 
     import org.jdom2.output.XMLOutputter;
-    import java.util.Random;
-    import org.joda.time.LocalDate;
-    //import codigoFonte.User;
-    //import codigoFonte.Livro;
 
 
 
@@ -238,11 +233,11 @@
 
             newDocument = new Document(root);
         }
+        
         List<Element> listusers = root.getChildren();
         for(Element e : listusers){
             if (e.getAttributeValue("matrícula").equals(matricula)){
                 List<Element> listlivros = e.getChildren("livro");
-                ArrayList<Livro> livros = new ArrayList<Livro>();
                 user = new User(null , null, null, null);
                 if(!listlivros.isEmpty()){
                     for(Element l : listlivros){
@@ -250,33 +245,33 @@
                         livro.setAutor(l.getAttributeValue("autor"));
                         livro.setEditora(l.getAttributeValue("editora"));
                         livro.setTitulo(l.getAttributeValue("título"));
-                        livros.add(livro);
+                        livro.setEntrega(l.getAttributeValue("dataEntrega"));
+                        livro.setAluguel(l.getAttributeValue("dataAluguel"));
+                        livro.setId(l.getAttributeValue("id"));
+                        user.getLivros().add(livro);
                     }
                 }
-                List<Element> historico = e.getChildren("histórico");
-                ArrayList<Livro> historicoObjeto = new ArrayList<Livro>();
+                List<Element> historico = e.getChildren("historico");
                 if(!historico.isEmpty()){
                     for(Element h : historico){
                         Livro livroHistorico = new Livro(null,null,null,0);
                         livroHistorico.setAutor(h.getAttributeValue("autor"));
                         livroHistorico.setEditora(h.getAttributeValue("editora"));
                         livroHistorico.setTitulo(h.getAttributeValue("título"));
-                        historicoObjeto.add(livroHistorico);
+                        livroHistorico.setEntrega(h.getAttributeValue("dataEntrega"));
+                        livroHistorico.setAluguel(h.getAttributeValue("dataAluguel"));
+                        livroHistorico.setId(h.getAttributeValue("id"));
+                        user.getHistorico().add(livroHistorico);
                     }
                 }
-
-                   // double divida = Double.parseDouble(e.getAttributeValue("divida"));
-                user.setLivros(livros);
-                //user.setHistórico(historicoObjeto);
                 user.setMatricula(matricula);
                 user.setTipo(e.getAttributeValue("tipo"));
                 user.setNome(e.getAttributeValue("nome"));
                 user.setPassword(e.getAttributeValue("senha"));
-                    //return user;
-    //            }
+                
                 return user;
-                }
             }
+        }
         return user;
     }
 
@@ -473,86 +468,7 @@
             return autenticado;
         }
 
-
-         public static void main(String[] args) throws IOException{ 
-    //         
-              User user = new User(null, null, null, null);
-              String nome = "Gabriel Angelo";
-              String tipo = "aluno";
-              String senha = "1aaa23";
-
-              user.setNome(nome);
-              user.setPassword(senha);
-              user.setTipo(tipo);
-
-              Sistema sistema  = new Sistema();
-              String value = sistema.emularId();
-              System.out.println(value);
-
-         }
-
-    //         String username = "peoo2015";
-    //         String password = "peoo2015";
-    //         Sistema sistema = new Sistema();
-    //         boolean value = sistema.autenticaAdmin(username, password);
-    //         System.out.print(value);
-    //     } 
-    //         User user = new User(null, null, null, null);
-    //          String nome = "Gabriel Angelo";
-    //          String tipo = "aluno";
-    //          String senha = "1aaa23";
-    //          
-    //          user.setNome(nome);
-    //          user.setPassword(senha);
-    //          user.setTipo(tipo);
-    //         
-    //         Sistema sistema  = new Sistema();
-    //         boolean value = sistema.addUser(user);
-    //         System.out.println(value);
-    //     }  
-    ////         
-    ////         
-    ////         String nome = "Gabriel Angelo";
-    ////         String tipo = "aluno";
-    ////         String senha = "123";
-    ////         
-    ////         String titulo = "apanhador do campo de centeio";
-    ////         String autor = "irami";
-    ////         String editora = "companhia";
-    ////         String id = "123";
-    ////         String 
-    //////         String matricula = "1f";
-    ////         user.setNome(nome);
-    ////         user.setPassword(senha);
-    ////         user.setTipo(tipo);
-    ////         Sistema sistema  = new Sistema();
-    ////         boolean value = sistema.addUser(user);
-    ////         System.out.println(value);
-    ////         user.setNome(nome);
-    ////         user.setTipo(tipo);
-    ////         user.setPassword(senha);
-    ////         user.setMatricula(matricula);
-    ////
-    ////         Sistema sistema  = new Sistema();
-    ////         boolean autenticado = sistema.(user);
-    //////         if (autenticado){
-    //////             User userAutenticado = sistema.login(user.getMatricula());
-    //////             System.out.println(userAutenticado.getNome() + " foi logado com sucesso !");
-    //////             ArrayList<Livro> listLivros = userAutenticado.getLivros();
-    //////             for(Livro l : listLivros){
-    //////                 System.out.println(l.getTitulo());
-    //////             }
-    //////         }
-    //////         else{
-    //////             System.out.println("erro");
-    ////         }
-    ////         //System.out.println(autenticado);
-    ////         //ArrayList<Livro> lista = user.getHistórico();
-    //         
-    //         
-
-
-         }
+}
 
 
 
