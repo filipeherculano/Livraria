@@ -25,11 +25,7 @@ import org.jdom2.output.XMLOutputter;
 import org.joda.time.LocalDate;
 
 public class Acervo{
-    private ArrayList<Livro> livros = new ArrayList();
-
-    public Acervo() {
-        this.livros = new ArrayList();
-    }
+    
     
     public boolean alugarLivro(User u, Livro l) throws JDOMException{
         boolean success = false;
@@ -228,6 +224,10 @@ public class Acervo{
         Document newDocument = null;
         Element root = null;
         
+        if(l.getAutor().isEmpty() || l.getTitulo().isEmpty() || l.getEditora().isEmpty() || String.valueOf(l.getQuantidade()).isEmpty()){
+            return success;
+        }
+        
         if(file.exists()){
                 SAXBuilder builder = new SAXBuilder();
             try{
@@ -327,6 +327,7 @@ public class Acervo{
         return success;
     }
         
+    // VERIFICAÇÃO SE O USUARIO JÁ PAGOU.
     public boolean removeLivro(Livro l) throws JDOMException{
         boolean noEditora = true;
         File file = new File("Acervo.xml");
@@ -353,7 +354,8 @@ public class Acervo{
             if(e.getAttributeValue("nome").equals(l.getEditora())){
                 List<Element> listLivro = e.getChildren();
                 for(Element c : listLivro){
-                    if(c.getAttributeValue("título").equals(l.getTitulo()) && c.getAttributeValue("autor").equals(l.getAutor())){
+                    if(c.getAttributeValue("título").equals(l.getTitulo()) && c.getAttributeValue("autor").equals(l.getAutor()) && c.getAttributeValue("disponível").equals(c.getAttributeValue("quantidade"))){
+                        
                         e.removeContent(c);
                         removed = true;
                     }
@@ -444,7 +446,7 @@ public class Acervo{
     }
     
     //Precisa ser ainda atualizado a pesquisa dinâmica
-    public ArrayList<Livro> pesquisarLivro(String titulo){
+    public Livro pesquisarLivro(String titulo){
         Livro l = new Livro(null, null, null, 0);
         File file = new File("Acervo.xml");
         Document newDocument = null;
@@ -474,20 +476,18 @@ public class Acervo{
                         l.setQuantidade(Integer.parseInt(b.getAttributeValue("quantidade")));
                         l.setDisponivel(Integer.parseInt(b.getAttributeValue("disponível")));
                         l.setTitulo(b.getAttributeValue("título"));
-                        livros.add(l);
                     }
                 }
             }
         }
-        return livros;
+        return l;
     }
     
     public ArrayList<Livro> listarLivros(){
-        livros = null;
-        Livro l = new Livro(null, null, null, 0);
         File file = new File("Acervo.xml");
         Document newDocument = null;
         Element root = null;
+        ArrayList<Livro> livros = new ArrayList();
         
         if(file.exists()){
                 SAXBuilder builder = new SAXBuilder();
@@ -504,17 +504,17 @@ public class Acervo{
             for(Element a : listEditora){
                 List<Element> listLivro = a.getChildren();
                 for(Element b : listLivro){
+                    Livro l = new Livro(null, null, null, 0);
                     l.setAutor(b.getAttributeValue("autor"));
                     l.setEditora(a.getAttributeValue("nome"));
                     l.setId(b.getAttributeValue("id"));
                     l.setQuantidade(Integer.parseInt(b.getAttributeValue("quantidade")));
                     l.setDisponivel(Integer.parseInt(b.getAttributeValue("disponível")));
-                    l.setTitulo(b.getText());
+                    l.setTitulo(b.getAttributeValue("título"));
                     livros.add(l);
                 }
             }
         }
-        
         return livros;
     }
 
@@ -655,4 +655,6 @@ public class Acervo{
         }
         
         return hex;
-    }}
+    }
+    
+}
