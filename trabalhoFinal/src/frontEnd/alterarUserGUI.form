@@ -64,7 +64,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jtxtfSenha" min="-2" pref="289" max="-2" attributes="0"/>
                           <Component id="jtxtfNome" min="-2" pref="289" max="-2" attributes="0"/>
-                          <Component id="jcbTipo" alignment="0" min="-2" pref="89" max="-2" attributes="0"/>
+                          <Component id="jcbTipo" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>

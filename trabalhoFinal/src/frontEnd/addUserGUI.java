@@ -80,6 +80,12 @@ public class addUserGUI extends javax.swing.JFrame {
 
         jLabel1.setText("Nome");
 
+        jtxtfNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxtfNomeActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("Tipo");
 
         jcbTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "aluno", "professor" }));
@@ -226,6 +232,10 @@ public class addUserGUI extends javax.swing.JFrame {
         jtxtfNome.setText("");
         jtxtfSenha.setText("");
     }//GEN-LAST:event_jbtnLimparActionPerformed
+
+    private void jtxtfNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtfNomeActionPerformed
 
     /**
      * @param args the command line arguments
