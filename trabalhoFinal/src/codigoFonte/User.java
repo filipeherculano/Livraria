@@ -201,10 +201,10 @@ public class User {
             
             root = newDocument.getRootElement();
         }
-        List<Element> listUser = root.getChildren("livro");
+        List<Element> listUser = root.getChildren();
         for(Element a : listUser){
             if(this.matricula.equals(a.getAttributeValue("matrícula"))){
-                List<Element> listLivro = a.getChildren();
+                List<Element> listLivro = a.getChildren("livro");
                 for(Element b : listLivro){
                     Livro livro = new Livro();
                     livro.setId(b.getAttributeValue("id"));
