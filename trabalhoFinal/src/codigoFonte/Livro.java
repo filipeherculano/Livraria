@@ -64,6 +64,7 @@ public class Livro {
                             Days daysBetween = Days.daysBetween(entrega, now);
                             int days = daysBetween.getDays();
                             if(days > 7){
+                                days -= 7;
                                 saldo = days*0.80;
                             }
                         }
@@ -77,6 +78,7 @@ public class Livro {
                             int days = Days.daysBetween(entrega, now).getDays();
 
                             if(days > 7){
+                                days -= 7;
                                 saldo = days*0.50;
                             }
                         }
@@ -121,6 +123,7 @@ public class Livro {
                             Days daysBetween = Days.daysBetween(entrega, now);
                             int days = daysBetween.getDays();
                             if(days > 7){
+                                days -= 7;
                                 saldo = days*0.80;
                             }
                         }
@@ -134,6 +137,7 @@ public class Livro {
                             int days = Days.daysBetween(entrega, now).getDays();
 
                             if(days > 7){
+                                days -= 7;
                                 saldo = days*0.50;
                             }
                         }
