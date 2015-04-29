@@ -5,18 +5,25 @@
  */
 package frontEnd;
 
+import codigoFonte.Acervo;
+import codigoFonte.Livro;
+import codigoFonte.Sistema;
+import codigoFonte.User;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
- * @author gabriel
+ * @author filipe
  */
 public class historicoLivroGUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form historicoLivroGUI
+     * Creates new form historicoLivro
      */
     public historicoLivroGUI() {
         initComponents();
-        setLocationRelativeTo(null);
     }
 
     /**
@@ -28,46 +35,48 @@ public class historicoLivroGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtbUser = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jtxtfSearchLivro = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
-        jbtnBuscar = new javax.swing.JButton();
+        jbtnSearchLivro = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Historico do Livro");
+        setResizable(false);
 
-        jLabel1.setText("Título :");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtbUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Nome", "Tipo", "Matrícula", "Data de aluguel"
+                "Nome", "Tipo", "Matrícula", "Data de aluguel", "Data de entrega"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jtbUser);
 
-        jLabel2.setFont(new java.awt.Font("Nimbus Roman No9 L", 1, 18)); // NOI18N
-        jLabel2.setText("Histórico usuários");
+        jLabel1.setText("Titulo");
 
-        jbtnBuscar.setText("Buscar");
-        jbtnBuscar.addActionListener(new java.awt.event.ActionListener() {
+        jbtnSearchLivro.setText("Procurar Livro");
+        jbtnSearchLivro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnBuscarActionPerformed(evt);
+                jbtnSearchLivroActionPerformed(evt);
             }
         });
 
@@ -75,45 +84,59 @@ public class historicoLivroGUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(49, 49, 49)
-                        .addComponent(jtxtfSearchLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(214, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(27, 27, 27)
+                .addComponent(jtxtfSearchLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbtnBuscar)
-                .addContainerGap(77, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                .addComponent(jbtnSearchLivro)
+                .addGap(180, 180, 180))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxtfSearchLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jbtnBuscar))
-                .addGap(18, 18, 18)
+                    .addComponent(jtxtfSearchLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnSearchLivro))
+                .addGap(37, 37, 37)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBuscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnBuscarActionPerformed
+    private void jbtnSearchLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSearchLivroActionPerformed
+        Sistema sistema = new Sistema();
+        Acervo acervo = new Acervo();
+        Livro livro = null;
+        DefaultTableModel model = (DefaultTableModel) jtbUser.getModel();
+        
+        if(acervo.pesquisarLivro(jtxtfSearchLivro.getText()) != null){
+            livro = acervo.pesquisarLivro(jtxtfSearchLivro.getText());
+            
+            ArrayList<User> users = acervo.listarHistorico(livro);
+            
+            for(int i = model.getRowCount() - 1; i > -1; i--){
+                model.removeRow(i);
+            }
+            
+            for(User a : users){
+                Object[] row = {a.getNome(), a.getTipo(), a.getMatricula(), a.getAluguel(), a.getEntrega()}; 
+                model.addRow(row);
+            }
+        } else{
+            JOptionPane.showMessageDialog(rootPane, "Não existe esse livro.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+            
+    }//GEN-LAST:event_jbtnSearchLivroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -141,6 +164,7 @@ public class historicoLivroGUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(historicoLivroGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -152,11 +176,10 @@ public class historicoLivroGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JButton jbtnBuscar;
+    private javax.swing.JButton jbtnSearchLivro;
+    private javax.swing.JTable jtbUser;
     private javax.swing.JTextField jtxtfSearchLivro;
     // End of variables declaration//GEN-END:variables
 }

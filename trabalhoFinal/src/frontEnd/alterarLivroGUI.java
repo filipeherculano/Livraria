@@ -18,7 +18,15 @@ import org.jdom2.JDOMException;
  * @author gabriel
  */
 public class alterarLivroGUI extends javax.swing.JFrame {
+    private Livro livro = new Livro();
 
+    public Livro getLivro() {
+        return livro;
+    }
+
+    public void setLivro(Livro livro) {
+        this.livro = livro;
+    }
     /**
      * Creates new form alterarLivroGUI
      */
@@ -68,7 +76,13 @@ public class alterarLivroGUI extends javax.swing.JFrame {
         jLabel10.setText("jLabel10");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Alterar Livro");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel4.setText("Título");
 
@@ -223,17 +237,22 @@ public class alterarLivroGUI extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBuscarActionPerformed
         Acervo acervo = new Acervo();
-        Livro livro = acervo.pesquisarLivro(jtxtfSearchLivro.getText());
-        
-        jtxtfTitulo.setText(livro.getTitulo());
-        jtxtfAutor.setText(livro.getAutor());
-        jtxtfEditora.setText(livro.getEditora());
-        jtxtfQuantidade.setText(String.valueOf(livro.getQuantidade()));
-        jtxtfId.setText(livro.getId());
+        Livro l = null;
+        if(acervo.pesquisarLivro(jtxtfSearchLivro.getText()) != null){
+            l = acervo.pesquisarLivro(jtxtfSearchLivro.getText());
+            jtxtfTitulo.setText(l.getTitulo());
+            jtxtfAutor.setText(l.getAutor());
+            jtxtfEditora.setText(l.getEditora());
+            jtxtfQuantidade.setText(String.valueOf(l.getQuantidade()));
+            jtxtfId.setText(l.getId());
+        } else{
+            JOptionPane.showMessageDialog(rootPane, "Não existe este livro.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jbtnBuscarActionPerformed
 
     private void jtxtfIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfIdActionPerformed
@@ -246,16 +265,16 @@ public class alterarLivroGUI extends javax.swing.JFrame {
 
     private void jbtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAlterarActionPerformed
         Acervo acervo = new Acervo();
-        Livro livro = new Livro();
+        Livro l = new Livro();
         
-        livro.setAutor(jtxtfAutor.getText());
-        livro.setEditora(jtxtfEditora.getText());
-        livro.setTitulo(jtxtfTitulo.getText());
-        livro.setId(jtxtfId.getText());
-        livro.setQuantidade(Integer.parseInt(jtxtfQuantidade.getText()));
+        l.setAutor(jtxtfAutor.getText());
+        l.setEditora(jtxtfEditora.getText());
+        l.setTitulo(jtxtfTitulo.getText());
+        l.setId(jtxtfId.getText());
+        l.setQuantidade(Integer.parseInt(jtxtfQuantidade.getText()));
         
         try {
-            if(acervo.alterarLivro(livro)){
+            if(acervo.alterarLivro(l)){
                 dispose();
                 JOptionPane.showMessageDialog(rootPane, "Alteração feita com sucesso.", "Sucesso!", WIDTH);
             } else{
@@ -271,6 +290,15 @@ public class alterarLivroGUI extends javax.swing.JFrame {
         jtxtfAutor.setText("");
         jtxtfEditora.setText("");
     }//GEN-LAST:event_jbtnLimparActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        jtxtfTitulo.setText(this.livro.getTitulo());
+        jtxtfAutor.setText(this.livro.getAutor());
+        jtxtfEditora.setText(this.livro.getEditora());
+        jtxtfQuantidade.setText(String.valueOf(this.livro.getQuantidade()));
+        jtxtfId.setText(this.livro.getId());
+        jtxtfSearchLivro.setText(this.livro.getTitulo());
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

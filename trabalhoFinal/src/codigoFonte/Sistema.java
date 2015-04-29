@@ -301,7 +301,7 @@
 
         List<Element> listusers = root.getChildren("user");
         for(Element e : listusers){
-            if(e.getAttributeValue("matrícula").equals(u.getMatricula())){
+            if(e.getAttributeValue("matrícula").equals(u.getMatricula()) && e.getChildren("livro").size() == 0){
                 root.removeContent(e);
 
                 XMLOutputter out = new XMLOutputter();

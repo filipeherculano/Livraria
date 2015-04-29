@@ -15,7 +15,15 @@ import javax.swing.JOptionPane;
  * @author gabriel
  */
 public class alterarUserGUI extends javax.swing.JFrame {
+    private User user = new User(null, null, null, null);
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
     /**
      * Creates new form editarUserGUI
      */
@@ -57,7 +65,13 @@ public class alterarUserGUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Editar Usuário");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1Nome.setText("Nome");
 
@@ -80,6 +94,11 @@ public class alterarUserGUI extends javax.swing.JFrame {
         });
 
         jcbTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "aluno", "professor" }));
+        jcbTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbTipoActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Nimbus Roman No9 L", 1, 18)); // NOI18N
         jLabel4.setText("Editar Usuário");
@@ -162,6 +181,7 @@ public class alterarUserGUI extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEditarActionPerformed
@@ -199,6 +219,19 @@ public class alterarUserGUI extends javax.swing.JFrame {
         }       
               
     }//GEN-LAST:event_jbtnBuscarActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        jtxtfNome.setText(user.getNome());
+        jtxtfSenha.setText(user.getPassword());
+        jtxtfSearchUser.setText(user.getMatricula());
+        if(user.getTipo().equals("professor")){
+            jcbTipo.setSelectedIndex(1);
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jcbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTipoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbTipoActionPerformed
 
     /**
      * @param args the command line arguments

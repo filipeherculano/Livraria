@@ -27,8 +27,9 @@ public class User {
     private String nome;
     private ArrayList<Livro> livros;
     private ArrayList<Livro> historico;
-    private double divida;
     private String password;
+    private String entrega;
+    private String aluguel;
     
     public User(String tipo, String matricula, String nome, String password) {
         this.tipo = tipo;
@@ -245,4 +246,21 @@ public class User {
     public void setLivros(ArrayList<Livro> livros) {
         this.livros = livros;
     }
+
+    public String getEntrega() {
+        return entrega;
+    }
+
+    public void setEntrega(String entrega) {
+        this.entrega = entrega;
+    }
+
+    public String getAluguel() {
+        return aluguel;
+    }
+
+    public void setAluguel(String aluguel) {
+        this.aluguel = aluguel;
+    }
+    
 }

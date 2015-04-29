@@ -14,7 +14,16 @@ import javax.swing.JOptionPane;
  * @author gabriel
  */
 public class removeUserGUI extends javax.swing.JFrame {
+    private User user = new User(null, null, null, null);
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
     /**
      * Creates new form removeUserGUI
      */
@@ -99,7 +108,13 @@ public class removeUserGUI extends javax.swing.JFrame {
         jLabel11Id.setText("Id");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Remover Usuário");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel4.setText("Nome");
 
@@ -197,6 +212,7 @@ public class removeUserGUI extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
@@ -229,6 +245,13 @@ public class removeUserGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Não existe essa matrícula.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbtnBuscarActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        jtxtfNome.setText(user.getNome());
+        jtxtfTipo.setText(user.getTipo());
+        jtxtfSearchUser.setText(user.getMatricula());
+        jtxtfMatricula.setText(user.getMatricula());
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

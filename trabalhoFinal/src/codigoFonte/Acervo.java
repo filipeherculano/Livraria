@@ -447,7 +447,6 @@ public class Acervo{
         return removed;
     }
     
-    //Precisa ser ainda atualizado a pesquisa dinâmica
     public Livro pesquisarLivro(String titulo){
         Livro l = null;
         File file = new File("Acervo.xml");
@@ -561,6 +560,7 @@ public class Acervo{
             List<Element> listUser = null;
             for(Element a : listEditora){
                 List<Element> listLivro = a.getChildren();
+                System.out.println("aqui");
                 for(Element b : listLivro){
                     if(b.getAttributeValue("id").equals(l.getId())){
                         b.getAttribute("autor").setValue(l.getAutor());
@@ -679,6 +679,46 @@ public class Acervo{
         return boleto;
     }
             
+    public ArrayList<User> listarHistorico(Livro l){
+        File file = new File("Acervo.xml");
+        Document newDocument = null;
+        Element root = null;
+        ArrayList<User> users = new ArrayList();
+        
+        if(file.exists()){
+                SAXBuilder builder = new SAXBuilder();
+            try {
+                newDocument = builder.build(file);
+            } catch (JDOMException ex) {
+                Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Acervo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            root = newDocument.getRootElement();
+            
+            List<Element> listEditora = root.getChildren();
+            for(Element a : listEditora){
+                List<Element> listLivro = a.getChildren();
+                for(Element b : listLivro){
+                    if(b.getAttributeValue("id").equals(l.getId())){
+                        List<Element> listUser = b.getChildren();
+                        for(Element c : listUser){
+                            User user = new User(null, null, null, null);
+                            user.setMatricula(c.getAttributeValue("matrícula"));
+                            user.setNome(c.getAttributeValue("nome"));
+                            user.setTipo(c.getAttributeValue("tipo"));
+                            user.setAluguel(c.getAttributeValue("dataAluguel"));
+                            user.setEntrega(c.getAttributeValue("dataEntrega"));
+                            users.add(user);
+                        }
+                    }
+                }
+            }
+        }
+        
+        return users;
+    }
+        
     @SuppressWarnings("empty-statement")
     public String newId() throws IOException{
         File file = new File("idHandler.txt");

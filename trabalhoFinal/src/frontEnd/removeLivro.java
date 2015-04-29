@@ -21,7 +21,16 @@ import org.jdom2.JDOMException;
  * @author gabriel
  */
 public class removeLivro extends javax.swing.JFrame {
+    private Livro livro = new Livro();
 
+    public Livro getLivro() {
+        return livro;
+    }
+
+    public void setLivro(Livro livro) {
+        this.livro = livro;
+    }
+    
     /**
      * Creates new form removeLivro
      */
@@ -86,6 +95,7 @@ public class removeLivro extends javax.swing.JFrame {
         jLabel10Quantidade.setText("jLabel10");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Remover Livro");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -236,6 +246,7 @@ public class removeLivro extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLimparActionPerformed
@@ -256,7 +267,11 @@ public class removeLivro extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnBuscarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
+        jtxtfTitulo.setText(this.livro.getTitulo());
+        jtxtfAutor.setText(this.livro.getAutor());
+        jtxtfEditora.setText(this.livro.getEditora());
+        jtxtfDisponivel.setText(String.valueOf(this.livro.getDisponivel()));
+        jtxtfSearchLivro.setText(this.livro.getTitulo());
     }//GEN-LAST:event_formWindowOpened
 
     private void jbtnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRemoverActionPerformed

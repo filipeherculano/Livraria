@@ -66,6 +66,7 @@ public class adminLogadoGUI extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Painel");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -118,9 +119,16 @@ public class adminLogadoGUI extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(jtbLivro);
@@ -342,10 +350,20 @@ public class adminLogadoGUI extends javax.swing.JFrame {
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setText("Listar histórico do livro");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jmbLogout.add(jMenuItem3);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("Listar histórico do usuário");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jmbLogout.add(jMenuItem2);
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
@@ -408,7 +426,18 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnAcervoActionPerformed
 
     private void jbtnRemoverLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRemoverLivroActionPerformed
-        new removeLivro().setVisible(true);
+        removeLivro remove = new removeLivro();
+        
+        int row = jtbLivro.getSelectedRow();
+        if(row >= 0){
+            String code = jtbLivro.getValueAt(row, 0).toString();
+            Livro livro = new Acervo().pesquisarLivro(code);
+            
+            remove.setLivro(livro);
+            remove.setVisible(true);
+        } else{
+            JOptionPane.showMessageDialog(rootPane, "Nenhum livro selecionado.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jbtnRemoverLivroActionPerformed
 
     private void jbtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPesquisarActionPerformed
@@ -455,11 +484,34 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtfMatriculaActionPerformed
 
     private void jbtnAlterarUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAlterarUserActionPerformed
-        new alterarUserGUI().setVisible(true);
+        alterarUserGUI alterar = new alterarUserGUI();
+        
+        int row = jtbMatricula.getSelectedRow();
+        if(row >= 0){
+            String code = jtbMatricula.getValueAt(row, 2).toString();
+            User user = new Sistema().pesquisarUser(code);
+            
+            alterar.setUser(user);
+            alterar.setVisible(true);
+        } else{
+            JOptionPane.showMessageDialog(rootPane, "Nenhum usuário selecionado.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jbtnAlterarUserActionPerformed
 
     private void jbtnRemoverUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRemoverUserActionPerformed
-        new removeUserGUI().setVisible(true);
+        removeUserGUI remover = new removeUserGUI();
+        
+        int row = jtbMatricula.getSelectedRow();
+        if(row >= 0){
+            String code = jtbMatricula.getValueAt(row, 2).toString();
+            User user = new Sistema().pesquisarUser(code);
+            
+            remover.setUser(user);
+            remover.setVisible(true);
+        } else{
+            JOptionPane.showMessageDialog(rootPane, "Nenhum usuário selecionado.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_jbtnRemoverUserActionPerformed
 
     private void jbtnAdicionarUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAdicionarUserActionPerformed
@@ -472,7 +524,18 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jbtnAlterarLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAlterarLivroActionPerformed
-        new alterarLivroGUI().setVisible(true);
+        alterarLivroGUI alterar = new alterarLivroGUI();
+        
+        int row = jtbLivro.getSelectedRow();
+        if(row >= 0){
+            String code = jtbLivro.getValueAt(row, 0).toString();
+            Livro livro = new Acervo().pesquisarLivro(code);
+            
+            alterar.setLivro(livro);
+            alterar.setVisible(true);
+        } else{
+            JOptionPane.showMessageDialog(rootPane, "Nenhum livro selecionado.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jbtnAlterarLivroActionPerformed
 
     private void jmbLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbLogoutActionPerformed
@@ -529,6 +592,14 @@ public class adminLogadoGUI extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jbtnPesquisarUserActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        new historicoLivroGUI().setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        new historicoUserGUI().setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
