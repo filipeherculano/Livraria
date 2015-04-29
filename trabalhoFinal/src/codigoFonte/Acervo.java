@@ -663,7 +663,7 @@ public class Acervo{
         file = new File(aux);
         
         try{
-            out = new BufferedWriter(new FileWriter(file, true));
+            out = new BufferedWriter(new FileWriter(file));
             out.write(boleto);
             out.newLine();
         } catch(IOException e){
