@@ -34,6 +34,7 @@
   </SyntheticProperties>
   <Events>
     <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
+    <EventHandler event="windowClosed" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosed"/>
   </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -95,9 +96,7 @@
               <Component id="jtxtfAutor" min="-2" pref="306" max="-2" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
-              <EmptySpace min="343" pref="343" max="-2" attributes="0"/>
-              <Component id="jbtnLimpar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="420" max="-2" attributes="0"/>
               <Component id="jbtnAlterar" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -163,10 +162,7 @@
                   <Component id="jtxtfAutor" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jbtnLimpar" min="-2" max="-2" attributes="0"/>
-                  <Component id="jbtnAlterar" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="jbtnAlterar" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="34" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -226,14 +222,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtxtfIdActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="jbtnLimpar">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Limpar"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnLimparActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jbtnAlterar">

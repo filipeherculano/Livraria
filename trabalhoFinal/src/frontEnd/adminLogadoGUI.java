@@ -426,7 +426,8 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnAcervoActionPerformed
 
     private void jbtnRemoverLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRemoverLivroActionPerformed
-        removeLivro remove = new removeLivro();
+        this.setEnabled(false);
+        removeLivro remove = new removeLivro(this);
         
         int row = jtbLivro.getSelectedRow();
         if(row >= 0){
@@ -484,7 +485,8 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtfMatriculaActionPerformed
 
     private void jbtnAlterarUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAlterarUserActionPerformed
-        alterarUserGUI alterar = new alterarUserGUI();
+        this.setEnabled(false);
+        alterarUserGUI alterar = new alterarUserGUI(this);
         
         int row = jtbMatricula.getSelectedRow();
         if(row >= 0){
@@ -499,7 +501,8 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnAlterarUserActionPerformed
 
     private void jbtnRemoverUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRemoverUserActionPerformed
-        removeUserGUI remover = new removeUserGUI();
+        this.setEnabled(true);
+        removeUserGUI remover = new removeUserGUI(this);
         
         int row = jtbMatricula.getSelectedRow();
         if(row >= 0){
@@ -515,7 +518,8 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnRemoverUserActionPerformed
 
     private void jbtnAdicionarUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAdicionarUserActionPerformed
-        new addUserGUI().setVisible(true);
+        this.setEnabled(false);
+        new addUserGUI(this).setVisible(true);
     }//GEN-LAST:event_jbtnAdicionarUserActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -524,7 +528,8 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jbtnAlterarLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAlterarLivroActionPerformed
-        alterarLivroGUI alterar = new alterarLivroGUI();
+        this.setEnabled(false);
+        alterarLivroGUI alterar = new alterarLivroGUI(this);
         
         int row = jtbLivro.getSelectedRow();
         if(row >= 0){
@@ -554,7 +559,8 @@ public class adminLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jbtnAddLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAddLivroActionPerformed
-        new addLivroGUI().setVisible(true);
+        this.setEnabled(false);
+        new addLivroGUI(this).setVisible(true);
     }//GEN-LAST:event_jbtnAddLivroActionPerformed
 
     private void jbtnListarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnListarTodosActionPerformed

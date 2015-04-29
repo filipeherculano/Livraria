@@ -16,7 +16,8 @@ import javax.swing.JOptionPane;
  */
 public class alterarUserGUI extends javax.swing.JFrame {
     private User user = new User(null, null, null, null);
-
+    private adminLogadoGUI anterior;
+    
     public User getUser() {
         return user;
     }
@@ -30,6 +31,11 @@ public class alterarUserGUI extends javax.swing.JFrame {
     public alterarUserGUI() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+    
+    public alterarUserGUI(adminLogadoGUI anterior){
+        this();
+        this.anterior = anterior;
     }
 
     /**
@@ -48,7 +54,6 @@ public class alterarUserGUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jbtnEditar = new javax.swing.JButton();
-        jbtnLimpar = new javax.swing.JButton();
         jcbTipo = new javax.swing.JComboBox();
         jtxtfNome = new javax.swing.JTextField();
         jtxtfSenha = new javax.swing.JTextField();
@@ -71,6 +76,9 @@ public class alterarUserGUI extends javax.swing.JFrame {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
         });
 
         jLabel1Nome.setText("Nome");
@@ -83,13 +91,6 @@ public class alterarUserGUI extends javax.swing.JFrame {
         jbtnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnEditarActionPerformed(evt);
-            }
-        });
-
-        jbtnLimpar.setText("Limpar");
-        jbtnLimpar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnLimparActionPerformed(evt);
             }
         });
 
@@ -145,8 +146,6 @@ public class alterarUserGUI extends javax.swing.JFrame {
                         .addComponent(jbtnBuscar)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jbtnLimpar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbtnEditar)
                         .addGap(43, 43, 43))))
         );
@@ -174,9 +173,7 @@ public class alterarUserGUI extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jtxtfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtnLimpar)
-                    .addComponent(jbtnEditar))
+                .addComponent(jbtnEditar)
                 .addGap(27, 27, 27))
         );
 
@@ -191,15 +188,11 @@ public class alterarUserGUI extends javax.swing.JFrame {
         if(sistema.editarUser(user)){
             dispose();
             JOptionPane.showMessageDialog(rootPane, "O cadastro foi alterado com sucesso!", "Sucesso!", WIDTH);
+            this.anterior.setEnabled(true);
         } else{
             JOptionPane.showMessageDialog(rootPane, "Não foi possível alterar este usuário!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbtnEditarActionPerformed
-
-    private void jbtnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLimparActionPerformed
-        jtxtfNome.setText("");
-        jtxtfSenha.setText("");
-    }//GEN-LAST:event_jbtnLimparActionPerformed
 
     private void jbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBuscarActionPerformed
         Sistema sistema = new Sistema();
@@ -232,6 +225,10 @@ public class alterarUserGUI extends javax.swing.JFrame {
     private void jcbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTipoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jcbTipoActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        this.anterior.setEnabled(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -281,7 +278,6 @@ public class alterarUserGUI extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JButton jbtnBuscar;
     private javax.swing.JButton jbtnEditar;
-    private javax.swing.JButton jbtnLimpar;
     private javax.swing.JComboBox jcbTipo;
     private javax.swing.JTextField jtxtfNome;
     private javax.swing.JTextField jtxtfSearchUser;

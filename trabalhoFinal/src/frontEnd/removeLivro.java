@@ -22,6 +22,7 @@ import org.jdom2.JDOMException;
  */
 public class removeLivro extends javax.swing.JFrame {
     private Livro livro = new Livro();
+    private adminLogadoGUI anterior;
 
     public Livro getLivro() {
         return livro;
@@ -37,6 +38,11 @@ public class removeLivro extends javax.swing.JFrame {
     public removeLivro() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+    
+    public removeLivro(adminLogadoGUI anterior){
+        this();
+        this.anterior = anterior;
     }
 
     /**
@@ -100,6 +106,9 @@ public class removeLivro extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
         });
 
@@ -283,6 +292,7 @@ public class removeLivro extends javax.swing.JFrame {
                 if(acervo.removeLivro(livro)){
                     dispose();
                     JOptionPane.showMessageDialog(rootPane, "A remoção total do livro foi feita com sucesso!", "Sucesso!", WIDTH);
+                    this.setEnabled(true);
                 } else{
                     JOptionPane.showMessageDialog(rootPane, "Quantidade de livros no acervo não é compativel com as disponíveis, existe alguém com ele alugado.", "Erro", JOptionPane.ERROR_MESSAGE); 
                 }
@@ -293,6 +303,7 @@ public class removeLivro extends javax.swing.JFrame {
             if(acervo.removeLivro(livro, Integer.parseInt(jtxtfQuantidade.getText()))){
                 dispose();
                 JOptionPane.showMessageDialog(rootPane, "A remoção de uma certa quantidade de livros foi feita.", "Sucesso!", WIDTH);
+                this.anterior.setEnabled(true);
             }else{
                 JOptionPane.showMessageDialog(rootPane, "Essa quantidade de livros não corresponde ao número disponível.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -300,6 +311,10 @@ public class removeLivro extends javax.swing.JFrame {
             Logger.getLogger(removeLivro.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jbtnRemoverActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        this.anterior.setEnabled(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

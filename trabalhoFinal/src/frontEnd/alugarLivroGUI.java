@@ -21,6 +21,7 @@ import org.jdom2.JDOMException;
 public class alugarLivroGUI extends javax.swing.JFrame {
     private User user = new User(null, null, null, null);
     private Livro livro = new Livro();
+    private userLogadoGUI anterior;
 
     public User getUser() {
         return user;
@@ -45,6 +46,10 @@ public class alugarLivroGUI extends javax.swing.JFrame {
         initComponents();
     }
 
+    public alugarLivroGUI(userLogadoGUI logado){
+        this();
+        this.anterior = logado;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -83,6 +88,9 @@ public class alugarLivroGUI extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -236,6 +244,7 @@ public class alugarLivroGUI extends javax.swing.JFrame {
             if(acervo.alugarLivro(user, livro)){
                 dispose();
                 JOptionPane.showMessageDialog(rootPane, "Alugamento feito com sucesso.", "Sucesso!", WIDTH);
+                this.anterior.setEnabled(true);
             }else{
                 JOptionPane.showMessageDialog(rootPane, "Não foi possível alugar o livro, usuário talvez tenha atingido seu limite", "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -243,6 +252,10 @@ public class alugarLivroGUI extends javax.swing.JFrame {
             Logger.getLogger(alugarLivroGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jbtnAlugarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        this.anterior.setEnabled(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

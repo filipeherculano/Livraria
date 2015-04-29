@@ -21,6 +21,7 @@ import org.jdom2.JDOMException;
 public class devolverLivroGUI extends javax.swing.JFrame {
     private User user = new User(null, null, null, null);
     private Livro livro = new Livro();
+    private userLogadoGUI logado;
 
     public User getUser() {
         return user;
@@ -44,6 +45,10 @@ public class devolverLivroGUI extends javax.swing.JFrame {
         initComponents();
     }
 
+    public devolverLivroGUI(userLogadoGUI logado){
+        this();
+        this.logado = logado;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,6 +89,9 @@ public class devolverLivroGUI extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
         });
 
@@ -309,6 +317,7 @@ public class devolverLivroGUI extends javax.swing.JFrame {
             if(acervo.devolverLivro(user, livro) >= 0.0){
                 dispose();
                 JOptionPane.showMessageDialog(rootPane, "Devolução feita com sucesso!", "Sucesso!", WIDTH);
+                this.setEnabled(true);
             }else{
                 JOptionPane.showMessageDialog(rootPane, "Não foi possível devolver o livro.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -316,6 +325,10 @@ public class devolverLivroGUI extends javax.swing.JFrame {
             Logger.getLogger(devolverLivroGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jbtnDevolverActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        this.setEnabled(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

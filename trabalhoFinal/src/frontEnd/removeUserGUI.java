@@ -15,7 +15,8 @@ import javax.swing.JOptionPane;
  */
 public class removeUserGUI extends javax.swing.JFrame {
     private User user = new User(null, null, null, null);
-
+    private adminLogadoGUI anterior;
+    
     public User getUser() {
         return user;
     }
@@ -32,6 +33,10 @@ public class removeUserGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
+    public removeUserGUI(adminLogadoGUI anterior){
+        this();
+        this.anterior = anterior;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -113,6 +118,12 @@ public class removeUserGUI extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
             }
         });
 
@@ -226,6 +237,7 @@ public class removeUserGUI extends javax.swing.JFrame {
         if(sistema.removeUser(user)){
             dispose();
             JOptionPane.showMessageDialog(rootPane, "O usuário foi removido com sucesso.", "Sucesso!", WIDTH);
+            this.anterior.setEnabled(true);
         }else{
             JOptionPane.showMessageDialog(rootPane, "Não foi possível remover este usuário. Pode haver livros pendentes a serem entreges.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -252,6 +264,14 @@ public class removeUserGUI extends javax.swing.JFrame {
         jtxtfSearchUser.setText(user.getMatricula());
         jtxtfMatricula.setText(user.getMatricula());
     }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowActivated
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        this.anterior.setEnabled(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

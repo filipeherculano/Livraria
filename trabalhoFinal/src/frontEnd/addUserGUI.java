@@ -18,13 +18,18 @@ import javax.swing.JOptionPane;
  * @author gabriel
  */
 public class addUserGUI extends javax.swing.JFrame {
-
+    private adminLogadoGUI anterior;
     /**
      * Creates new form addUserGUI
      */
     public addUserGUI() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+    
+    public addUserGUI(adminLogadoGUI anterior){
+        this();
+        this.anterior = anterior;
     }
 
     /**
@@ -76,6 +81,9 @@ public class addUserGUI extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
         });
 
@@ -208,6 +216,7 @@ public class addUserGUI extends javax.swing.JFrame {
             if(sistema.addUser(user)){
                 dispose();
                 JOptionPane.showMessageDialog(rootPane, "O cadastro foi feito com sucesso!", "Sucesso!", WIDTH);
+                this.anterior.setEnabled(true);
             } else{
                 JOptionPane.showMessageDialog(rootPane, "Não foi possível cadastrar este usuário! Alguns fields podem estar vazios.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -238,6 +247,10 @@ public class addUserGUI extends javax.swing.JFrame {
     private void jtxtfNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtfNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtfNomeActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        this.anterior.setEnabled(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

@@ -423,9 +423,10 @@ public class userLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnSearchLivroActionPerformed
 
     private void jbtnDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDevolverActionPerformed
+        this.setEnabled(false);
         User user = new User(jtxtfTipo.getText(), jtxtfMatricula.getText(), jtxtfNome.getText(), null);
         Livro livro = new Livro();
-        devolverLivroGUI devolverLivro = new devolverLivroGUI();
+        devolverLivroGUI devolverLivro = new devolverLivroGUI(this);
         
         int row = jtbAluguel.getSelectedRow();
         if(row >= 0){
@@ -450,9 +451,10 @@ public class userLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnDevolverActionPerformed
 
     private void jbtnAlugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAlugarActionPerformed
+        this.setEnabled(false);
         User user = new User(jtxtfTipo.getText(), jtxtfMatricula.getText(), jtxtfNome.getText(), null);
         Livro livro = new Livro();
-        alugarLivroGUI alugarLivro = new alugarLivroGUI();
+        alugarLivroGUI alugarLivro = new alugarLivroGUI(this);
         
         int row = jtbProcuraLivro.getSelectedRow();
         if(row >= 0){
@@ -500,6 +502,7 @@ public class userLogadoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        
         Sistema sistema = new Sistema();
         User usr = sistema.pesquisarUser(user.getMatricula());
             

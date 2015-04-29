@@ -19,7 +19,8 @@ import org.jdom2.JDOMException;
  */
 public class alterarLivroGUI extends javax.swing.JFrame {
     private Livro livro = new Livro();
-
+    private adminLogadoGUI anterior;
+    
     public Livro getLivro() {
         return livro;
     }
@@ -33,6 +34,11 @@ public class alterarLivroGUI extends javax.swing.JFrame {
     public alterarLivroGUI() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+    
+    public alterarLivroGUI(adminLogadoGUI anterior){
+        this();
+        this.anterior = anterior;
     }
 
     /**
@@ -59,7 +65,6 @@ public class alterarLivroGUI extends javax.swing.JFrame {
         jtxtfQuantidade = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jtxtfId = new javax.swing.JTextField();
-        jbtnLimpar = new javax.swing.JButton();
         jbtnAlterar = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jbtnBuscar = new javax.swing.JButton();
@@ -81,6 +86,9 @@ public class alterarLivroGUI extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
         });
 
@@ -109,13 +117,6 @@ public class alterarLivroGUI extends javax.swing.JFrame {
         jtxtfId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtfIdActionPerformed(evt);
-            }
-        });
-
-        jbtnLimpar.setText("Limpar");
-        jbtnLimpar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnLimparActionPerformed(evt);
             }
         });
 
@@ -177,9 +178,7 @@ public class alterarLivroGUI extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addComponent(jtxtfAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(343, 343, 343)
-                .addComponent(jbtnLimpar)
-                .addGap(18, 18, 18)
+                .addGap(420, 420, 420)
                 .addComponent(jbtnAlterar))
         );
         layout.setVerticalGroup(
@@ -230,9 +229,7 @@ public class alterarLivroGUI extends javax.swing.JFrame {
                         .addComponent(jLabel6))
                     .addComponent(jtxtfAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jbtnLimpar)
-                    .addComponent(jbtnAlterar))
+                .addComponent(jbtnAlterar)
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
@@ -277,6 +274,7 @@ public class alterarLivroGUI extends javax.swing.JFrame {
             if(acervo.alterarLivro(l)){
                 dispose();
                 JOptionPane.showMessageDialog(rootPane, "Alteração feita com sucesso.", "Sucesso!", WIDTH);
+                this.anterior.setEnabled(true);
             } else{
                 JOptionPane.showMessageDialog(rootPane, "Não foi possível fazer a alteração.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -284,12 +282,6 @@ public class alterarLivroGUI extends javax.swing.JFrame {
             Logger.getLogger(alterarLivroGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jbtnAlterarActionPerformed
-
-    private void jbtnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLimparActionPerformed
-        jtxtfTitulo.setText("");
-        jtxtfAutor.setText("");
-        jtxtfEditora.setText("");
-    }//GEN-LAST:event_jbtnLimparActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         jtxtfTitulo.setText(this.livro.getTitulo());
@@ -299,6 +291,10 @@ public class alterarLivroGUI extends javax.swing.JFrame {
         jtxtfId.setText(this.livro.getId());
         jtxtfSearchLivro.setText(this.livro.getTitulo());
     }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        this.anterior.setEnabled(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -351,7 +347,6 @@ public class alterarLivroGUI extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JButton jbtnAlterar;
     private javax.swing.JButton jbtnBuscar;
-    private javax.swing.JButton jbtnLimpar;
     private javax.swing.JTextField jtxtfAutor;
     private javax.swing.JTextField jtxtfEditora;
     private javax.swing.JTextField jtxtfId;

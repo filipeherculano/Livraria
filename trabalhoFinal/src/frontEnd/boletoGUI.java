@@ -11,6 +11,7 @@ package frontEnd;
  */
 public class boletoGUI extends javax.swing.JFrame {
     private String boleto;
+    private userLogadoGUI logado;
 
     public String getBoleto() {
         return boleto;
@@ -20,7 +21,10 @@ public class boletoGUI extends javax.swing.JFrame {
         this.boleto = boleto;
     }
     
-    
+    public boletoGUI(userLogadoGUI logado){
+        this();
+        this.logado = logado;
+    }
     /**
      * Creates new form boletoGUI
      */

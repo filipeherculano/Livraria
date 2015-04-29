@@ -18,6 +18,7 @@ import org.jdom2.JDOMException;
  */
 public class addLivroGUI extends javax.swing.JFrame {
     private Livro livro = new Livro();
+    private adminLogadoGUI anterior;
 
     public Livro getLivro() {
         return livro;
@@ -33,6 +34,11 @@ public class addLivroGUI extends javax.swing.JFrame {
     public addLivroGUI() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+    
+    public addLivroGUI(adminLogadoGUI anterior){
+        this();
+        this.anterior = anterior;
     }
 
     /**
@@ -108,6 +114,11 @@ public class addLivroGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Adicionar Livro");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setText("Título");
 
@@ -216,6 +227,7 @@ public class addLivroGUI extends javax.swing.JFrame {
             if(acervo.addLivro(livro)){
                 dispose();
                 JOptionPane.showMessageDialog(rootPane, "O cadastro do livro foi feito com sucesso!", "Sucesso!", WIDTH);
+                this.anterior.setEnabled(true);
             }else{
                 JOptionPane.showMessageDialog(rootPane, "Não foi possível cadastrar este livro! Alguns fields podem estar vazios.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -223,6 +235,10 @@ public class addLivroGUI extends javax.swing.JFrame {
             Logger.getLogger(addLivroGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jbtnAdicionarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        this.anterior.setEnabled(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
